@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>Tableau de bord Administrateur</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Tableau de bord Administrateur</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group me-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Exporter</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Imprimer</button>
+                </div>
+                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#ajouterUtilisateur">
+                    <i class="fas fa-plus me-1"></i> Nouvel utilisateur
+                </button>
+            </div>
+        </div>
+
+        <!-- Cartes de statistiques -->
+        <div class="row mb-4">
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Utilisateurs actifs</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${stats.activeUsers}">0</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-users fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Transactions (Mensuelles)</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${stats.monthlyTransactions}">0</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-exchange-alt fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tâches</div>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" th:text="${stats.tasksProgress} + '%'">50%</div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="progress progress-sm mr-2">
+                                            <div class="progress-bar bg-info" role="progressbar" 
+                                                 th:style="'width: ' + ${stats.tasksProgress} + '%'" 
+                                                 th:aria-valuenow="${stats.tasksProgress}" 
+                                                 aria-valuemin="0" 
+                                                 aria-valuemax="100">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    Alertes en attente</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800" th:text="${stats.pendingAlerts}">18</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-bell fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenu principal -->
+        <div class="row">
+            <!-- Graphique des transactions -->
+            <div class="col-xl-8 col-lg-7">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Aperçu des transactions</h6>
+                        <div class="dropdown no-arrow">
+                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" 
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownMenuLink">
+                                <li><a class="dropdown-item" href="#">Exporter les données</a></li>
+                                <li><a class="dropdown-item" href="#">Télécharger le rapport</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Paramètres du graphique</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <canvas id="transactionsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Liste des utilisateurs récents -->
+            <div class="col-xl-4 col-lg-5">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Derniers utilisateurs</h6>
+                        <a href="/admin/utilisateurs" class="btn btn-sm btn-link">Voir tout</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group list-group-flush">
+                            <div th:each="user : ${recentUsers}" class="list-group-item px-0">
+                                <div class="d-flex align-items-center">
+                                    <img th:src="${user.avatarUrl}" 
+                                         th:alt="${user.fullName}" 
+                                         class="rounded-circle me-3" 
+                                         width="40" 
+                                         height="40" 
+                                         onerror="this.src='https://ui-avatars.com/api/?name='+encodeURIComponent('${user.fullName}')+''">
+                                    <div class="flex-grow-1">
+                                        <div class="fw-bold" th:text="${user.fullName}">Nom Utilisateur</div>
+                                        <small class="text-muted" th:text="${user.role}">Rôle</small>
+                                    </div>
+                                    <span class="badge" 
+                                          th:classappend="${user.active} ? 'bg-success' : 'bg-secondary'"
+                                          th:text="${user.active} ? 'Actif' : 'Inactif'">
+                                        Statut
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tableau des transactions récentes -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Transactions récentes</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Montant</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="transaction : ${recentTransactions}">
+                                <td th:text="${'#' + transaction.id}">#12345</td>
+                                <td th:text="${#temporals.format(transaction.date, 'dd/MM/yyyy HH:mm')}">01/01/2023 14:30</td>
+                                <td>
+                                    <span th:class="${'badge ' + (transaction.type == 'CREDIT' ? 'bg-success' : 'bg-primary')}" 
+                                          th:text="${transaction.type == 'CREDIT' ? 'Crédit' : 'Débit'}">
+                                        Type
+                                    </span>
+                                </td>
+                                <td th:text="${'$' + #numbers.formatDecimal(transaction.amount, 1, 2, 'POINT')}">$1,000.00</td>
+                                <td>
+                                    <span th:class="${'badge ' + 
+                                        (transaction.status == 'COMPLETED' ? 'bg-success' : 
+                                        (transaction.status == 'PENDING' ? 'bg-warning' : 'bg-danger'))}"
+                                          th:text="${#strings.capitalize(#strings.toLowerCase(transaction.status))}">
+                                        Statut
+                                    </span>
+                                </td>
+                                <td>
+                                    <a th:href="@{/admin/transactions/{id}(id=${transaction.id})}" 
+                                       class="btn btn-sm btn-outline-primary" 
+                                       data-bs-toggle="tooltip" 
+                                       title="Voir les détails">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ajouter un utilisateur -->
+    <div class="modal fade" id="ajouterUtilisateur" tabindex="-1" aria-labelledby="ajouterUtilisateurLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ajouterUtilisateurLabel">Ajouter un nouvel utilisateur</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+                <form th:action="@{/admin/utilisateurs}" method="post" id="addUserForm">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="fullName" class="form-label">Nom complet</label>
+                            <input type="text" class="form-control" id="fullName" name="fullName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Adresse email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Rôle</label>
+                            <select class="form-select" id="role" name="role" required>
+                                <option value="USER">Utilisateur</option>
+                                <option value="ADMIN">Administrateur</option>
+                                <option value="MANAGER">Gestionnaire</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Ajouter l'utilisateur</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <th:block layout:fragment="scripts">
+        <!-- Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Graphique des transactions
+                var ctx = document.getElementById('transactionsChart').getContext('2d');
+                var transactionsChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
+                        datasets: [{
+                            label: 'Transactions',
+                            data: [65, 59, 80, 81, 56, 55, 40, 45, 60, 70, 75, 90],
+                            backgroundColor: 'rgba(78, 115, 223, 0.05)',
+                            borderColor: 'rgba(78, 115, 223, 1)',
+                            pointBackgroundColor: 'rgba(78, 115, 223, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(78, 115, 223, 1)',
+                            pointHoverRadius: 5,
+                            pointHitRadius: 10,
+                            pointBorderWidth: 2,
+                            borderWidth: 2,
+                            tension: 0.3
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleFont: { size: 14 },
+                                bodyFont: { size: 14 },
+                                displayColors: false,
+                                callbacks: {
+                                    label: function(context) {
+                                        return ' ' + context.parsed.y + ' transactions';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) { return value; }
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Validation du formulaire d'ajout d'utilisateur
+                const addUserForm = document.getElementById('addUserForm');
+                if (addUserForm) {
+                    addUserForm.addEventListener('submit', function(e) {
+                        const submitButton = this.querySelector('button[type="submit"]');
+                        const originalText = submitButton.innerHTML;
+                        const loadingText = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Traitement...';
+                        
+                        submitButton.disabled = true;
+                        submitButton.innerHTML = loadingText;
+                        
+                        // Simuler un appel API
+                        setTimeout(() => {
+                            // Réactiver le bouton et restaurer le texte
+                            submitButton.disabled = false;
+                            submitButton.innerHTML = originalText;
+                            
+                            // Fermer la modal
+                            const modal = bootstrap.Modal.getInstance(document.getElementById('ajouterUtilisateur'));
+                            modal.hide();
+                            
+                            // Afficher un message de succès
+                            const toast = new bootstrap.Toast(document.getElementById('toastSuccess'));
+                            toast.show();
+                            
+                            // Réinitialiser le formulaire
+                            addUserForm.reset();
+                            
+                        }, 1500);
+                        
+                        // Empêcher la soumission du formulaire pour la démo
+                        e.preventDefault();
+                    });
+                }
+            });
+        </script>
+    </th:block>
+</body>
+</html>

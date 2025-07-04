@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Paiement App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .login-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .btn-login {
+            background: #6e8efb;
+            border: none;
+            padding: 10px 0;
+            font-weight: 600;
+        }
+        .btn-login:hover {
+            background: #5a7bf0;
+        }
+        .login-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-container">
+            <div class="login-logo">
+                <h3>Connexion</h3>
+                <p class="text-muted">Accédez à votre espace personnel</p>
+            </div>
+            
+            <!-- Messages d'erreur et de succès -->
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <span th:text="${error}">Erreur de connexion</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            
+            <div th:if="${message}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                <span th:text="${message}">Message de succès</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            
+            <form th:action="@{/auth/login}" th:object="${loginRequest}" method="post" class="needs-validation" novalidate autocomplete="on">
+                <input type="hidden" name="redirect" th:value="${redirectUrl}">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Nom d'utilisateur</label>
+                    <input type="text" class="form-control" id="username" name="username" 
+                           th:classappend="${#fields.hasErrors('username')} ? 'is-invalid' : ''" 
+                           autocomplete="username" required>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">
+                        Le nom d'utilisateur est requis
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Mot de passe</label>
+                    <input type="password" class="form-control" id="password" name="password" 
+                           th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''" 
+                           autocomplete="current-password" required>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+                        Le mot de passe est requis
+                    </div>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
+                    <label class="form-check-label" for="remember-me">Se souvenir de moi</label>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 btn-login">Se connecter</button>
+            </form>
+            
+            <div class="login-footer">
+                <p class="mb-1">Pas encore de compte ? <a th:href="@{/auth/register}">S'inscrire</a></p>
+                <p><a href="#">Mot de passe oublié ?</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Activer la validation des formulaires Bootstrap
+        (function () {
+            'use strict'
+            
+            // Récupérer tous les formulaires auxquels nous voulons appliquer les styles de validation personnalisés Bootstrap
+            var forms = document.querySelectorAll('.needs-validation')
+            
+            // Boucler dessus et empêcher la soumission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+</body>
+</html>

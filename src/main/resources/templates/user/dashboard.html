@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>Mon Tableau de bord</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.css">
+</head>
+<body>
+    <div layout:fragment="content">
+        <!-- Header with welcome message and quick actions -->
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4">
+            <div>
+                <h1 class="h2 mb-1">Bonjour, <span th:text="${user.fullName}">Utilisateur</span> !</h1>
+                <p class="text-muted mb-0">Voici un aperçu de vos activités récentes</p>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Exporter les données">
+                    <i class="fas fa-file-export"></i>
+                </button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newTransactionModal">
+                    <i class="fas fa-plus me-2"></i>Nouvelle transaction
+                </button>
+            </div>
+        </div>
+
+        <!-- Alertes et notifications -->
+        <div class="alert alert-info alert-dismissible fade show mb-4" role="alert">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-info-circle me-2"></i>
+                <div>
+                    <strong>Bienvenue sur votre tableau de bord</strong>
+                    <div class="small">Dernière connexion: <span th:text="${#temporals.format(lastLogin, 'dd/MM/yyyy HH:mm')}">01/01/2023 10:30</span></div>
+                    <span sec:authorize="hasRole('ADMIN')" class="badge bg-primary ms-0 mt-1">
+                        <i class="fas fa-shield-alt me-1"></i>Administrateur
+                    </span>
+                </div>
+                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <!-- Cartes de statistiques -->
+        <div class="row g-4 mb-4">
+            <!-- Solde du compte -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="card border-0 bg-primary bg-opacity-10 h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-uppercase text-muted small mb-2">Solde actuel</h6>
+                                <h3 class="mb-0">12,450 <small class="text-muted">MAD</small></h3>
+                                <span class="text-success small"><i class="fas fa-arrow-up me-1"></i> 2.5%</span>
+                            </div>
+                            <div class="icon-shape bg-primary text-white rounded-3 p-3">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Revenus du mois -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="card border-0 bg-success bg-opacity-10 h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-uppercase text-muted small mb-2">Revenus</h6>
+                                <h3 class="mb-0">8,320 <small class="text-muted">MAD</small></h3>
+                                <span class="text-success small"><i class="fas fa-arrow-up me-1"></i> 5.2%</span>
+                            </div>
+                            <div class="icon-shape bg-success text-white rounded-3 p-3">
+                                <i class="fas fa-arrow-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dépenses du mois -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="card border-0 bg-danger bg-opacity-10 h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-uppercase text-muted small mb-2">Dépenses</h6>
+                                <h3 class="mb-0">4,130 <small class="text-muted">MAD</small></h3>
+                                <span class="text-danger small"><i class="fas fa-arrow-up me-1"></i> 1.8%</span>
+                            </div>
+                            <div class="icon-shape bg-danger text-white rounded-3 p-3">
+                                <i class="fas fa-arrow-up"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Objectif d'épargne -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="card border-0 bg-info bg-opacity-10 h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-uppercase text-muted small mb-2">Objectif d'épargne</h6>
+                                <div class="d-flex align-items-center">
+                                    <h3 class="mb-0 me-2">65<small>%</small></h3>
+                                    <div class="progress flex-grow-1" style="height: 6px;">
+                                        <div class="progress-bar bg-info" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="icon-shape bg-info text-white rounded-3 p-3">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                    
+        <!-- Graphiques et activités -->
+        <div class="row g-4 mb-4">
+            <!-- Graphique des transactions -->
+            <div class="col-12 col-lg-8">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Historique des transactions</h5>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary active">Mois</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Trimestre</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Année</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="transactionChart" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Activités récentes -->
+            <div class="col-12 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Activités récentes</h5>
+                        <a href="#" class="btn btn-sm btn-outline-primary">Voir tout</a>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item border-0">
+                                <div class="d-flex">
+                                    <div class="icon-shape bg-primary bg-opacity-10 text-primary rounded-circle p-2 me-3">
+                                        <i class="fas fa-exchange-alt"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex justify-content-between">
+                                            <h6 class="mb-1">Nouvelle transaction</h6>
+                                            <small class="text-muted">Il y a 2 min</small>
+                                        </div>
+                                        <p class="mb-0 small text-muted">Paiement reçu de John Doe</p>
+                                        <span class="badge bg-success bg-opacity-10 text-success">+1,200 MAD</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item border-0">
+                                <div class="d-flex">
+                                    <div class="icon-shape bg-warning bg-opacity-10 text-warning rounded-circle p-2 me-3">
+                                        <i class="fas fa-bell"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex justify-content-between">
+                                            <h6 class="mb-1">Notification</h6>
+                                            <small class="text-muted">Il y a 1h</small>
+                                        </div>
+                                        <p class="mb-0 small text-muted">Facture #1234 a été payée</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="list-group-item border-0">
+                                <div class="d-flex">
+                                    <div class="icon-shape bg-info bg-opacity-10 text-info rounded-circle p-2 me-3">
+                                        <i class="fas fa-user-shield"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex justify-content-between">
+                                            <h6 class="mb-1">Sécurité</h6>
+                                            <small class="text-muted">Aujourd'hui, 09:30</small>
+                                        </div>
+                                        <p class="mb-0 small text-muted">Connexion depuis un nouvel appareil</p>
+                                        <span class="badge bg-light text-dark">Chrome sur Windows</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dernières transactions -->
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Dernières transactions</h5>
+                <a href="#" class="btn btn-sm btn-outline-primary">Voir tout</a>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Catégorie</th>
+                                <th class="text-end">Montant</th>
+                                <th class="text-center">Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Aujourd'hui, 14:30</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="icon-shape bg-primary bg-opacity-10 text-primary rounded-2 p-2 me-3">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">Achat en ligne</h6>
+                                            <small class="text-muted">Amazon Marketplace</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-primary bg-opacity-10 text-primary">Shopping</span></td>
+                                <td class="text-end text-danger">-450.00 MAD</td>
+                                <td class="text-center"><span class="badge bg-success bg-opacity-10 text-success">Complété</span></td>
+                            </tr>
+                            <tr>
+                                <td>Hier, 09:15</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="icon-shape bg-success bg-opacity-10 text-success rounded-2 p-2 me-3">
+                                            <i class="fas fa-arrow-down"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">Virement reçu</h6>
+                                            <small class="text-muted">John Doe</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-success bg-opacity-10 text-success">Revenu</span></td>
+                                <td class="text-end text-success">+1,200.00 MAD</td>
+                                <td class="text-center"><span class="badge bg-success bg-opacity-10 text-success">Complété</span></td>
+                            </tr>
+                            <tr>
+                                <td>28/06/2023</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="icon-shape bg-warning bg-opacity-10 text-warning rounded-2 p-2 me-3">
+                                            <i class="fas fa-utensils"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">Restaurant</h6>
+                                            <small class="text-muted">La Piazza</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-warning bg-opacity-10 text-warning">Nourriture</span></td>
+                                <td class="text-end text-danger">-180.50 MAD</td>
+                                <td class="text-center"><span class="badge bg-success bg-opacity-10 text-success">Complété</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <th:block layout:fragment="scripts">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('Tableau de bord utilisateur chargé');
+                
+                // Initialiser les tooltips Bootstrap
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                tooltipTriggerList.forEach(function(tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl);
+                });
+
+                // Graphique des transactions
+                const ctx = document.getElementById('transactionChart');
+                if (ctx) {
+                    const transactionChart = new Chart(ctx.getContext('2d'), {
+                        type: 'line',
+                        data: {
+                            labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil'],
+                            datasets: [{
+                                label: 'Revenus',
+                                data: [1200, 1900, 1500, 2500, 2200, 3000, 2800],
+                                borderColor: '#28a745',
+                                backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                                tension: 0.3,
+                                fill: true
+                            }, {
+                                label: 'Dépenses',
+                                data: [800, 1200, 1000, 1500, 1800, 2000, 2200],
+                                borderColor: '#dc3545',
+                                backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                                tension: 0.3,
+                                fill: true
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                tooltip: {
+                                    mode: 'index',
+                                    intersect: false,
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: function(value) {
+                                            return value + ' MAD';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    // Gestion des boutons de période
+                    const periodBtns = document.querySelectorAll('.btn-group .btn');
+                    periodBtns.forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            periodBtns.forEach(b => b.classList.remove('active'));
+                            this.classList.add('active');
+                            // Ici, vous pourriez mettre à jour les données du graphique
+                            // en fonction de la période sélectionnée
+                        });
+                    });
+                }
+            });
+        </script>
+    </th:block>
+</body>
+</html>

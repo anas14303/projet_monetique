@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - Paiement App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .register-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .register-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .register-logo h2 {
+            color: #0d6efd;
+            font-weight: 700;
+        }
+        .form-text {
+            font-size: 0.875em;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="register-container">
+            <div class="register-logo">
+                <h2>Créer un compte</h2>
+                <p class="text-muted">Remplissez le formulaire pour créer votre compte</p>
+            </div>
+            
+            <!-- Messages d'alerte -->
+            <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                <span th:text="${success}">Inscription réussie !</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <span th:text="${error}">Une erreur est survenue lors de l'inscription.</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            
+            <form th:action="@{/auth/register}" th:object="${registerRequest}" method="post" class="needs-validation" novalidate autocomplete="off">
+                <!-- Nom d'utilisateur -->
+                <div class="mb-3">
+                    <label for="username" class="form-label">Nom d'utilisateur</label>
+                    <input type="text" class="form-control" id="username" th:field="*{username}" 
+                           th:classappend="${#fields.hasErrors('username')} ? 'is-invalid' : ''"
+                           autocomplete="username" required>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">
+                        Erreur sur le nom d'utilisateur
+                    </div>
+                    <div class="invalid-feedback" th:unless="${#fields.hasErrors('username')}">
+                        Veuillez entrer un nom d'utilisateur.
+                    </div>
+                    <div class="form-text">Entre 3 et 20 caractères, lettres et chiffres uniquement</div>
+                </div>
+                
+                <!-- Nom complet -->
+                <div class="mb-3">
+                    <label for="fullName" class="form-label">Nom complet</label>
+                    <input type="text" class="form-control" id="fullName" th:field="*{fullName}"
+                           th:classappend="${#fields.hasErrors('fullName')} ? 'is-invalid' : ''" required>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">
+                        Le nom complet est requis
+                    </div>
+                </div>
+                
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Adresse email</label>
+                    <input type="email" class="form-control" id="email" th:field="*{email}" 
+                           th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''"
+                           autocomplete="email" required>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                        Adresse email invalide
+                    </div>
+                    <div class="invalid-feedback" th:unless="${#fields.hasErrors('email')}">
+                        Veuillez entrer une adresse email valide.
+                    </div>
+                </div>
+                
+                <!-- Mot de passe -->
+                <div class="mb-3">
+                    <label for="password" class="form-label">Mot de passe</label>
+                    <input type="password" class="form-control" id="password" th:field="*{password}" 
+                           th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''"
+                           autocomplete="new-password" required>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+                        Le mot de passe doit contenir au moins 6 caractères
+                    </div>
+                    <div class="invalid-feedback" th:unless="${#fields.hasErrors('password')}">
+                        Veuillez entrer un mot de passe.
+                    </div>
+                    <div class="form-text">Minimum 6 caractères, avec des chiffres et des lettres</div>
+                </div>
+                
+                <!-- Confirmation du mot de passe -->
+                <div class="mb-4">
+                    <label for="confirmPassword" class="form-label">Confirmer le mot de passe</label>
+                    <input type="password" class="form-control" id="confirmPassword" 
+                           th:field="*{confirmPassword}" 
+                           th:classappend="${#fields.hasErrors('confirmPassword')} ? 'is-invalid' : ''"
+                           autocomplete="new-password" required>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">
+                        Les mots de passe ne correspondent pas
+                    </div>
+                    <div class="invalid-feedback" th:unless="${#fields.hasErrors('confirmPassword')}">
+                        Veuillez confirmer votre mot de passe.
+                    </div>
+                </div>
+                
+                <!-- Bouton d'inscription -->
+                <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="bi bi-person-plus-fill me-2"></i>S'inscrire
+                    </button>
+                </div>
+                
+                <!-- Lien vers la page de connexion -->
+                <div class="text-center">
+                    <p class="mb-0">Déjà inscrit ? 
+                        <a th:href="@{/auth/login}" class="text-decoration-none">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Connectez-vous ici
+                        </a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Validation du formulaire côté client
+        (function () {
+            'use strict'
+            
+            // Récupérer les formulaires auxquels nous voulons ajouter des styles de validation
+            var forms = document.querySelectorAll('.needs-validation')
+            
+            // Boucle sur les formulaires et empêcher la soumission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        
+                        // Vérifier que les mots de passe correspondent
+                        var password = document.getElementById('password').value
+                        var confirmPassword = document.getElementById('confirmPassword').value
+                        if (password !== confirmPassword) {
+                            document.getElementById('confirmPassword').setCustomValidity("Les mots de passe ne correspondent pas")
+                            event.preventDefault()
+                            event.stopPropagation()
+                        } else {
+                            document.getElementById('confirmPassword').setCustomValidity('')
+                        }
+                        
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+</body>
+</html>

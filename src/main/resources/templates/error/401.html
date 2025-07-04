@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+<head>
+    <title>401 - Non autorisé</title>
+</head>
+<body>
+    <section class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <div class="error-template">
+                    <h1><i class="bi bi-shield-lock"></i></h1>
+                    <h2>401 Non autorisé</h2>
+                    <div class="error-details mt-3">
+                        Vous devez être connecté pour accéder à cette ressource.
+                    </div>
+                    <div class="error-actions mt-4">
+                        <a th:href="@{/auth/login}" class="btn btn-primary btn-lg me-2">
+                            <i class="bi bi-box-arrow-in-right"></i> Se connecter
+                        </a>
+                        <a th:href="@{/}" class="btn btn-outline-secondary btn-lg">
+                            <i class="bi bi-house-door"></i> Accueil
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

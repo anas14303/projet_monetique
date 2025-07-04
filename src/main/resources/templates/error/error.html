@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+<head>
+    <title>Erreur</title>
+</head>
+<body>
+    <section class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <div class="error-template">
+                    <h1><i class="bi bi-exclamation-triangle text-warning"></i></h1>
+                    <h2>Une erreur est survenue</h2>
+                    <div class="error-details mt-3">
+                        <p>Nous rencontrons actuellement des difficultés techniques. Veuillez réessayer plus tard.</p>
+                        <p th:if="${error}" class="text-muted small mt-2">
+                            <span th:text="${error}"></span>
+                        </p>
+                        <p th:if="${message}" class="text-muted small mt-2">
+                            <span th:text="${message}"></span>
+                        </p>
+                    </div>
+                    <div class="error-actions mt-4">
+                        <a th:href="@{/}" class="btn btn-primary btn-lg me-2">
+                            <i class="bi bi-house-door"></i> Retour à l'accueil
+                        </a>
+                        <button onclick="window.history.back()" class="btn btn-outline-secondary btn-lg">
+                            <i class="bi bi-arrow-left"></i> Page précédente
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

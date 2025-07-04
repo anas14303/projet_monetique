@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Accès refusé</title>
+    <style>
+        .error-container {
+            max-width: 600px;
+            margin: 100px auto;
+            text-align: center;
+            padding: 2rem;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .error-icon {
+            font-size: 5rem;
+            color: #e74c3c;
+            margin-bottom: 1.5rem;
+        }
+        
+        .error-title {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .error-message {
+            color: #7f8c8d;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .btn-home {
+            background-color: #3498db;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-home:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="container">
+            <div class="error-container">
+                <div class="error-icon">
+                    <i class="bi bi-shield-lock"></i>
+                </div>
+                <h1 class="error-title">Accès refusé</h1>
+                <p class="error-message">
+                    Désolé, vous n'avez pas les autorisations nécessaires pour accéder à cette page.
+                    <a th:href="@{/auth/login}" class="btn btn-outline-secondary btn-lg">
+                        <i class="bi bi-box-arrow-in-right"></i> Se connecter avec un autre compte
+                    </a>
+                </p>
+                <a th:href="@{/}" class="btn-home">
+                    <i class="bi bi-house-door me-2"></i>Retour à l'accueil
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

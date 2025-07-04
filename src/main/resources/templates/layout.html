@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Application de gestion des paiements">
+    <title layout:title-pattern="$CONTENT_TITLE | $LAYOUT_TITLE">Paiement App</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --sidebar-width: 280px;
+            --sidebar-bg: #4e73df;
+            --sidebar-dark: #224abe;
+            --sidebar-text: rgba(255, 255, 255, 0.85);
+            --sidebar-hover: rgba(255, 255, 255, 0.1);
+            --sidebar-active: rgba(255, 255, 255, 0.2);
+            --topbar-height: 60px;
+            --content-bg: #f8f9fc;
+            --card-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+        }
+
+        body {
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--content-bg);
+            color: #5a5c69;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            min-height: 100vh;
+            background: linear-gradient(180deg, var(--sidebar-bg) 0%, var(--sidebar-dark) 100%);
+            color: var(--sidebar-text);
+            position: fixed;
+            z-index: 1000;
+            transition: all 0.3s;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-brand {
+            height: var(--topbar-height);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.25rem;
+            font-weight: 800;
+            padding: 0 1.5rem;
+            color: white !important;
+        }
+
+        .sidebar-brand i {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+        }
+
+        .sidebar-divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            margin: 1rem 1.5rem;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            color: var(--sidebar-text);
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s;
+            font-weight: 600;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-link:hover {
+            color: white;
+            background: var(--sidebar-hover);
+            text-decoration: none;
+        }
+
+        .nav-link.active {
+            color: white;
+            background: var(--sidebar-active);
+            border-left-color: white;
+        }
+
+        .nav-link i {
+            font-size: 1.1rem;
+            margin-right: 0.75rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        #content-wrapper {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            transition: all 0.3s;
+        }
+
+        /* Top Navigation */
+        .topbar {
+            height: var(--topbar-height);
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            background: white;
+        }
+
+        /* Content Area */
+        .content-area {
+            padding: 2rem;
+        }
+
+        /* Cards */
+        .content-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover {
+            box-shadow: 0 0.5rem 1.5rem rgba(58, 59, 69, 0.2);
+        }
+
+        /* User dropdown */
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--sidebar-bg) 0%, var(--sidebar-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                margin-left: calc(-1 * var(--sidebar-width));
+            }
+
+            #content-wrapper {
+                margin-left: 0;
+            }
+
+            .sidebar.active {
+                margin-left: 0;
+            }
+
+            #content-wrapper.active {
+                margin-left: var(--sidebar-width);
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+<!-- Sidebar -->
+<nav class="sidebar" id="sidebar">
+    <a class="sidebar-brand" href="/">
+        <i class="bi bi-credit-card-2-front"></i>
+        <span>Paiement App</span>
+    </a>
+    <hr class="sidebar-divider">
+
+    <!-- Navigation -->
+    <div class="sidebar-navigation">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" th:classappend="${#httpServletRequest.requestURI == '/' ? 'active' : ''}" href="/">
+                    <i class="bi bi-house-door"></i>
+                    <span>Tableau de bord</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:classappend="${#httpServletRequest.requestURI.startsWith('/utilisateurs') ? 'active' : ''}" href="/utilisateurs">
+                    <i class="bi bi-people"></i>
+                    <span>Utilisateurs</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:classappend="${#httpServletRequest.requestURI.startsWith('/cartes') ? 'active' : ''}" href="#">
+                    <i class="bi bi-credit-card"></i>
+                    <span>Cartes</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:classappend="${#httpServletRequest.requestURI.startsWith('/paiements') ? 'active' : ''}" href="#">
+                    <i class="bi bi-cash-coin"></i>
+                    <span>Paiements</span>
+                </a>
+            </li>
+            <li class="nav-item mt-3">
+                <a class="nav-link" th:classappend="${#httpServletRequest.requestURI.startsWith('/parametres') ? 'active' : ''}" href="#">
+                    <i class="bi bi-gear"></i>
+                    <span>Paramètres</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Bottom info -->
+    <div class="sidebar-footer position-absolute bottom-0 start-0 end-0 p-3 text-center">
+        <div class="small text-white-50">
+            <div>Paiement App v2.0</div>
+            <div class="mt-1">© 2025</div>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Content -->
+<div id="content-wrapper">
+    <!-- Top Navigation -->
+    <nav class="topbar navbar navbar-expand navbar-light shadow-sm">
+        <div class="container-fluid px-4">
+            <button class="btn btn-link d-lg-none" id="sidebarToggle">
+                <i class="bi bi-list fs-4"></i>
+            </button>
+
+            <div class="d-flex align-items-center ms-auto">
+                <!-- Notifications -->
+                <div class="dropdown me-3">
+                    <a class="btn btn-light rounded-circle position-relative" href="#" role="button"
+                       id="notificationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-bell"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                3
+                            </span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm py-0" aria-labelledby="notificationsDropdown">
+                        <li class="dropdown-header bg-light py-2">
+                            <h6 class="mb-0">Notifications</h6>
+                        </li>
+                        <li><hr class="dropdown-divider my-0"></li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center py-2" href="#">
+                                <div class="me-3 text-primary">
+                                    <i class="bi bi-credit-card fs-5"></i>
+                                </div>
+                                <div>
+                                    <div class="small">Nouveau paiement</div>
+                                    <small class="text-muted">Il y a 15 min</small>
+                                </div>
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider my-0"></li>
+                        <li>
+                            <a class="dropdown-item text-center py-2 small text-primary" href="#">
+                                Voir toutes les notifications
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- User Dropdown -->
+                <div class="dropdown">
+                    <a class="d-flex align-items-center text-decoration-none dropdown-toggle"
+                       href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="user-avatar">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <span class="ms-2 d-none d-lg-inline">
+                                <span th:if="${#authentication.principal != null}"
+                                      th:text="${#authentication.principal.username}">Admin</span>
+                            </span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm py-0" aria-labelledby="userDropdown">
+                        <li class="dropdown-header bg-light py-2">
+                            <h6 class="mb-0">Mon compte</h6>
+                        </li>
+                        <li><hr class="dropdown-divider my-0"></li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center py-2" href="#">
+                                <i class="bi bi-person me-2"></i>
+                                <span>Profil</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center py-2" href="#">
+                                <i class="bi bi-gear me-2"></i>
+                                <span>Paramètres</span>
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider my-0"></li>
+                        <li>
+                            <form th:action="@{/logout}" method="post">
+                                <button type="submit" class="dropdown-item d-flex align-items-center py-2">
+                                    <i class="bi bi-box-arrow-right me-2"></i>
+                                    <span>Déconnexion</span>
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content-area animate-fade-in">
+        <!-- Flash Messages -->
+        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Erreur!</strong> Veuillez corriger les erreurs ci-dessous.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div th:if="${param.success != null}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Succès!</strong> L'opération s'est déroulée avec succès.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <!-- Page Content -->
+        <div class="content-card card">
+            <div class="card-body p-4">
+                <div layout:fragment="content">
+                    <!-- Content will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<div th:fragment="scripts">
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script th:inline="javascript">
+        // Toggle sidebar on mobile
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            const content = document.getElementById('content-wrapper');
+
+            if (sidebarToggle && sidebar && content) {
+                sidebarToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    sidebar.classList.toggle('active');
+                    content.classList.toggle('active');
+                });
+            }
+
+            // Auto-dismiss alerts after 5 seconds
+            const alerts = document.querySelectorAll('.alert-dismissible');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                }, 5000);
+            });
+
+            // Initialize tooltips
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+
+        // Loading state for buttons
+        function showLoading(button, text = 'Traitement...') {
+            const originalText = button.innerHTML;
+            button.disabled = true;
+            button.innerHTML = `
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    ${text}
+                `;
+            return originalText;
+        }
+
+        function resetButton(button, originalText) {
+            button.disabled = false;
+            button.innerHTML = originalText;
+        }
+    </script>
+</div>
+</body>
+</html>

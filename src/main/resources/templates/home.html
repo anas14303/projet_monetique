@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Tableau de bord | Paiement App</title>
+    <style>
+        .stat-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .stat-card-header {
+            font-weight: 600;
+            padding: 1rem;
+            color: white;
+        }
+
+        .stat-card.primary .stat-card-header {
+            background-color: var(--primary);
+        }
+
+        .stat-card.success .stat-card-header {
+            background-color: var(--success);
+        }
+
+        .stat-card.info .stat-card-header {
+            background-color: var(--info);
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            padding: 1rem;
+        }
+
+        .stat-card-footer {
+            background-color: rgba(0,0,0,0.03);
+            padding: 0.75rem;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .quick-action-btn {
+            border-radius: 8px;
+            padding: 0.5rem 1.25rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quick-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .dashboard-title {
+            color: var(--dark);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--primary);
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid py-4">
+        <h1 class="dashboard-title">
+            <i class="bi bi-speedometer2 me-2"></i>Tableau de bord
+        </h1>
+
+        <!-- Stats Cards -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="stat-card primary">
+                    <div class="stat-card-header d-flex align-items-center">
+                        <i class="bi bi-people-fill me-2"></i>
+                        <span>Utilisateurs</span>
+                    </div>
+                    <div class="stat-value" th:text="${userCount}">1,248</div>
+                    <div class="stat-card-footer">
+                        <a href="/utilisateurs" class="btn btn-sm btn-outline-primary w-100">
+                            <i class="bi bi-person-lines-fill me-1"></i>Gérer les utilisateurs
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="stat-card success">
+                    <div class="stat-card-header d-flex align-items-center">
+                        <i class="bi bi-shop me-2"></i>
+                        <span>Commerçants</span>
+                    </div>
+                    <div class="stat-value" th:text="${merchantCount}">356</div>
+                    <div class="stat-card-footer">
+                        <a href="/merchants" class="btn btn-sm btn-outline-success w-100">
+                            <i class="bi bi-shop me-1"></i>Gérer les commerçants
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="stat-card info">
+                    <div class="stat-card-header d-flex align-items-center">
+                        <i class="bi bi-credit-card-2-front me-2"></i>
+                        <span>Paiements</span>
+                    </div>
+                    <div class="stat-value" th:text="${paymentCount}">5,892</div>
+                    <div class="stat-card-footer">
+                        <a href="/payments" class="btn btn-sm btn-outline-info w-100">
+                            <i class="bi bi-credit-card-2-front me-1"></i>Voir les paiements
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card mb-4">
+            <div class="card-header d-flex align-items-center">
+                <i class="bi bi-lightning-fill me-2 text-warning"></i>
+                <span>Actions rapides</span>
+            </div>
+            <div class="card-body">
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="/utilisateurs/new" class="quick-action-btn btn btn-primary">
+                        <i class="bi bi-person-plus"></i>
+                        <span>Ajouter un utilisateur</span>
+                    </a>
+                    <a href="/merchants/new" class="quick-action-btn btn btn-success">
+                        <i class="bi bi-shop-window"></i>
+                        <span>Ajouter un commerçant</span>
+                    </a>
+                    <a href="/payments/new" class="quick-action-btn btn btn-info">
+                        <i class="bi bi-cash-coin"></i>
+                        <span>Nouveau paiement</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

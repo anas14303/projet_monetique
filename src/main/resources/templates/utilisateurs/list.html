@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Gestion des Utilisateurs</title>
+    <style>
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .table-hover tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        .badge {
+            font-size: 0.85rem;
+            padding: 0.5em 0.75em;
+            border-radius: 0.5rem;
+        }
+        .btn-sm {
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        .alert {
+            border-radius: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-5">
+
+        <!-- Messages de succès / erreur -->
+        <div th:if="${success != null}" class="alert alert-success alert-dismissible fade show" role="alert">
+            ✅ <span th:text="${success}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+        </div>
+        <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <span th:text="${param.error}">Une erreur est survenue</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <!-- Titre + bouton -->
+        <!-- En-tête avec titre et bouton d'ajout -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 mb-0">Gestion des utilisateurs</h1>
+                <p class="text-muted mb-0">Liste des utilisateurs ayant accès à l'application</p>
+            </div>
+            <a th:href="@{/utilisateurs/new}" class="btn btn-primary">
+                <i class="bi bi-plus-lg me-1"></i> Nouvel utilisateur
+            </a>
+        </div>
+
+        <!-- Tableau des utilisateurs -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-white py-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Liste des utilisateurs</h5>
+                    <div class="input-group" style="max-width: 300px;">
+                        <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                        <input type="text" class="form-control" placeholder="Rechercher..." id="searchInput">
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Nom</th>
+                                <th>Email</th>
+                                <th>Rôle</th>
+                                <th>Dernière connexion</th>
+                                <th class="text-end pe-4">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userTableBody">
+                            <tr th:each="utilisateur : ${utilisateurs}" class="user-row">
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-circle bg-primary text-white me-3" th:text="${#strings.substring(utilisateur.nom, 0, 1)}"></div>
+                                        <div>
+                                            <div class="fw-semibold" th:text="${utilisateur.nom}"></div>
+                                            <small class="text-muted">ID: <span th:text="${utilisateur.id}"></span></small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a th:href="'mailto:' + ${utilisateur.email}" class="text-decoration-none">
+                                        <i class="bi bi-envelope me-2"></i>
+                                        <span th:text="${utilisateur.email}"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <span th:class="${utilisateur.role == 'ADMIN' ? 'badge bg-danger' : 'badge bg-primary'}">
+                                        <i th:class="${utilisateur.role == 'ADMIN' ? 'bi bi-shield-lock' : 'bi bi-person'}" class="me-1"></i>
+                                        <span th:text="${utilisateur.role == 'ADMIN' ? 'Administrateur' : 'Utilisateur'}"></span>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="text-muted" th:if="${utilisateur.derniereConnexion} != null" 
+                                          th:text="${#temporals.format(utilisateur.derniereConnexion, 'dd/MM/yyyy HH:mm')}">
+                                        01/01/2023 10:30
+                                    </span>
+                                    <span class="text-muted" th:unless="${utilisateur.derniereConnexion} != null">
+                                        Jamais connecté
+                                    </span>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <div class="btn-group" role="group">
+                                        <a th:href="@{/utilisateurs/edit/} + ${utilisateur.id}" 
+                                           class="btn btn-sm btn-outline-primary rounded-start"
+                                           data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <button type="button" 
+                                                class="btn btn-sm btn-outline-danger rounded-end" 
+                                                data-bs-toggle="modal" 
+                                                th:attr="data-bs-target='#deleteModal' + ${utilisateur.id}"
+                                                data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Modal de confirmation de suppression -->
+                                    <div class="modal fade" th:id="'deleteModal' + ${utilisateur.id}" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title text-danger">
+                                                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                                        Confirmer la suppression
+                                                    </h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Êtes-vous sûr de vouloir supprimer l'utilisateur <strong th:text="${utilisateur.nom}"></strong> ?</p>
+                                                    <p class="text-muted">
+                                                        <i class="bi bi-info-circle me-1"></i>
+                                                        Cette action est irréversible. Toutes les données associées seront perdues.
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                        <i class="bi bi-x-lg me-1"></i> Annuler
+                                                    </button>
+                                                    <form th:action="@{/utilisateurs/} + ${utilisateur.id} + '/delete'" method="post" style="display: inline;">
+                                                        <input type="hidden" name="page" th:value="${currentPage}" />
+                                                        <input type="hidden" name="sortField" th:value="${sortField}" />
+                                                        <input type="hidden" name="sortDir" th:value="${sortDir}" />
+                                                        <input type="hidden" name="keyword" th:value="${keyword}" />
+                                                        <button type="submit" class="btn btn-danger">
+                                                            <i class="bi bi-trash me-1"></i> Supprimer
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Message si aucun utilisateur trouvé -->
+                            <tr th:if="${#lists.isEmpty(utilisateurs)}">
+                                <td colspan="5" class="text-center py-4">
+                                    <div class="text-muted">
+                                        <i class="bi bi-people display-6 d-block mb-2"></i>
+                                        Aucun utilisateur trouvé
+                                    </div>
+                                    <a th:href="@{/utilisateurs/new}" class="btn btn-primary mt-2">
+                                        <i class="bi bi-plus-lg me-1"></i> Ajouter un utilisateur
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Styles CSS -->
+                <style>
+                    /* Style pour les avatars circulaires */
+                    .avatar-circle {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: bold;
+                        font-size: 1.1rem;
+                    }
+                    
+                    /* Style pour les lignes du tableau */
+                    .user-row {
+                        transition: background-color 0.2s ease;
+                    }
+                    
+                    .user-row:hover {
+                        background-color: rgba(0, 0, 0, 0.02);
+                    }
+                    
+                    /* Style pour les boutons d'action */
+                    .btn-action {
+                        width: 36px;
+                        height: 36px;
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 0;
+                    }
+                    
+                    /* Style pour les badges de rôle */
+                    .badge {
+                        font-weight: 500;
+                        letter-spacing: 0.5px;
+                        padding: 0.4em 0.75em;
+                    }
+                    
+                    /* Style pour la recherche */
+                    #searchInput {
+                        border-left: none;
+                        padding-left: 0;
+                    }
+                    
+                    #searchInput:focus {
+                        box-shadow: none;
+                        border-color: #ced4da;
+                    }
+                    
+                    /* Style pour les boutons de pagination */
+                    .page-item.active .page-link {
+                        background-color: #0d6efd;
+                        border-color: #0d6efd;
+                    }
+                    
+                    /* Style pour les icônes dans les boutons */
+                    .btn i {
+                        font-size: 0.9rem;
+                    }
+                </style>
+                
+                <!-- Script pour la recherche en temps réel -->
+                <script th:inline="javascript">
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Initialiser les tooltips
+                        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                        tooltipTriggerList.map(function (tooltipTriggerEl) {
+                            return new bootstrap.Tooltip(tooltipTriggerEl);
+                        });
+                        
+                        // Fonction de recherche en temps réel
+                        const searchInput = document.getElementById('searchInput');
+                        const userRows = document.querySelectorAll('.user-row');
+                        
+                        if (searchInput) {
+                            searchInput.addEventListener('input', function() {
+                                const searchTerm = this.value.toLowerCase();
+                                
+                                userRows.forEach(function(row) {
+                                    const userName = row.querySelector('.fw-semibold').textContent.toLowerCase();
+                                    const userEmail = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                                    const userRole = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                                    
+                                    if (userName.includes(searchTerm) || 
+                                        userEmail.includes(searchTerm) || 
+                                        userRole.includes(searchTerm)) {
+                                        row.style.display = '';
+                                    } else {
+                                        row.style.display = 'none';
+                                    }
+                                });
+                            });
+                        }
+                        
+                        // Désactiver le formulaire de suppression lors de la soumission
+                        const deleteForms = document.querySelectorAll('form[action*="delete"]');
+                        deleteForms.forEach(function(form) {
+                            form.addEventListener('submit', function(e) {
+                                const submitButton = this.querySelector('button[type="submit"]');
+                                submitButton.disabled = true;
+                                submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Suppression...';
+                            });
+                        });
+                    });
+                </script>
+
+                <!-- Pagination -->
+                <div th:if="${utilisateurs.totalPages > 1}" class="d-flex justify-content-between align-items-center mt-4">
+                    <div class="text-muted small">
+                        Affichage de <span th:text="${utilisateurs.number * utilisateurs.size + 1}"></span> à 
+                        <span th:text="${(utilisateurs.number * utilisateurs.size) + utilisateurs.numberOfElements}"></span> sur 
+                        <span th:text="${utilisateurs.totalElements}"></span> utilisateurs
+                    </div>
+
+                    <nav>
+                        <ul class="pagination pagination-sm mb-0">
+                            <li class="page-item" th:classappend="${utilisateurs.first} ? 'disabled'">
+                                <a class="page-link" th:href="@{/utilisateurs?page=0}" aria-label="Premier">
+                                    <span aria-hidden="true">&laquo;&laquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item" th:classappend="${utilisateurs.first} ? 'disabled'">
+                                <a class="page-link" th:href="@{/utilisateurs?page=} + ${utilisateurs.number - 1}" aria-label="Précédent">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+
+                            <li th:each="i : ${#numbers.sequence(0, utilisateurs.totalPages - 1)}"
+                                th:if="${i >= utilisateurs.number - 2 && i <= utilisateurs.number + 2}"
+                                th:classappend="${i == utilisateurs.number} ? 'active'"
+                                class="page-item">
+                                <a class="page-link" th:href="@{/utilisateurs?page=} + ${i}" th:text="${i + 1}">1</a>
+                            </li>
+
+                            <li class="page-item" th:classappend="${utilisateurs.last} ? 'disabled'">
+                                <a class="page-link" th:href="@{/utilisateurs?page=} + ${utilisateurs.number + 1}" aria-label="Suivant">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                            <li class="page-item" th:classappend="${utilisateurs.last} ? 'disabled'">
+                                <a class="page-link" th:href="@{/utilisateurs?page=} + ${utilisateurs.totalPages - 1}" aria-label="Dernier">
+                                    <span aria-hidden="true">&raquo;&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

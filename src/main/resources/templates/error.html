@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+      lang="fr">
+<head>
+    <title>Erreur <span th:if="${status}" th:text="'| ' + ${status}"></span></title>
+    <style>
+        .error-container {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .error-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+        }
+        .error-details {
+            background-color: #f8f9fa;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: left;
+        }
+        .error-stack {
+            font-family: monospace;
+            white-space: pre-wrap;
+            font-size: 0.85rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="error-container py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="text-center mb-4">
+                        <div class="error-icon text-danger">
+                            <i class="bi bi-exclamation-octagon"></i>
+                        </div>
+                        <h1 class="display-4 fw-bold" th:if="${status}" th:text="'Erreur ' + ${status}">Erreur</h1>
+                        <h2 class="h4 text-muted mb-4" th:text="${message} ?: 'Une erreur inattendue s\'est produite.'"></h2>
+                        <p class="text-danger fw-bold" th:if="${errorMessage}" th:text="'Détail : ' + ${errorMessage}"></p>
+                        
+                        <p class="lead" th:if="${status == 404}">
+                            La page que vous recherchez semble introuvable.
+                        </p>
+                        <p class="lead" th:if="${status == 403}">
+                            Vous n'avez pas les autorisations nécessaires pour accéder à cette ressource.
+                        </p>
+                        <p class="lead" th:if="${status == 500}">
+                            Une erreur interne du serveur s'est produite. Notre équipe technique en a été informée.
+                        </p>
+                        
+                        <div class="mt-4">
+                            <a th:href="@{/}" class="btn btn-primary me-2">
+                                <i class="bi bi-house-door me-2"></i>Retour à l'accueil
+                            </a>
+                            <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" 
+                                    data-bs-target="#errorDetails" aria-expanded="false" aria-controls="errorDetails">
+                                <i class="bi bi-bug me-2"></i>Détails de l'erreur
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Détails de l'erreur -->
+                    <div class="collapse mt-4" id="errorDetails">
+                        <div class="error-details">
+                            <h5 class="mb-3">Détails techniques :</h5>
+                            <dl class="row">
+                                <dt class="col-sm-3">Chemin :</dt>
+                                <dd class="col-sm-9" th:text="${path}">-</dd>
+                                
+                                <dt class="col-sm-3">Date/Heure :</dt>
+                                <dd class="col-sm-9" th:text="${#temporals.format(timestamp, 'dd/MM/yyyy HH:mm:ss')}">-</dd>
+                                
+                                <th:block th:if="${exception}">
+                                    <dt class="col-sm-3">Exception :</dt>
+                                    <dd class="col-sm-9" th:text="${exception}">-</dd>
+                                </th:block>
+                                
+                                <th:block th:if="${#bools.isTrue(#lists.contains(#httpServletRequest.getHeaderNames(), 'referer'))}">
+                                    <dt class="col-sm-3">Page précédente :</dt>
+                                    <dd class="col-sm-9">
+                                        <a th:href="${#httpServletRequest.getHeader('referer')}" th:text="${#httpServletRequest.getHeader('referer')}"></a>
+                                    </dd>
+                                </th:block>
+                            </dl>
+                            
+                            <div th:if="${#httpServletRequest != null}" class="mt-3">
+                                <h6>En-têtes de la requête :</h6>
+                                <div class="error-stack bg-dark text-light p-3 rounded">
+                                    <pre th:each="header : ${#httpServletRequest.headerNames}" th:text="${header + ': ' + #httpServletRequest.getHeader(header)}"></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script pour afficher automatiquement les détails en environnement de développement -->
+<script th:if="${@environment.getActiveProfiles() != null && #lists.contains(@environment.getActiveProfiles(), 'dev')}">
+    document.addEventListener('DOMContentLoaded', function() {
+        const errorDetails = document.getElementById('errorDetails');
+        if (errorDetails) {
+            new bootstrap.Collapse(errorDetails, {toggle: true});
+        }
+    });
+</script>
+</body>
+</html>
