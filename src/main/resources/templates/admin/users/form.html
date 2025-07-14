@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="${isEdit} ? 'Modifier Utilisateur' : 'Nouvel Utilisateur'">Gestion Utilisateur</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        .form-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        .form-header {
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        .form-footer {
+            border-top: 1px solid #dee2e6;
+            padding-top: 1.5rem;
+            margin-top: 2rem;
+            text-align: right;
+        }
+        .form-section {
+            margin-bottom: 2rem;
+        }
+        .form-section-title {
+            color: #495057;
+            font-size: 1.1rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .select2-container--bootstrap-5 .select2-selection {
+            min-height: 38px;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid px-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2" th:text="${isEdit == true} ? 'Modifier un utilisateur' : 'Créer un nouvel utilisateur'"></h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <a th:href="@{/admin/users}" class="btn btn-sm btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> Retour à la liste
+                </a>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <form th:action="${isEdit == true} ? @{/admin/users/save} : @{/admin/users/save}" method="post" th:object="${user}" id="userForm">
+                <input type="hidden" th:if="${user.id != null}" name="id" th:value="${user.id}" />
+                
+                <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                    <ul class="mb-0">
+                        <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+                    </ul>
+                </div>
+                
+                <div th:if="${successMessage != null}" class="alert alert-success" th:text="${successMessage}"></div>
+
+                <div class="form-section">
+                    <h3 class="form-section-title">Informations personnelles</h3>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="nom" class="form-label">Nom complet</label>
+                            <input type="text" class="form-control" id="nom" th:field="*{nom}" required>
+                            <div class="invalid-feedback">Veuillez entrer un nom valide.</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">Adresse email</label>
+                            <input type="email" class="form-control" id="email" th:field="*{email}" required
+                                   th:readonly="${isEdit == true}">
+                            <div class="invalid-feedback">Veuillez entrer une adresse email valide.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section" th:if="${isEdit != true}">
+                    <h3 class="form-section-title">Mot de passe</h3>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="password" class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                            <div class="invalid-feedback">Veuillez entrer un mot de passe</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="confirmPassword" class="form-label">Confirmer le mot de passe</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                            <div class="invalid-feedback">Les mots de passe doivent correspondre</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section" th:if="${isEdit == true}">
+                    <h3 class="form-section-title">Réinitialisation du mot de passe</h3>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" role="switch" id="resetPassword" name="resetPassword">
+                        <label class="form-check-label" for="resetPassword">Réinitialiser le mot de passe</label>
+                        <div class="form-text">Si coché, le mot de passe sera réinitialisé à une valeur par défaut</div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3 class="form-section-title">Rôles et permissions</h3>
+                    <div class="mb-3">
+                        <label for="roles" class="form-label">Rôles</label>
+                        <select class="form-select" id="roles" name="roleIds" multiple="multiple" style="width: 100%;">
+                            <option th:each="role : ${allRoles}" 
+                                    th:value="${role.id}" 
+                                    th:text="${role.name}"
+                                    th:selected="${#lists.contains(user.roles.![id], role.id)}">
+                            </option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" role="switch" id="active" th:field="*{active}">
+                        <label class="form-check-label" for="active">Compte actif</label>
+                    </div>
+                </div>
+
+                <div class="form-footer">
+                    <a th:href="@{/admin/users}" class="btn btn-secondary me-2">
+                        <i class="fas fa-times me-1"></i> Annuler
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i th:class="${isEdit == true ? 'fas fa-save' : 'fas fa-plus'}" class="me-1"></i>
+                        <span th:text="${isEdit == true ? 'Mettre à jour' : 'Créer'}"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/scripts :: scripts"></div>
+
+<!-- Select2 -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialiser Select2 pour les rôles
+        $('#roles').select2({
+            theme: 'bootstrap-5',
+            placeholder: 'Sélectionnez un ou plusieurs rôles',
+            allowClear: true,
+            width: '100%'
+        });
+        
+        // Validation du formulaire
+        (function() {
+            'use strict';
+            
+            var form = document.getElementById('userForm');
+            
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                
+                form.classList.add('was-validated');
+            }, false);
+        })();
+    });
+</script>
+</body>
+</html>

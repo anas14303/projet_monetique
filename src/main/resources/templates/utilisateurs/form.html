@@ -180,35 +180,7 @@
                                     </div>
                                 </div>
                                 
-                                <!-- Mot de passe -->
-                                <div class="col-12">
-                                    <div class="mb-3">
-                                        <label for="password" class="form-label">
-                                            Mot de passe <span class="text-danger" th:if="!utilisateur.id">*</span>
-                                            <small class="text-muted ms-1" th:if="utilisateur.id">(Laisser vide pour ne pas modifier)</small>
-                                        </label>
-                                        <div class="input-group password-field">
-                                            <input 
-                                                type="password" 
-                                                class="form-control" 
-                                                id="password" 
-                                                th:field="*{password}"
-                                                th:required="!utilisateur.id"
-                                                th:minlength="6"
-                                                th:autocomplete="${utilisateur.id} ? 'new-password' : 'new-password'"
-                                                placeholder="Saisissez un mot de passe">
-                                            <button class="btn btn-outline-secondary password-toggle" type="button" onclick="togglePassword('password')">
-                                                <i class="bi bi-eye"></i>
-                                            </button>
-                                        </div>
-                                        <div class="form-text" th:if="!utilisateur.id">
-                                            Le mot de passe doit contenir au moins 6 caractères.
-                                        </div>
-                                        <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
-                                            Veuillez fournir un mot de passe valide
-                                        </div>
-                                    </div>
-                                </div>
+                                <!-- Removed password field as authentication is now email-based -->
                             </div>
                             
                             <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-4">
@@ -229,23 +201,6 @@
     
     <!-- Validation Script -->
     <script>
-        // Fonction pour basculer la visibilité du mot de passe
-        function togglePassword(inputId) {
-            const input = document.getElementById(inputId);
-            const button = event.currentTarget;
-            const icon = button.querySelector('i');
-            
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('bi-eye');
-                icon.classList.add('bi-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.remove('bi-eye-slash');
-                icon.classList.add('bi-eye');
-            }
-        }
-        
         // Désactiver la validation HTML5 par défaut
         (function() {
             'use strict';

@@ -6,6 +6,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import java.util.Arrays;
+
 @Configuration
 public class CorsConfig {
 
@@ -18,28 +20,31 @@ public class CorsConfig {
         config.setAllowCredentials(true);
         
         // Autoriser les origines spécifiques (à adapter en production)
-        config.addAllowedOrigin("http://localhost:8080");
-        config.addAllowedOrigin("http://localhost:3000");
+        config.setAllowedOrigins(Arrays.asList(
+            "http://localhost:3000",
+            "http://localhost:8080",
+            "http://127.0.0.1:3000",
+            "http://127.0.0.1:8080"
+        ));
         
         // En-têtes autorisés
-        config.addAllowedHeader("Origin");
-        config.addAllowedHeader("Content-Type");
-        config.addAllowedHeader("Accept");
-        config.addAllowedHeader("Authorization");
-        config.addAllowedHeader("X-Requested-With");
-        config.addAllowedHeader("X-XSRF-TOKEN");
+        config.setAllowedHeaders(Arrays.asList(
+            "Origin", "Content-Type", "Accept", "Authorization", 
+            "X-Requested-With", "X-XSRF-TOKEN", "X-Auth-Token"
+        ));
+        
+        // En-têtes exposés
+        config.setExposedHeaders(Arrays.asList(
+            "Authorization", "X-XSRF-TOKEN", "X-Auth-Token"
+        ));
         
         // Méthodes HTTP autorisées
-        config.addAllowedMethod("GET");
-        config.addAllowedMethod("POST");
-        config.addAllowedMethod("PUT");
-        config.addAllowedMethod("PATCH");
-        config.addAllowedMethod("DELETE");
-        config.addAllowedMethod("OPTIONS");
-        config.addAllowedMethod("HEAD");
+        config.setAllowedMethods(Arrays.asList(
+            "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"
+        ));
         
-        // Temps de mise en cache des pré-vérifications CORS (1 jour)
-        config.setMaxAge(86400L);
+        // Temps de mise en cache des pré-vérifications CORS (1 heure)
+        config.setMaxAge(3600L);
         
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);

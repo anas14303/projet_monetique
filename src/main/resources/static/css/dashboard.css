@@ -1,0 +1,11 @@
+body { font-family: var(--font-sans); background-color: #f8f9fc; color: var(--gray-800); line-height: 1.6; }
+.sidebar { width: 250px; height: 100vh; position: fixed; left: 0; top: 0; background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%); color: white; padding: 1.5rem 1rem; z-index: 1000; box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1); transition: var(--transition); }
+.sidebar-brand { display: flex; align-items: center; padding: 1.5rem 1rem; font-size: 1.25rem; font-weight: 800; color: white; text-decoration: none; text-transform: uppercase; letter-spacing: 0.05em; }
+.stat-card { border-left: 4px solid; transition: var(--transition); position: relative; overflow: hidden; margin-bottom: 1.5rem; background-color: white; border-radius: var(--border-radius); box-shadow: var(--shadow); }
+.stat-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+.stat-icon { position: absolute; right: 1.5rem; top: 1.5rem; font-size: 2.5rem; opacity: 0.2; z-index: 1; }
+.stat-primary { border-left-color: var(--primary); } .stat-success { border-left-color: var(--success); } .stat-info { border-left-color: var(--info); } .stat-warning { border-left-color: var(--warning); } .stat-danger { border-left-color: var(--danger); }
+.main-content { margin-left: 250px; padding: 2rem; transition: var(--transition); } .chart-container { position: relative; height: 300px; }
+.btn { border-radius: var(--border-radius); padding: 0.5rem 1.25rem; font-weight: 500; transition: var(--transition); } .btn-primary { background-color: var(--primary); border-color: var(--primary); } .btn-primary:hover { background-color: var(--primary-dark); border-color: var(--primary-dark); transform: translateY(-2px); }
+.topbar { height: 70px; background-color: white; box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15); position: fixed; top: 0; right: 0; left: 250px; z-index: 999; padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; transition: var(--transition); }
+.content-wrapper { margin-top: 70px; padding: 2rem; } .card { border: none; border-radius: var(--border-radius); box-shadow: var(--shadow); margin-bottom: 1.5rem; transition: var(--transition); } .card:hover { box-shadow: var(--shadow-md); }

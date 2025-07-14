@@ -1,0 +1,301 @@
+/* Variables globales */
+:root {
+  --primary: #4e73df;
+  --primary-light: #7a9ff1;
+  --primary-dark: #2e59d9;
+  --success: #1cc88a;
+  --info: #36b9cc;
+  --warning: #f6c23e;
+  --danger: #e74a3b;
+  --light: #f8f9fc;
+  --dark: #5a5c69;
+  --gray-100: #f8f9fc;
+  --gray-200: #eaecf4;
+  --gray-300: #dddfeb;
+  --gray-400: #d1d3e2;
+  --gray-500: #b7b9cc;
+  --gray-600: #858796;
+  --gray-700: #6e707e;
+  --gray-800: #5a5c69;
+  --gray-900: #3a3b45;
+  --sidebar-width: 250px;
+  --topbar-height: 60px;
+  --transition: all 0.3s ease;
+  --border-radius: 0.35rem;
+  --box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+}
+
+/* Reset et styles de base */
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f8f9fc;
+  color: var(--gray-800);
+  min-height: 100vh;
+  padding-top: var(--topbar-height);
+}
+
+/* En-tête */
+.topbar {
+  height: var(--topbar-height);
+  background-color: white;
+  box-shadow: var(--box-shadow);
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+}
+
+.topbar .navbar-brand {
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--primary);
+  margin-right: 2rem;
+}
+
+.topbar .topbar-divider {
+  width: 0;
+  border-right: 1px solid var(--gray-200);
+  height: calc(var(--topbar-height) * 0.5);
+  margin: 0 1rem;
+}
+
+/* Barre latérale */
+.sidebar {
+  width: var(--sidebar-width);
+  height: calc(100vh - var(--topbar-height));
+  background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  position: fixed;
+  top: var(--topbar-height);
+  left: 0;
+  z-index: 1000;
+  overflow-y: auto;
+  transition: var(--transition);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-brand {
+  height: 4.375rem;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 800;
+  padding: 1.5rem 1rem 1rem;
+  text-align: center;
+  letter-spacing: 0.05rem;
+  z-index: 1;
+  color: white;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  margin: 1rem 0;
+}
+
+.sidebar .nav-item {
+  position: relative;
+  margin-bottom: 0.2rem;
+}
+
+.sidebar .nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-left: 3px solid transparent;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  border-radius: 0 30px 30px 0;
+  margin: 0 0.5rem;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-left-color: white;
+}
+
+.sidebar .nav-link i {
+  font-size: 0.85rem;
+  margin-right: 0.5rem;
+  width: 20px;
+  text-align: center;
+}
+
+/* Contenu principal */
+.main-content {
+  margin-left: var(--sidebar-width);
+  padding: 1.5rem;
+  transition: var(--transition);
+  min-height: calc(100vh - var(--topbar-height));
+}
+
+/* Cartes de statistiques */
+.stat-card {
+  border: none;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+  margin-bottom: 1.5rem;
+  color: white;
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1.5rem 0 rgba(58, 59, 69, 0.2) !important;
+}
+
+.stat-icon {
+  font-size: 2.5rem;
+  opacity: 0.3;
+  position: absolute;
+  right: 1.5rem;
+  top: 1.5rem;
+  transition: var(--transition);
+}
+
+.stat-card:hover .stat-icon {
+  transform: scale(1.1);
+  opacity: 0.5;
+}
+
+.stat-primary { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); }
+.stat-success { background: linear-gradient(135deg, var(--success) 0%, #13855c 100%); }
+.stat-info { background: linear-gradient(135deg, var(--info) 0%, #258391 100%); }
+.stat-warning { background: linear-gradient(135deg, var(--warning) 0%, #dda20a 100%); }
+
+/* Cartes */
+.card {
+  border: none;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  margin-bottom: 1.5rem;
+  transition: var(--transition);
+  overflow: hidden;
+}
+
+.card:hover {
+  box-shadow: 0 0.5rem 1.5rem 0 rgba(58, 59, 69, 0.2) !important;
+}
+
+.card-header {
+  background-color: white;
+  border-bottom: 1px solid var(--gray-200);
+  padding: 1.25rem 1.5rem;
+  font-weight: 700;
+  color: var(--gray-800);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+/* Boutons */
+.btn {
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  transition: var(--transition);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.btn i {
+  margin-right: 0.5rem;
+}
+
+/* Graphiques */
+.chart-area {
+  position: relative;
+  height: 300px;
+  width: 100%;
+  padding: 1rem;
+}
+
+/* Tableaux */
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: var(--gray-800);
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 1rem;
+  vertical-align: middle;
+  border-top: 1px solid var(--gray-200);
+}
+
+.table thead th {
+  background-color: var(--gray-100);
+  color: var(--gray-700);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--gray-200);
+}
+
+.table tbody tr {
+  transition: var(--transition);
+}
+
+.table tbody tr:hover {
+  background-color: var(--gray-100);
+}
+
+/* Badges */
+.badge {
+  font-weight: 600;
+  padding: 0.35em 0.8em;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  
+  .sidebar.show {
+    transform: translateX(0);
+  }
+  
+  .main-content {
+    margin-left: 0;
+  }
+  
+  body.sidebar-toggled .main-content {
+    margin-left: 0;
+  }
+  
+  body.sidebar-toggled .sidebar {
+    transform: translateX(0);
+  }
+}
+
+/* Animation de chargement */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}

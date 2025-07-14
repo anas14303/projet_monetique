@@ -1,22 +1,20 @@
 -- Table des rôles
 CREATE TABLE IF NOT EXISTS paiement_monetique.role (
-    id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     name VARCHAR(20)
 );
 
 -- Table des utilisateurs
 CREATE TABLE IF NOT EXISTS paiement_monetique.utilisateur (
     id BIGSERIAL PRIMARY KEY,
-    username VARCHAR(20) NOT NULL UNIQUE,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(120) NOT NULL,
-    full_name VARCHAR(100) NOT NULL
+    nom VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE
 );
 
 -- Table de jointure user_role
 CREATE TABLE IF NOT EXISTS paiement_monetique.user_role (
     user_id BIGINT NOT NULL,
-    role_id INT NOT NULL,
+    role_id BIGINT NOT NULL,
     PRIMARY KEY (user_id, role_id),
     FOREIGN KEY (user_id) REFERENCES paiement_monetique.utilisateur (id) ON DELETE CASCADE,
     FOREIGN KEY (role_id) REFERENCES paiement_monetique.role (id) ON DELETE CASCADE

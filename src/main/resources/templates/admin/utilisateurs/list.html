@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{admin/layout :: layout(~{::title}, ~{::content})">
+
+<head>
+    <title>Gestion des Utilisateurs</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <style>
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        .status-active {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status-inactive {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .action-buttons .btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+    <div th:fragment="content">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Gestion des Utilisateurs</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                    <i class="fas fa-plus me-1"></i> Nouvel Utilisateur
+                </button>
+            </div>
+        </div>
+
+        <!-- Filtres et Recherche -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form id="searchForm" class="row g-3">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Rechercher...">
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select" id="statusFilter">
+                            <option value="">Tous les statuts</option>
+                            <option value="true">Actif</option>
+                            <option value="false">Inactif</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-search me-1"></i> Filtrer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tableau des utilisateurs -->
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="usersTable" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Email</th>
+                                <th>Rôles</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="user : ${utilisateurs}">
+                                <td th:text="${user.id}"></td>
+                                <td th:text="${user.nom}"></td>
+                                <td th:text="${user.email}"></td>
+                                <td>
+                                    <span th:each="role : ${user.roles}" class="badge bg-secondary me-1" th:text="${role.name}"></span>
+                                </td>
+                                <td>
+                                    <span th:class="${user.active} ? 'status-badge status-active' : 'status-badge status-inactive'"
+                                          th:text="${user.active} ? 'Actif' : 'Inactif'"></span>
+                                </td>
+                                <td class="action-buttons">
+                                    <button class="btn btn-sm btn-outline-primary edit-user" 
+                                            th:data-id="${user.id}"
+                                            data-bs-toggle="tooltip" 
+                                            title="Modifier">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger delete-user" 
+                                            th:data-id="${user.id}"
+                                            data-bs-toggle="tooltip" 
+                                            title="Supprimer">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    <button class="btn btn-sm" 
+                                            th:class="${user.active} ? 'btn-outline-warning' : 'btn-outline-success'"
+                                            th:data-active="${user.active}"
+                                            th:data-id="${user.id}"
+                                            data-bs-toggle="tooltip"
+                                            th:title="${user.active} ? 'Désactiver' : 'Activer'">
+                                        <i th:class="${user.active} ? 'fas fa-user-slash' : 'fas fa-user-check'"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Pagination -->
+                <nav th:if="${totalPages > 1}" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                            <a class="page-link" th:href="@{/admin/utilisateurs(page=0,size=${utilisateurs.size},sortBy=${sortBy},direction=${direction},search=${search})}">
+                                <i class="fas fa-angle-double-left"></i>
+                            </a>
+                        </li>
+                        <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                            <a class="page-link" th:href="@{/admin/utilisateurs(page=${currentPage-1 < 0 ? 0 : currentPage-1},size=${utilisateurs.size},sortBy=${sortBy},direction=${direction},search=${search})}">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+                        </li>
+                        <li th:each="i : ${#numbers.sequence(0, totalPages-1)}" 
+                            class="page-item" 
+                            th:classappend="${i == currentPage} ? 'active'">
+                            <a class="page-link" 
+                               th:href="@{/admin/utilisateurs(page=${i},size=${utilisateurs.size},sortBy=${sortBy},direction=${direction},search=${search})}"
+                               th:text="${i+1}"></a>
+                        </li>
+                        <li class="page-item" th:classappend="${currentPage == totalPages-1} ? 'disabled'">
+                            <a class="page-link" th:href="@{/admin/utilisateurs(page=${currentPage+1 >= totalPages ? totalPages-1 : currentPage+1},size=${utilisateurs.size},sortBy=${sortBy},direction=${direction},search=${search})}">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </li>
+                        <li class="page-item" th:classappend="${currentPage == totalPages-1} ? 'disabled'">
+                            <a class="page-link" th:href="@{/admin/utilisateurs(page=${totalPages-1},size=${utilisateurs.size},sortBy=${sortBy},direction=${direction},search=${search})}">
+                                <i class="fas fa-angle-double-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Modal Ajout/Modification Utilisateur -->
+        <div class="modal fade" id="userModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">Ajouter un Utilisateur</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="userForm">
+                        <div class="modal-body">
+                            <input type="hidden" id="userId">
+                            <div class="mb-3">
+                                <label for="nom" class="form-label">Nom complet</label>
+                                <input type="text" class="form-control" id="nom" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Rôles</label>
+                                <div th:each="role : ${roles}" class="form-check">
+                                    <input class="form-check-input role-checkbox" 
+                                           type="checkbox" 
+                                           th:value="${role.id}" 
+                                           th:id="'role-' + ${role.id}">
+                                    <label class="form-check-label" th:for="'role-' + ${role.id}" th:text="${role.name}"></label>
+                                </div>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="active">
+                                <label class="form-check-label" for="active">Compte actif</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scripts -->
+        <script th:inline="javascript">
+            document.addEventListener('DOMContentLoaded', function() {
+                // Initialiser les tooltips
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl);
+                });
+
+                // Gérer la soumission du formulaire de recherche
+                document.getElementById('searchForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const search = document.getElementById('searchInput').value;
+                    const status = document.getElementById('statusFilter').value;
+                    let url = `/admin/utilisateurs?search=${encodeURIComponent(search)}`;
+                    if (status) url += `&active=${status}`;
+                    window.location.href = url;
+                });
+
+                // Gérer le clic sur le bouton d'édition
+                document.querySelectorAll('.edit-user').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const userId = this.getAttribute('data-id');
+                        fetch(`/admin/utilisateurs/${userId}`)
+                            .then(response => response.json())
+                            .then(user => {
+                                document.getElementById('modalTitle').textContent = 'Modifier l\'utilisateur';
+                                document.getElementById('userId').value = user.id;
+                                document.getElementById('nom').value = user.nom;
+                                document.getElementById('email').value = user.email;
+                                document.getElementById('active').checked = user.active;
+                                
+                                // Décocher toutes les cases à cocher des rôles
+                                document.querySelectorAll('.role-checkbox').forEach(checkbox => {
+                                    checkbox.checked = false;
+                                });
+                                
+                                // Cocher les rôles de l'utilisateur
+                                user.roles.forEach(role => {
+                                    const checkbox = document.getElementById(`role-${role.id}`);
+                                    if (checkbox) checkbox.checked = true;
+                                });
+                                
+                                const modal = new bootstrap.Modal(document.getElementById('userModal'));
+                                modal.show();
+                            });
+                    });
+                });
+
+                // Gérer la soumission du formulaire utilisateur
+                document.getElementById('userForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const userId = document.getElementById('userId').value;
+                    const user = {
+                        nom: document.getElementById('nom').value,
+                        email: document.getElementById('email').value,
+                        active: document.getElementById('active').checked,
+                        roleIds: Array.from(document.querySelectorAll('.role-checkbox:checked'))
+                            .map(checkbox => parseInt(checkbox.value))
+                    };
+                    
+                    const url = userId ? `/admin/utilisateurs/${userId}` : '/admin/utilisateurs';
+                    const method = userId ? 'PUT' : 'POST';
+                    
+                    fetch(url, {
+                        method: method,
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(user)
+                    })
+                    .then(response => {
+                        if (!response.ok) throw new Error('Erreur lors de la sauvegarde');
+                        return response.json();
+                    })
+                    .then(() => {
+                        window.location.reload();
+                    })
+                    .catch(error => {
+                        console.error('Erreur:', error);
+                        Swal.fire('Erreur', 'Une erreur est survenue', 'error');
+                    });
+                });
+
+                // Gérer la suppression d'un utilisateur
+                document.querySelectorAll('.delete-user').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const userId = this.getAttribute('data-id');
+                        
+                        Swal.fire({
+                            title: 'Êtes-vous sûr?',
+                            text: "Vous ne pourrez pas revenir en arrière !",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Oui, supprimer!',
+                            cancelButtonText: 'Annuler'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                fetch(`/admin/utilisateurs/${userId}`, {
+                                    method: 'DELETE'
+                                })
+                                .then(response => {
+                                    if (!response.ok) throw new Error('Erreur lors de la suppression');
+                                    window.location.reload();
+                                })
+                                .catch(error => {
+                                    console.error('Erreur:', error);
+                                    Swal.fire('Erreur', 'Une erreur est survenue lors de la suppression', 'error');
+                                });
+                            }
+                        });
+                    });
+                });
+
+                // Gérer l'activation/désactivation d'un utilisateur
+                document.querySelectorAll('[data-active]').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const userId = this.getAttribute('data-id');
+                        
+                        fetch(`/admin/utilisateurs/${userId}/toggle-active`, {
+                            method: 'POST'
+                        })
+                        .then(response => {
+                            if (!response.ok) throw new Error('Erreur lors de la mise à jour');
+                            window.location.reload();
+                        })
+                        .catch(error => {
+                            console.error('Erreur:', error);
+                            Swal.fire('Erreur', 'Une erreur est survenue', 'error');
+                        });
+                    });
+                });
+
+                // Gérer l'ouverture de la modal d'ajout
+                document.querySelector('[data-bs-target="#addUserModal"]').addEventListener('click', function() {
+                    document.getElementById('modalTitle').textContent = 'Ajouter un Utilisateur';
+                    document.getElementById('userForm').reset();
+                    document.getElementById('userId').value = '';
+                    document.querySelectorAll('.role-checkbox').forEach(checkbox => {
+                        checkbox.checked = false;
+                    });
+                    document.getElementById('active').checked = true;
+                    
+                    const modal = new bootstrap.Modal(document.getElementById('userModal'));
+                    modal.show();
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>

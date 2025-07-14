@@ -10,6 +10,14 @@ import org.springframework.data.repository.query.Param;
 import java.util.Date;
 
 public interface PaiementRepository extends JpaRepository<Paiement, Long> {
+    
+    long countByStatut(String statut);
+    
+    @Query("SELECT COALESCE(SUM(p.montant), 0) FROM Paiement p WHERE p.statut = 'ACCEPTE'")
+    Double calculateTotalAmount();
+    
+    @Query("SELECT COUNT(p) FROM Paiement p WHERE YEAR(p.date) = YEAR(CURRENT_DATE) AND MONTH(p.date) = MONTH(CURRENT_DATE)")
+    long countPaiementsThisMonth();
 
     // Main filter query
     @Query("SELECT p FROM Paiement p " +
@@ -37,6 +45,22 @@ public interface PaiementRepository extends JpaRepository<Paiement, Long> {
     );
 
     // Filter by commercant
+    /**
+     * Count payments by status
+     * @param status the status to filter by
+     * @return count of payments with the given status
+     */
+    @Query("SELECT COUNT(p) FROM Paiement p WHERE p.statut = :status")
+    long countByStatus(@Param("status") String status);
+    
+    /**
+     * Count payments created after the given date
+     * @param date the date to compare with
+     * @return count of payments created after the date
+     */
+    @Query("SELECT COUNT(p) FROM Paiement p WHERE p.date >= :date")
+    long countByDateAfter(@Param("date") Date date);
+    
     @Query("SELECT p FROM Paiement p WHERE (:commercant IS NULL OR p.commercant = :commercant)")
     Page<Paiement> findByCommercant(
             @Param("commercant") Commercant commercant,

@@ -76,14 +76,14 @@
                                 <dd class="col-sm-9" th:text="${path}">-</dd>
                                 
                                 <dt class="col-sm-3">Date/Heure :</dt>
-                                <dd class="col-sm-9" th:text="${#temporals.format(timestamp, 'dd/MM/yyyy HH:mm:ss')}">-</dd>
+                                <dd class="col-sm-9" th:text="${#dates.format(timestamp, 'dd/MM/yyyy HH:mm:ss')}">-</dd>
                                 
                                 <th:block th:if="${exception}">
                                     <dt class="col-sm-3">Exception :</dt>
                                     <dd class="col-sm-9" th:text="${exception}">-</dd>
                                 </th:block>
                                 
-                                <th:block th:if="${#bools.isTrue(#lists.contains(#httpServletRequest.getHeaderNames(), 'referer'))}">
+                                <th:block th:if="${#httpServletRequest != null and #lists.contains(#httpServletRequest.getHeaderNames(), 'referer')}">
                                     <dt class="col-sm-3">Page précédente :</dt>
                                     <dd class="col-sm-9">
                                         <a th:href="${#httpServletRequest.getHeader('referer')}" th:text="${#httpServletRequest.getHeader('referer')}"></a>
@@ -94,7 +94,10 @@
                             <div th:if="${#httpServletRequest != null}" class="mt-3">
                                 <h6>En-têtes de la requête :</h6>
                                 <div class="error-stack bg-dark text-light p-3 rounded">
-                                    <pre th:each="header : ${#httpServletRequest.headerNames}" th:text="${header + ': ' + #httpServletRequest.getHeader(header)}"></pre>
+                                    <pre th:if="${#httpServletRequest.headerNames != null}" 
+                                         th:each="header : ${#httpServletRequest.headerNames}" 
+                                         th:text="${header + ': ' + #httpServletRequest.getHeader(header)}"></pre>
+                                    <pre th:if="${#httpServletRequest.headerNames == null}">Aucun en-tête disponible</pre>
                                 </div>
                             </div>
                         </div>

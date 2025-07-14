@@ -12,7 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +27,7 @@ import java.util.Set;
 
 @Controller
 @RequestMapping("/utilisateurs")
+@PreAuthorize("isAuthenticated()")
 public class UtilisateurController {
     
     private static final Logger logger = LoggerFactory.getLogger(UtilisateurController.class);
@@ -32,12 +35,10 @@ public class UtilisateurController {
 
     private static final int DEFAULT_PAGE_SIZE = 10;
     private final UtilisateurService utilisateurService;
-    private final PasswordEncoder passwordEncoder;
     
     @Autowired
-    public UtilisateurController(UtilisateurService utilisateurService, PasswordEncoder passwordEncoder) {
+    public UtilisateurController(UtilisateurService utilisateurService) {
         this.utilisateurService = utilisateurService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping
@@ -47,6 +48,13 @@ public class UtilisateurController {
             @RequestParam(defaultValue = "asc") String sortDir,
             @RequestParam(defaultValue = "") String keyword,
             Model model) {
+        
+        // Vérifier que l'utilisateur n'est pas admin
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+            return "redirect:/admin/utilisateurs";
+        }
         
         try {
             // Validation des paramètres
@@ -152,14 +160,6 @@ public class UtilisateurController {
                     redirectAttributes.addFlashAttribute("utilisateur", utilisateur);
                     return "redirect:/utilisateurs/new";
                 }
-                
-                // Vérification que le mot de passe n'est pas vide pour une création
-                if (utilisateur.getPassword() == null || utilisateur.getPassword().trim().isEmpty()) {
-                    bindingResult.rejectValue("password", "password.required", "Le mot de passe est obligatoire");
-                    redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.utilisateur", bindingResult);
-                    redirectAttributes.addFlashAttribute("utilisateur", utilisateur);
-                    return "redirect:/utilisateurs/new";
-                }
             } else {
                 // Mise à jour d'un utilisateur existant
                 if (utilisateurService.existsByEmailAndIdNot(utilisateur.getEmail(), utilisateur.getId())) {
@@ -167,13 +167,6 @@ public class UtilisateurController {
                     redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.utilisateur", bindingResult);
                     redirectAttributes.addFlashAttribute("utilisateur", utilisateur);
                     return "redirect:/utilisateurs/edit/" + utilisateur.getId();
-                }
-                
-                // Si le mot de passe est vide lors d'une mise à jour, on conserve l'ancien
-                if (utilisateur.getPassword() == null || utilisateur.getPassword().trim().isEmpty()) {
-                    Utilisateur existingUser = utilisateurService.findById(utilisateur.getId())
-                        .orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé avec l'ID : " + utilisateur.getId()));
-                    utilisateur.setPassword(existingUser.getPassword());
                 }
             }
             
@@ -184,17 +177,6 @@ public class UtilisateurController {
                 Set<Role> roles = new HashSet<>();
                 roles.add(defaultRole);
                 utilisateur.setRoles(roles);
-            }
-            
-            // Hachage du mot de passe s'il est fourni
-            if (utilisateur.getPassword() != null && !utilisateur.getPassword().trim().isEmpty()) {
-                String encodedPassword = passwordEncoder.encode(utilisateur.getPassword().trim());
-                utilisateur.setPassword(encodedPassword);
-            } else if (utilisateur.getId() != null) {
-                // Si c'est une mise à jour et que le mot de passe n'est pas fourni, on conserve l'ancien
-                Utilisateur existingUser = utilisateurService.findById(utilisateur.getId())
-                    .orElseThrow(() -> new IllegalArgumentException("Utilisateur non trouvé avec l'ID : " + utilisateur.getId()));
-                utilisateur.setPassword(existingUser.getPassword());
             }
             
             // Sauvegarde de l'utilisateur
@@ -208,7 +190,7 @@ public class UtilisateurController {
             
         } catch (Exception e) {
             logger.error("Erreur lors de la sauvegarde de l'utilisateur", e);
-            redirectAttributes.addFlashAttribute("error", "Une erreur est survenue lors de la sauvegarde de l'utilisateur");
+            redirectAttributes.addFlashAttribute("error", "Une erreur est survenue lors de la sauvegarde de l'utilisateur : " + e.getMessage());
             return "redirect:/utilisateurs" + (utilisateur != null && utilisateur.getId() != null ? "/edit/" + utilisateur.getId() : "/new");
         }
     }

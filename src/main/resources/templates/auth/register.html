@@ -54,21 +54,6 @@
             </div>
             
             <form th:action="@{/auth/register}" th:object="${registerRequest}" method="post" class="needs-validation" novalidate autocomplete="off">
-                <!-- Nom d'utilisateur -->
-                <div class="mb-3">
-                    <label for="username" class="form-label">Nom d'utilisateur</label>
-                    <input type="text" class="form-control" id="username" th:field="*{username}" 
-                           th:classappend="${#fields.hasErrors('username')} ? 'is-invalid' : ''"
-                           autocomplete="username" required>
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">
-                        Erreur sur le nom d'utilisateur
-                    </div>
-                    <div class="invalid-feedback" th:unless="${#fields.hasErrors('username')}">
-                        Veuillez entrer un nom d'utilisateur.
-                    </div>
-                    <div class="form-text">Entre 3 et 20 caractères, lettres et chiffres uniquement</div>
-                </div>
-                
                 <!-- Nom complet -->
                 <div class="mb-3">
                     <label for="fullName" class="form-label">Nom complet</label>
@@ -80,46 +65,16 @@
                 </div>
                 
                 <!-- Email -->
-                <div class="mb-3">
+                <div class="mb-4">
                     <label for="email" class="form-label">Adresse email</label>
                     <input type="email" class="form-control" id="email" th:field="*{email}" 
                            th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''"
                            autocomplete="email" required>
                     <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
-                        Adresse email invalide
+                        Adresse email invalide ou déjà utilisée
                     </div>
                     <div class="invalid-feedback" th:unless="${#fields.hasErrors('email')}">
                         Veuillez entrer une adresse email valide.
-                    </div>
-                </div>
-                
-                <!-- Mot de passe -->
-                <div class="mb-3">
-                    <label for="password" class="form-label">Mot de passe</label>
-                    <input type="password" class="form-control" id="password" th:field="*{password}" 
-                           th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''"
-                           autocomplete="new-password" required>
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
-                        Le mot de passe doit contenir au moins 6 caractères
-                    </div>
-                    <div class="invalid-feedback" th:unless="${#fields.hasErrors('password')}">
-                        Veuillez entrer un mot de passe.
-                    </div>
-                    <div class="form-text">Minimum 6 caractères, avec des chiffres et des lettres</div>
-                </div>
-                
-                <!-- Confirmation du mot de passe -->
-                <div class="mb-4">
-                    <label for="confirmPassword" class="form-label">Confirmer le mot de passe</label>
-                    <input type="password" class="form-control" id="confirmPassword" 
-                           th:field="*{confirmPassword}" 
-                           th:classappend="${#fields.hasErrors('confirmPassword')} ? 'is-invalid' : ''"
-                           autocomplete="new-password" required>
-                    <div class="invalid-feedback" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">
-                        Les mots de passe ne correspondent pas
-                    </div>
-                    <div class="invalid-feedback" th:unless="${#fields.hasErrors('confirmPassword')}">
-                        Veuillez confirmer votre mot de passe.
                     </div>
                 </div>
                 
@@ -158,17 +113,6 @@
                         if (!form.checkValidity()) {
                             event.preventDefault()
                             event.stopPropagation()
-                        }
-                        
-                        // Vérifier que les mots de passe correspondent
-                        var password = document.getElementById('password').value
-                        var confirmPassword = document.getElementById('confirmPassword').value
-                        if (password !== confirmPassword) {
-                            document.getElementById('confirmPassword').setCustomValidity("Les mots de passe ne correspondent pas")
-                            event.preventDefault()
-                            event.stopPropagation()
-                        } else {
-                            document.getElementById('confirmPassword').setCustomValidity('')
                         }
                         
                         form.classList.add('was-validated')

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>Statistiques - Tableau de bord Admin</title>
+    <th:block layout:fragment="styles">
+        <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css">
+        <style>
+            :root {
+                --primary: #4e73df;
+                --primary-dark: #2e59d9;
+                --success: #1cc88a;
+                --info: #36b9cc;
+                --warning: #f6c23e;
+                --danger: #e74a3b;
+                --light: #f8f9fc;
+                --dark: #343a40;
+                --gray-200: #f1f3f9;
+                --gray-300: #dde2f0;
+                --gray-400: #c2c9d6;
+            }
+
+            .statistics-container {
+                margin-left: 260px;
+                padding: 30px;
+                width: calc(100% - 260px);
+            }
+
+            .page-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 30px;
+            }
+
+            .page-title {
+                font-size: 1.75rem;
+                font-weight: 600;
+                color: var(--dark);
+                margin: 0;
+            }
+
+            .card {
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+                margin-bottom: 30px;
+                border: none;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 0.5rem 2rem 0 rgba(58, 59, 69, 0.2);
+            }
+
+            .card-header {
+                background-color: #f8f9fc;
+                border-bottom: 1px solid #e3e6f0;
+                padding: 1rem 1.35rem;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+            }
+
+            .card-title {
+                color: #4e73df;
+                font-weight: 600;
+                font-size: 1.1rem;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .card-body {
+                padding: 1.5rem;
+            }
+
+            .stat-card {
+                text-align: center;
+                padding: 20px;
+                border-radius: 8px;
+                color: white;
+                margin-bottom: 20px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .stat-card i {
+                font-size: 2.5rem;
+                opacity: 0.2;
+                position: absolute;
+                right: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .stat-card .stat-value {
+                font-size: 2rem;
+                font-weight: 700;
+                margin: 10px 0 5px;
+            }
+
+            .stat-card .stat-label {
+                font-size: 0.9rem;
+                opacity: 0.9;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .chart-container {
+                position: relative;
+                height: 300px;
+                width: 100%;
+            }
+
+            .date-range-selector {
+                display: flex;
+                gap: 15px;
+                margin-bottom: 20px;
+                flex-wrap: wrap;
+            }
+
+            .date-range-btn {
+                background: white;
+                border: 1px solid #d1d3e2;
+                padding: 8px 15px;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-size: 0.85rem;
+            }
+
+            .date-range-btn:hover, .date-range-btn.active {
+                background: var(--primary);
+                color: white;
+                border-color: var(--primary);
+            }
+
+            .custom-date-picker {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                background: white;
+                padding: 8px 15px;
+                border-radius: 5px;
+                border: 1px solid #d1d3e2;
+            }
+
+            .custom-date-picker input {
+                border: none;
+                outline: none;
+                background: transparent;
+                font-size: 0.85rem;
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 992px) {
+                .statistics-container {
+                    margin-left: 0;
+                    width: 100%;
+                    padding: 20px 15px;
+                }
+            }
+        </style>
+    </th:block>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="statistics-container">
+            <div class="page-header">
+                <h1 class="page-title">
+                    <i class="fas fa-chart-line me-2"></i>
+                    Tableau de Bord des Statistiques
+                </h1>
+                <div class="date-range-selector">
+                    <button class="date-range-btn active">Aujourd'hui</button>
+                    <button class="date-range-btn">7 derniers jours</button>
+                    <button class="date-range-btn">30 derniers jours</button>
+                    <div class="custom-date-picker">
+                        <i class="far fa-calendar-alt"></i>
+                        <input type="text" id="customDateRange" placeholder="Période personnalisée">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Overview Cards -->
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="stat-card" style="background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);">
+                        <i class="fas fa-users"></i>
+                        <div class="stat-value" th:text="${stats.activeUsers}">0</div>
+                        <div class="stat-label">Utilisateurs Actifs</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card" style="background: linear-gradient(135deg, #1cc88a 0%, #13855c 100%);">
+                        <i class="fas fa-exchange-alt"></i>
+                        <div class="stat-value" th:text="${stats.totalTransactions}">0</div>
+                        <div class="stat-label">Transactions Total</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card" style="background: linear-gradient(135deg, #f6c23e 0%, #dda20a 100%);">
+                        <i class="fas fa-clock"></i>
+                        <div class="stat-value" th:text="${stats.pendingTransactions}">0</div>
+                        <div class="stat-label">En Attente</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card" style="background: linear-gradient(135deg, #e74a3b 0%, #be2617 100%);">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <div class="stat-value" th:text="${#numbers.formatDecimal(stats.totalRevenue, 1, 2)} + ' DH'">0 DH</div>
+                        <div class="stat-label">Revenu Total</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="row mt-4">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">
+                                <i class="fas fa-chart-line text-primary"></i>
+                                Activité des Transactions (30 derniers jours)
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="transactionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">
+                                <i class="fas fa-chart-pie text-info"></i>
+                                Répartition par Type
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="transactionTypeChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Stats -->
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">
+                                <i class="fas fa-user-clock text-warning"></i>
+                                Activité Utilisateur
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="userActivityChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">
+                                <i class="fas fa-tasks text-success"></i>
+                                Taux de Réussite
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center">
+                                <div style="width: 200px; height: 200px;">
+                                    <canvas id="successRateChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="text-center mt-3">
+                                <h4 class="mb-0" th:text="${stats.successRate} + '%'">0%</h4>
+                                <p class="text-muted mb-0">Taux de réussite moyen</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <th:block layout:fragment="scripts">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0/dist/chartjs-adapter-moment.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Sample data - Replace with actual data from your backend
+                const transactionData = {
+                    labels: Array.from({length: 30}, (_, i) => {
+                        const date = new Date();
+                        date.setDate(date.getDate() - (29 - i));
+                        return date.toLocaleDateString('fr-FR', {day: '2-digit', month: 'short'});
+                    }),
+                    datasets: [{
+                        label: 'Transactions',
+                        data: Array.from({length: 30}, () => Math.floor(Math.random() * 100) + 20),
+                        borderColor: '#4e73df',
+                        backgroundColor: 'rgba(78, 115, 223, 0.1)',
+                        tension: 0.3,
+                        fill: true
+                    }]
+                };
+
+                const transactionTypeData = {
+                    labels: ['Paiements', 'Transferts', 'Recharges', 'Factures', 'Autres'],
+                    datasets: [{
+                        data: [35, 25, 20, 15, 5],
+                        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b'],
+                        borderWidth: 1
+                    }]
+                };
+
+                const userActivityData = {
+                    labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+                    datasets: [{
+                        label: 'Nouveaux Utilisateurs',
+                        data: [12, 19, 8, 15, 22, 10, 5],
+                        backgroundColor: 'rgba(78, 115, 223, 0.5)',
+                        borderColor: '#4e73df',
+                        borderWidth: 2,
+                        borderRadius: 5
+                    }, {
+                        label: 'Utilisateurs Actifs',
+                        data: [8, 12, 16, 14, 20, 15, 10],
+                        backgroundColor: 'rgba(28, 200, 138, 0.5)',
+                        borderColor: '#1cc88a',
+                        borderWidth: 2,
+                        borderRadius: 5
+                    }]
+                };
+
+                // Initialize charts
+                const transactionCtx = document.getElementById('transactionChart').getContext('2d');
+                new Chart(transactionCtx, {
+                    type: 'line',
+                    data: transactionData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    display: true,
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    stepSize: 20
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false,
+                                    drawBorder: false
+                                }
+                            }
+                        }
+                    }
+                });
+
+                const typeCtx = document.getElementById('transactionTypeChart').getContext('2d');
+                new Chart(typeCtx, {
+                    type: 'doughnut',
+                    data: transactionTypeData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '70%',
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20,
+                                    usePointStyle: true,
+                                    pointStyle: 'circle'
+                                }
+                            }
+                        }
+                    }
+                });
+
+                const userActivityCtx = document.getElementById('userActivityChart').getContext('2d');
+                new Chart(userActivityCtx, {
+                    type: 'bar',
+                    data: userActivityData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                grid: {
+                                    display: false,
+                                    drawBorder: false
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    display: true,
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    stepSize: 5
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    usePointStyle: true,
+                                    pointStyle: 'circle',
+                                    padding: 20
+                                }
+                            }
+                        }
+                    }
+                });
+
+                const successCtx = document.getElementById('successRateChart').getContext('2d');
+                new Chart(successCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Réussies', 'Échouées'],
+                        datasets: [{
+                            data: [85, 15],
+                            backgroundColor: ['#1cc88a', '#e74a3b'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '80%',
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                enabled: false
+                            }
+                        },
+                        animation: {
+                            animateScale: true,
+                            animateRotate: true
+                        }
+                    }
+                });
+
+                // Date range selector functionality
+                const dateRangeBtns = document.querySelectorAll('.date-range-btn');
+                dateRangeBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        dateRangeBtns.forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        // Add logic to update charts based on selected range
+                        console.log('Selected range:', this.textContent.trim());
+                    });
+                });
+
+                // Initialize date picker
+                $('#customDateRange').daterangepicker({
+                    locale: {
+                        format: 'DD/MM/YYYY',
+                        applyLabel: 'Appliquer',
+                        cancelLabel: 'Annuler',
+                        fromLabel: 'De',
+                        toLabel: 'À',
+                        customRangeLabel: 'Personnalisé',
+                        daysOfWeek: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
+                        monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+                        firstDay: 1
+                    },
+                    startDate: moment().subtract(29, 'days'),
+                    endDate: moment(),
+                    ranges: {
+                        'Aujourd\'hui': [moment(), moment()],
+                        'Hier': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        '7 derniers jours': [moment().subtract(6, 'days'), moment()],
+                        '30 derniers jours': [moment().subtract(29, 'days'), moment()],
+                        'Mois en cours': [moment().startOf('month'), moment().endOf('month')],
+                        'Mois dernier': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    },
+                    alwaysShowCalendars: true,
+                    autoApply: true,
+                    autoUpdateInput: true,
+                    showDropdowns: true
+                }, function(start, end, label) {
+                    console.log('Nouvelle période sélectionnée: ' + start.format('DD/MM/YYYY') + ' au ' + end.format('DD/MM/YYYY'));
+                    // Add logic to update charts based on selected date range
+                });
+            });
+        </script>
+    </th:block>
+</body>
+</html>

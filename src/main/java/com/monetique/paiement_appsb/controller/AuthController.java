@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +17,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
@@ -45,7 +45,14 @@ public class AuthController {
             @RequestParam(value = "expired", required = false) String expired,
             @RequestParam(value = "denied", required = false) String denied,
             @RequestParam(value = "redirect", required = false) String redirectUrl,
+            @ModelAttribute("loginRequest") LoginRequest loginRequest,
+            BindingResult bindingResult,
             Model model) {
+        
+        // Ajouter un nouvel objet LoginRequest si non présent
+        if (!model.containsAttribute("loginRequest")) {
+            model.addAttribute("loginRequest", new LoginRequest());
+        }
         
         if (error != null) {
             model.addAttribute("error", "Identifiants invalides. Veuillez réessayer.");
@@ -105,11 +112,9 @@ public class AuthController {
                 .collect(Collectors.joining(", ")));
         
         System.out.println("\nDonnées du formulaire reçues :");
-        System.out.println("- Username: " + registerRequest.getUsername());
-        System.out.println("- FullName: " + registerRequest.getFullName());
+        System.out.println("- Nom complet: " + registerRequest.getFullName());
         System.out.println("- Email: " + registerRequest.getEmail());
-        System.out.println("- Password: [PROTECTED]");
-        System.out.println("- ConfirmPassword: [PROTECTED]");
+        System.out.println("- Mot de passe: [PROTÉGÉ]");
         
         // Vérification des erreurs de validation
         if (result.hasErrors()) {
@@ -126,14 +131,6 @@ public class AuthController {
             return "auth/register";
         }
 
-        // Vérification de la correspondance des mots de passe
-        if (!registerRequest.getPassword().equals(registerRequest.getConfirmPassword())) {
-            System.out.println("Erreur : Les mots de passe ne correspondent pas");
-            result.rejectValue("confirmPassword", "error.confirmPassword", "Les mots de passe ne correspondent pas");
-            model.addAttribute("error", "Les mots de passe ne correspondent pas.");
-            return "auth/register";
-        }
-
         try {
             // Enregistrement de l'utilisateur
             authService.registerNewUser(registerRequest);
@@ -143,12 +140,8 @@ public class AuthController {
             String errorMessage = e.getMessage();
             
             // Messages d'erreur plus conviviaux
-            if (errorMessage.contains("déjà utilisé")) {
-                if (errorMessage.contains("nom d'utilisateur")) {
-                    result.rejectValue("username", "error.username", errorMessage);
-                } else if (errorMessage.contains("email")) {
-                    result.rejectValue("email", "error.email", errorMessage);
-                }
+            if (errorMessage.contains("déjà utilisé") && errorMessage.contains("email")) {
+                result.rejectValue("email", "error.email", errorMessage);
             } else {
                 // Pour les autres erreurs, afficher un message générique
                 errorMessage = "Une erreur est survenue lors de l'inscription. Veuillez réessayer.";
@@ -175,47 +168,79 @@ public class AuthController {
             BindingResult result,
             @RequestParam(value = "redirect", required = false) String redirectUrl,
             HttpServletRequest request,
-            Model model) {
+            RedirectAttributes redirectAttributes) {
         
         // Vérification des erreurs de validation
         if (result.hasErrors()) {
-            model.addAttribute("loginRequest", loginRequest);
-            return "auth/login";
+            // Conserver les erreurs de validation pour la réaffichage du formulaire
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.loginRequest", result);
+            redirectAttributes.addFlashAttribute("loginRequest", loginRequest);
+            
+            // Ajouter les paramètres de redirection pour préserver l'état
+            if (redirectUrl != null && !redirectUrl.isEmpty()) {
+                return "redirect:/auth/login?redirect=" + redirectUrl;
+            }
+            return "redirect:/auth/login";
         }
         
         try {
-            // Tenter l'authentification via le service
-            Authentication authentication = authService.authenticate(
-                loginRequest.getUsername(),
-                loginRequest.getPassword()
-            );
+            System.out.println("Tentative de connexion pour l'email: " + loginRequest.getEmail());
+            
+            // Tenter l'authentification via le service (simplifiée sans mot de passe)
+            Authentication authentication = authService.authenticate(loginRequest.getEmail());
             
             // Définir l'authentification dans le contexte de sécurité
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            SecurityContext securityContext = SecurityContextHolder.getContext();
+            securityContext.setAuthentication(authentication);
             
-            // Créer la session si nécessaire
+            // Créer une nouvelle session ou récupérer la session existante
             HttpSession session = request.getSession(true);
-            session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+            session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
             
-            // Vérifier si l'utilisateur a le rôle requis
+            // Ajouter un message de bienvenue
+            String username = authentication.getName();
+            System.out.println("Utilisateur " + username + " connecté avec succès");
+            
+            // Vérifier si l'utilisateur a le rôle admin
             boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-                
-            // Rediriger en fonction du rôle et de l'URL de redirection
+            
+            // Construire l'URL de redirection
+            String targetUrl = "/dashboard"; // URL par défaut
+            
             if (redirectUrl != null && !redirectUrl.isEmpty() && !redirectUrl.contains("error")) {
-                return "redirect:" + redirectUrl;
+                targetUrl = redirectUrl;
             } else if (isAdmin) {
-                return "redirect:/admin/dashboard";
+                targetUrl = "/admin/dashboard";
             } else {
-                return "redirect:/user/dashboard";
+                targetUrl = "/user/dashboard";
             }
             
+            System.out.println("Redirection vers: " + targetUrl);
+            return "redirect:" + targetUrl;
+            
         } catch (BadCredentialsException e) {
-            model.addAttribute("error", "Identifiants invalides. Veuillez réessayer.");
-            return "auth/login";
+            System.err.println("Échec de l'authentification pour l'email: " + loginRequest.getEmail());
+            redirectAttributes.addFlashAttribute("error", "Email invalide. Veuillez réessayer.");
+            redirectAttributes.addFlashAttribute("loginRequest", loginRequest);
+            
+            if (redirectUrl != null && !redirectUrl.isEmpty()) {
+                return "redirect:/auth/login?redirect=" + redirectUrl + "&error=true";
+            }
+            return "redirect:/auth/login?error=true";
+            
         } catch (Exception e) {
-            model.addAttribute("error", "Une erreur est survenue lors de la connexion : " + e.getMessage());
-            return "auth/login";
+            System.err.println("Erreur lors de la connexion: " + e.getMessage());
+            e.printStackTrace();
+            
+            redirectAttributes.addFlashAttribute("error", 
+                "Une erreur est survenue lors de la connexion. Veuillez réessayer plus tard.");
+            redirectAttributes.addFlashAttribute("loginRequest", loginRequest);
+            
+            if (redirectUrl != null && !redirectUrl.isEmpty()) {
+                return "redirect:/auth/login?redirect=" + redirectUrl + "&error=true";
+            }
+            return "redirect:/auth/login?error=true";
         }
     }
 }

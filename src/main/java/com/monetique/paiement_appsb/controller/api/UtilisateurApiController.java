@@ -18,23 +18,24 @@ import java.util.List;
 @RequestMapping("/api/utilisateurs")
 @CrossOrigin(
     origins = {
-        "http://localhost:8080", 
         "http://localhost:3000",
-        "http://127.0.0.1:8080",
-        "http://127.0.0.1:3000"
-    }, 
+        "http://localhost:8080",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:8080"
+    },
     allowedHeaders = {
-        "origin",
-        "content-type",
-        "accept",
-        "authorization",
-        "x-requested-with",
-        "x-xsrf-token",
-        "x-auth-token"
+        "Origin", 
+        "Content-Type", 
+        "Accept", 
+        "Authorization", 
+        "X-Requested-With", 
+        "X-XSRF-TOKEN", 
+        "X-Auth-Token"
     },
     exposedHeaders = {
-        "x-auth-token",
-        "x-xsrf-token"
+        "Authorization", 
+        "X-XSRF-TOKEN", 
+        "X-Auth-Token"
     },
     allowCredentials = "true",
     maxAge = 3600,
@@ -42,10 +43,10 @@ import java.util.List;
         RequestMethod.GET, 
         RequestMethod.POST, 
         RequestMethod.PUT, 
+        RequestMethod.PATCH,
         RequestMethod.DELETE, 
         RequestMethod.OPTIONS,
-        RequestMethod.HEAD,
-        RequestMethod.PATCH
+        RequestMethod.HEAD
     }
 )
 public class UtilisateurApiController {
@@ -100,6 +101,14 @@ public class UtilisateurApiController {
             return ResponseEntity.badRequest().build();
         }
         
+        // Initialiser la collection si elle est nulle
+        if (utilisateur.getCartesBancaires() == null) {
+            utilisateur.setCartesBancaires(new java.util.ArrayList<>());
+        } else {
+            // S'assurer que la référence à l'utilisateur est définie pour chaque carte
+            utilisateur.getCartesBancaires().forEach(carte -> carte.setUtilisateur(utilisateur));
+        }
+        
         try {
             Utilisateur savedUser = utilisateurService.save(utilisateur);
             logger.info("Utilisateur créé avec succès, ID: {}", savedUser.getId());
@@ -126,6 +135,18 @@ public class UtilisateurApiController {
         if (!utilisateurService.existsById(id)) {
             logger.warn("Aucun utilisateur trouvé avec l'ID: {}", id);
             return ResponseEntity.notFound().build();
+        }
+        
+        // Initialiser la collection si elle est nulle
+        if (utilisateur.getCartesBancaires() == null) {
+            utilisateur.setCartesBancaires(new java.util.ArrayList<>());
+        } else {
+            // S'assurer que la référence à l'utilisateur est définie pour chaque carte
+            utilisateur.getCartesBancaires().forEach(carte -> {
+                if (carte.getUtilisateur() == null) {
+                    carte.setUtilisateur(utilisateur);
+                }
+            });
         }
         
         try {

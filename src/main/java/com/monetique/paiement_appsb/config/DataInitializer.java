@@ -8,7 +8,6 @@ import com.monetique.paiement_appsb.repository.UtilisateurRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,8 +17,7 @@ public class DataInitializer {
 
     @Bean
     public CommandLineRunner initializeData(UtilisateurRepository utilisateurRepository, 
-                                          RoleRepository roleRepository,
-                                          PasswordEncoder passwordEncoder) {
+                                          RoleRepository roleRepository) {
         return args -> {
             // Création des rôles s'ils n'existent pas
             Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
@@ -35,17 +33,15 @@ public class DataInitializer {
             // Création d'un utilisateur admin par défaut s'il n'existe pas
             if (utilisateurRepository.count() == 0) {
                 Utilisateur admin = new Utilisateur();
-                admin.setUsername("admin");
                 admin.setNom("Administrateur");
                 admin.setEmail("admin@example.com");
-                admin.setPassword(passwordEncoder.encode("admin123"));
                 
                 Set<Role> roles = new HashSet<>();
                 roles.add(adminRole);
                 admin.setRoles(roles);
                 
-                admin.setActive(true);
                 utilisateurRepository.save(admin);
+                System.out.println("Admin user created with email: admin@example.com");
             }
         };
     }

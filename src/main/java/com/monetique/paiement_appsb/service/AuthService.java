@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,10 +22,7 @@ public class AuthService {
 
     private final UtilisateurRepository utilisateurRepository;
     private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-
-
 
     @Transactional
     public void registerNewUser(RegisterRequest registerRequest) {
@@ -34,17 +30,6 @@ public class AuthService {
             System.out.println("\n=== [AUTH SERVICE] Début de l'enregistrement d'un nouvel utilisateur ===");
             System.out.println("Vérification de l'existence de l'utilisateur...");
             
-            // Vérifier si l'utilisateur existe déjà par nom d'utilisateur
-            boolean usernameExists = utilisateurRepository.existsByUsername(registerRequest.getUsername());
-            System.out.println("Vérification de l'utilisateur par nom d'utilisateur: " + 
-                             (usernameExists ? "EXISTE DÉJÀ" : "NON TROUVÉ"));
-            
-            if (usernameExists) {
-                String errorMsg = "Ce nom d'utilisateur est déjà utilisé";
-                System.out.println("Erreur : " + errorMsg);
-                throw new RuntimeException(errorMsg);
-            }
-
             // Vérifier si l'email existe déjà
             boolean emailExists = utilisateurRepository.existsByEmail(registerRequest.getEmail());
             System.out.println("Vérification de l'email: " + 
@@ -81,22 +66,13 @@ public class AuthService {
             // Créer un nouvel utilisateur
             System.out.println("Création du nouvel utilisateur...");
             Utilisateur user = new Utilisateur();
-            user.setUsername(registerRequest.getUsername().trim());
-            user.setNom(registerRequest.getFullName().trim()); // Mappage de fullName vers nom
+            user.setNom(registerRequest.getFullName().trim());
             user.setEmail(registerRequest.getEmail().trim());
             
             System.out.println("Détails de l'utilisateur à enregistrer :");
-            System.out.println("- Username: " + user.getUsername());
-            System.out.println("- Nom: " + user.getNom());
+            System.out.println("- Nom complet: " + user.getNom());
             System.out.println("- Email: " + user.getEmail());
             
-            String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
-            System.out.println("Mot de passe encodé avec succès");
-            user.setPassword(encodedPassword);
-            user.setActive(true);
-            
-            System.out.println("Utilisateur créé: " + user);
-
             // Attribuer le rôle USER
             System.out.println("Attribution du rôle à l'utilisateur...");
             Set<Role> roles = new HashSet<>();
@@ -108,7 +84,7 @@ public class AuthService {
             Utilisateur savedUser = utilisateurRepository.save(user);
             
             System.out.println("Utilisateur enregistré avec succès. ID: " + savedUser.getId() + 
-                             ", Username: " + savedUser.getUsername());
+                             ", Email: " + savedUser.getEmail());
             System.out.println("Rôles de l'utilisateur: " + savedUser.getRoles());
             
         } catch (Exception e) {
@@ -119,15 +95,16 @@ public class AuthService {
     }
     
     /**
-     * Authentifie un utilisateur avec son nom d'utilisateur et son mot de passe
-     * @param username Le nom d'utilisateur
-     * @param password Le mot de passe
+     * Authentifie un utilisateur avec son email
+     * @param email L'email de l'utilisateur
      * @return L'objet Authentication si l'authentification réussit
-     * @throws BadCredentialsException Si les identifiants sont invalides
      */
-    public Authentication authenticate(String username, String password) {
+    public Authentication authenticate(String email) {
+        // Dans une application réelle, vous devriez vérifier le mot de passe ici
+        // Pour cette version simplifiée, nous supposons que l'utilisateur est authentifié
+        // s'il existe dans la base de données
         return authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(username, password)
+            new UsernamePasswordAuthenticationToken(email, "")
         );
     }
 }

@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
+<head>
+    <title layout:title-pattern="$CONTENT_TITLE | Admin">Gestion des Utilisateurs</title>
+    <link rel="stylesheet" th:href="@{/css/sweetalert2.min.css}">
+    <link rel="stylesheet" th:href="@{/css/dataTables.bootstrap5.min.css}">
+    <link rel="stylesheet" th:href="@{/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/css/admin-users.css}">
+    <style>
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .status-active {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status-inactive {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+            pointer-events: auto !important;
+            z-index: 1;
+            position: relative;
+        }
+        
+        .action-buttons .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            border-radius: 4px;
+            position: relative;
+            z-index: 2;
+            pointer-events: auto;
+        }
+        .btn-add-user {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .table-responsive {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+        .table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+        .badge-role {
+            font-size: 0.7em;
+            margin: 2px;
+        }
+        .action-buttons .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        .action-buttons .btn:active {
+            transform: translateY(0);
+            box-shadow: none;
+            pointer-events: auto;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid px-0">
+        <div th:fragment="content">
+            <!-- En-tête avec titre et bouton d'ajout -->
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
+                <h1 class="h2">
+                    <i class="fas fa-users-cog me-2"></i>Gestion des Utilisateurs
+                </h1>
+                <a th:href="@{/admin/users/new}" class="btn btn-primary btn-add-user">
+                    <i class="fas fa-user-plus"></i> Nouvel Utilisateur
+                </a>
+            </div>
+
+            <!-- Messages de notification -->
+            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            
+            <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <span th:text="${errorMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <!-- Filtres et Recherche -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="fas fa-filter me-2"></i>Filtres de recherche</h5>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/admin/users}" method="get" class="row g-3">
+                        <div class="col-md-6">
+                            <label for="search" class="form-label">Recherche</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                <input type="text" class="form-control" id="search" name="search" 
+                                       th:value="${search}" placeholder="Nom ou email...">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="status" class="form-label">Statut</label>
+                            <select class="form-select" id="status" name="active">
+                                <option value="">Tous les statuts</option>
+                                <option value="true" th:selected="${param.active == 'true'}">Actif</option>
+                                <option value="false" th:selected="${param.active == 'false'}">Inactif</option>
+                            </select>
+                        </div>
+                        <div class="col-12 mt-4">
+                            <button type="submit" class="btn btn-primary me-2">
+                                <i class="fas fa-search me-1"></i> Appliquer les filtres
+                            </button>
+                            <a th:href="@{/admin/users}" class="btn btn-outline-secondary">
+                                <i class="fas fa-undo me-1"></i> Réinitialiser
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tableau des utilisateurs -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-table me-2"></i>Liste des Utilisateurs</h5>
+                    <div class="text-muted small">
+                        Affichage de <span th:text="${users.size()}">0</span> sur <span th:text="${totalItems}">0</span> utilisateurs
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0" id="usersTable" th:data-order="'[[0, \'desc\']]'">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nom</th>
+                                    <th>Email</th>
+                                    <th>Rôles</th>
+                                    <th>Statut</th>
+                                    <th>Dernière connexion</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="user : ${users}" class="table-light" th:classappend="${user.active} ? 'table-success' : ''">
+                                    <td th:text="${user.id}"></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-user-circle me-2 text-primary"></i>
+                                            <span th:text="${user.nom}"></span>
+                                        </div>
+                                    </td>
+                                    <td th:text="${user.email}"></td>
+                                    <td>
+                                        <div class="d-flex flex-wrap gap-1">
+                                            <span th:each="role : ${user.roles}" 
+                                                  class="badge bg-primary badge-role"
+                                                  th:text="${role.name}">
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span th:class="${user.active} ? 'status-badge status-active' : 'status-badge status-inactive'">
+                                            <i th:class="${user.active} ? 'fas fa-check-circle' : 'fas fa-times-circle'" class="me-1"></i>
+                                            <span th:text="${user.active} ? 'Actif' : 'Inactif'"></span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span th:if="${user.lastLogin != null}" th:text="${#temporals.format(user.lastLogin, 'dd/MM/yyyy HH:mm')}"></span>
+                                        <span th:unless="${user.lastLogin != null}" class="text-muted">Jamais connecté</span>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="action-buttons">
+                                            <a th:href="@{'/admin/users/edit/' + ${user.id}}" 
+                                               class="btn btn-sm btn-outline-primary"
+                                               data-bs-toggle="tooltip" 
+                                               title="Modifier">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <button type="button" 
+                                                    class="btn btn-sm btn-outline-danger delete-user"
+                                                    th:data-id="${user.id}"
+                                                    data-bs-toggle="tooltip" 
+                                                    title="Supprimer">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                            <button type="button" 
+                                                    class="btn btn-sm btn-outline-secondary toggle-active"
+                                                    th:data-id="${user.id}"
+                                                    th:data-active="${user.active}"
+                                                    data-bs-toggle="tooltip"
+                                                    th:title="${user.active} ? 'Désactiver' : 'Activer'">
+                                                <i th:class="${user.active} ? 'fas fa-toggle-on' : 'fas fa-toggle-off'"></i>
+                                            </button>
+                                            <button type="button" 
+                                                    class="btn btn-sm btn-outline-warning reset-password"
+                                                    th:data-id="${user.id}"
+                                                    data-bs-toggle="tooltip" 
+                                                    title="Réinitialiser le mot de passe">
+                                                <i class="fas fa-key"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr th:if="${users.empty}">
+                                    <td colspan="7" class="text-center py-4">
+                                        <div class="text-muted">
+                                            <i class="fas fa-inbox fa-3x mb-3"></i>
+                                            <p class="mb-0">Aucun utilisateur trouvé</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div th:if="${totalPages > 1}" class="d-flex justify-content-between align-items-center p-3 bg-light">
+                        <div class="text-muted small">
+                            Page <span th:text="${currentPage + 1}">1</span> sur <span th:text="${totalPages}">1</span>
+                            - <span th:text="${users.size()}">0</span> sur <span th:text="${totalItems}">0</span> utilisateurs
+                        </div>
+                        <nav>
+                            <ul class="pagination mb-0">
+                                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                                    <a class="page-link" th:href="@{${'?page=0' + (search ? '&search=' + search : '')}}" aria-label="Première">
+                                        <i class="fas fa-angle-double-left"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                                    <a class="page-link" th:href="@{'?page=' + (currentPage - 1) + (search ? '&search=' + search : '')}" aria-label="Précédent">
+                                        <i class="fas fa-angle-left"></i>
+                                    </a>
+                                </li>
+                                
+                                <li th:each="page : ${#numbers.sequence(0, totalPages - 1)}" 
+                                    th:classappend="${page == currentPage} ? 'active'"
+                                    class="page-item">
+                                    <a class="page-link" 
+                                       th:href="@{'?page=' + page + (search ? '&search=' + search : '')}"
+                                       th:text="${page + 1}">1</a>
+                                </li>
+                                
+                                <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                                    <a class="page-link" th:href="@{'?page=' + (currentPage + 1) + (search ? '&search=' + search : '')}" aria-label="Suivant">
+                                        <i class="fas fa-angle-right"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                                    <a class="page-link" th:href="@{'?page=' + (totalPages - 1) + (search ? '&search=' + search : '')}" aria-label="Dernière">
+                                        <i class="fas fa-angle-double-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts spécifiques à la page -->
+    <div th:fragment="scripts">
+    <!-- jQuery -->
+    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
+    
+    <!-- Bootstrap Bundle with Popper -->
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    
+    <!-- DataTables -->
+    <script th:src="@{/js/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/js/dataTables.bootstrap5.min.js}"></script>
+    
+    <!-- SweetAlert2 -->
+    <script th:src="@{/js/sweetalert2.all.min.js}"></script>
+    
+    <!-- Script personnalisé pour la gestion des utilisateurs -->
+    <script th:src="@{/js/admin-users.js}"></script>
+    
+    <script th:inline="javascript">
+    $(document).ready(function() {
+        // Récupération du token CSRF pour les requêtes AJAX
+        const csrfToken = $("meta[name='_csrf']").attr("content");
+        const csrfHeader = $("meta[name='_csrf_header']").attr("content");
+        
+        // Configuration des requêtes AJAX pour inclure le token CSRF
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            }
+        });
+        
+        console.log('Script de la page chargé');
+        
+        // Fonction utilitaire pour afficher une notification
+        function showAlert(icon, title, text) {
+            return Swal.fire({
+                icon: icon,
+                title: title,
+                text: text,
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        }
+
+        // Gestion de la suppression d'un utilisateur
+        function handleDeleteUser(button) {
+            const userId = $(button).data('id');
+            const username = $(button).data('username');
+            
+            Swal.fire({
+                title: 'Confirmer la suppression',
+                html: `
+                    <div class="text-center">
+                        <i class="fas fa-exclamation-triangle text-warning fa-4x mb-3"></i>
+                        <h5>Êtes-vous sûr de vouloir supprimer l'utilisateur <strong>${username}</strong> ?</h5>
+                        <p class="text-muted">Cette action est irréversible.</p>
+                    </div>
+                `,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '<i class="fas fa-trash me-1"></i> Oui, supprimer',
+                cancelButtonText: '<i class="fas fa-times me-1"></i> Annuler',
+                reverseButtons: true,
+                customClass: {
+                    confirmButton: 'btn btn-danger me-2',
+                    cancelButton: 'btn btn-secondary ms-2'
+                },
+                buttonsStyling: false,
+                showLoaderOnConfirm: true,
+                preConfirm: async () => {
+                    try {
+                        const response = await fetch(`/admin/users/${userId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                [csrfHeader]: csrfToken
+                            },
+                            credentials: 'same-origin'
+                        });
+                        
+                        if (!response.ok) {
+                            throw new Error('Erreur lors de la suppression');
+                        }
+                        
+                        return await response.json();
+                    } catch (error) {
+                        Swal.showValidationMessage(`Erreur: ${error.message}`);
+                        return false;
+                    }
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    // Supprimer la ligne du tableau
+                    const row = $(button).closest('tr');
+                    $('#usersTable').DataTable().row(row).remove().draw();
+                    
+                    showAlert('success', 'Succès', 'Utilisateur supprimé avec succès');
+                }
+            });
+        }
+        
+        // Gestion de l'activation/désactivation d'un utilisateur
+        function handleToggleActive(button) {
+            const userId = $(button).data('id');
+            const isActive = $(button).data('active') === true;
+            const username = $(button).data('username');
+            
+            Swal.fire({
+                title: isActive ? 'Désactiver l\'utilisateur' : 'Activer l\'utilisateur',
+                html: `
+                    <div class="text-center">
+                        <i class="fas ${isActive ? 'fa-user-slash text-warning' : 'fa-user-check text-success'} fa-4x mb-3"></i>
+                        <p>Êtes-vous sûr de vouloir ${isActive ? 'désactiver' : 'activer'} l'utilisateur <strong>${username}</strong> ?</p>
+                    </div>
+                `,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: isActive ? '<i class="fas fa-user-slash me-1"></i> Désactiver' : '<i class="fas fa-user-check me-1"></i> Activer',
+                cancelButtonText: '<i class="fas fa-times me-1"></i> Annuler',
+                reverseButtons: true,
+                customClass: {
+                    confirmButton: `btn ${isActive ? 'btn-warning' : 'btn-success'} me-2`,
+                    cancelButton: 'btn btn-secondary ms-2'
+                },
+                buttonsStyling: false,
+                showLoaderOnConfirm: true,
+                preConfirm: async () => {
+                    try {
+                        const response = await fetch(`/admin/users/toggle-active/${userId}`, {
+                            method: 'POST',
+                            headers: {
+                                [csrfHeader]: csrfToken
+                            },
+                            credentials: 'same-origin'
+                        });
+                        
+                        if (!response.ok) {
+                            throw new Error('Erreur lors de la mise à jour du statut');
+                        }
+                        
+                        return await response.json();
+                    } catch (error) {
+                        Swal.showValidationMessage(`Erreur: ${error.message}`);
+                        return false;
+                    }
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const newStatus = result.value.active;
+                    const row = $(button).closest('tr');
+                    
+                    // Mettre à jour l'interface utilisateur
+                    if (newStatus) {
+                        row.removeClass('table-danger').addClass('table-success');
+                        $(button).find('i').removeClass('fa-toggle-off').addClass('fa-toggle-on');
+                        $(button).attr('title', 'Désactiver').tooltip('dispose').tooltip();
+                        row.find('.status-badge')
+                            .removeClass('status-inactive')
+                            .addClass('status-active')
+                            .html('<i class="fas fa-check-circle me-1"></i>Actif');
+                    } else {
+                        row.removeClass('table-success').addClass('table-danger');
+                        $(button).find('i').removeClass('fa-toggle-on').addClass('fa-toggle-off');
+                        $(button).attr('title', 'Activer').tooltip('dispose').tooltip();
+                        row.find('.status-badge')
+                            .removeClass('status-active')
+                            .addClass('status-inactive')
+                            .html('<i class="fas fa-times-circle me-1"></i>Inactif');
+                    }
+                    
+                    // Mettre à jour l'attribut data-active
+                    $(button).data('active', newStatus);
+                    
+                    showAlert('success', 'Succès', `Utilisateur ${newStatus ? 'activé' : 'désactivé'} avec succès`);
+                }
+            });
+        
+
+        }
+        
+        // Fonction pour initialiser les gestionnaires d'événements
+        function initializeEventHandlers() {
+            console.log('Initialisation des gestionnaires d\'événements');
+            
+            // Gestion des boutons de suppression
+            $(document).off('click', '.delete-user').on('click', '.delete-user', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                handleDeleteUser(this);
+            });
+            
+            // Gestion des boutons d'activation/désactivation
+            $(document).off('click', '.toggle-active').on('click', '.toggle-active', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                handleToggleActive(this);
+            });
+            
+            // Gestion des boutons de réinitialisation de mot de passe
+            $(document).off('click', '.reset-password').on('click', '.reset-password', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                handleResetPassword(this);
+            });
+            
+            // Initialisation des tooltips
+            $('[data-bs-toggle="tooltip"]').tooltip('dispose').tooltip();
+        }
+        
+        // Fonction pour gérer la réinitialisation du mot de passe
+        function handleResetPassword(button) {
+            const userId = $(button).data('id');
+            const username = $(button).data('username');
+            
+            Swal.fire({
+                title: 'Réinitialiser le mot de passe',
+                html: `
+                    <div class="text-center">
+                        <i class="fas fa-key text-primary fa-4x mb-3"></i>
+                        <p>Réinitialiser le mot de passe pour <strong>${username}</strong> ?</p>
+                        <p class="text-muted">Un nouveau mot de passe sera généré et affiché.</p>
+                    </div>
+                `,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Réinitialiser',
+                cancelButtonText: 'Annuler',
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: 'btn btn-primary me-2',
+                    cancelButton: 'btn btn-secondary'
+                },
+                showLoaderOnConfirm: true,
+                preConfirm: async () => {
+                    try {
+                        const response = await fetch(`/admin/users/reset-password/${userId}`, {
+                            method: 'POST',
+                            headers: {
+                                [csrfHeader]: csrfToken
+                            },
+                            credentials: 'same-origin'
+                        });
+                        
+                        if (!response.ok) {
+                            throw new Error('Erreur lors de la réinitialisation du mot de passe');
+                        }
+                        
+                        return await response.json();
+                    } catch (error) {
+                        Swal.showValidationMessage(`Erreur: ${error.message}`);
+                    }
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const newPassword = result.value.newPassword;
+                    
+                    Swal.fire({
+                        title: 'Mot de passe réinitialisé',
+                        html: `
+                            <div class="text-center">
+                                <i class="fas fa-check-circle text-success fa-4x mb-3"></i>
+                                <p>Le mot de passe a été réinitialisé avec succès pour <strong>${username}</strong>.</p>
+                                <div class="alert alert-info text-start">
+                                    <p class="mb-1"><strong>Nouveau mot de passe :</strong></p>
+                                    <div class="input-group">
+                                        <input type="text" id="new-password" class="form-control" value="${newPassword}" readonly>
+                                        <button class="btn btn-outline-secondary copy-password" type="button" data-bs-toggle="tooltip" title="Copier">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                    <p class="small text-muted mt-2 mb-0">Ce message ne s'affichera plus après fermeture.</p>
+                                </div>
+                            </div>
+                        `,
+                        confirmButtonText: 'Fermer',
+                        buttonsStyling: false,
+                        customClass: {
+                            confirmButton: 'btn btn-primary'
+                        },
+                        willClose: () => {
+                            // Supprimer le mot de passe de la mémoire
+                            newPassword = null;
+                        }
+                    });
+                    
+                    // Initialiser le bouton de copie
+                    const copyButton = document.querySelector('.copy-password');
+                    if (copyButton) {
+                        copyButton.addEventListener('click', function() {
+                            const passwordInput = document.getElementById('new-password');
+                            passwordInput.select();
+                            document.execCommand('copy');
+                            
+                            // Afficher un message de confirmation
+                            const tooltip = new bootstrap.Tooltip(copyButton, {
+                                title: 'Copié !',
+                                trigger: 'manual'
+                            });
+                            
+                            tooltip.show();
+                            
+                            // Cacher le tooltip après 2 secondes
+                            setTimeout(() => {
+                                tooltip.hide();
+                            }, 2000);
+                        });
+                    }
+                }
+            });
+        }
+        
+        // Initialisation de DataTables
+        const table = $('#usersTable').DataTable({
+                order: [[0, 'desc']],
+                pageLength: 25,
+                lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Tous']],
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/fr-FR.json',
+                    search: '_INPUT_',
+                    searchPlaceholder: 'Rechercher...',
+                    lengthMenu: 'Afficher _MENU_ entrées',
+                    info: 'Affichage de _START_ à _END_ sur _TOTAL_ entrées',
+                    infoEmpty: 'Aucune entrée à afficher',
+                    infoFiltered: '(filtré à partir de _MAX_ entrées totales)',
+                    zeroRecords: 'Aucun enregistrement trouvé',
+                    paginate: {
+                        first: 'Premier',
+                        last: 'Dernier',
+                        next: 'Suivant',
+                        previous: 'Précédent'
+                    }
+                },
+                responsive: true,
+                stateSave: true,
+                dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                     "<'row'<'col-sm-12'tr>>" +
+                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                columnDefs: [
+                    { orderable: false, targets: -1 }, // Désactiver le tri sur la colonne des actions
+                    { targets: 0, type: 'num' } // Spécifier que la première colonne est de type numérique
+                ],
+                drawCallback: function() {
+                    // Réinitialiser les gestionnaires d'événements et les tooltips après chaque redessinage
+                    initializeEventHandlers();
+                }
+            });
+            
+        // Initialisation des gestionnaires d'événements
+        initializeEventHandlers();
+    });
+    </script>
+    <!-- Style pour les boutons d'action -->
+    <style>
+        /* S'assurer que les boutons sont cliquables et visibles */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            pointer-events: auto !important;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .action-buttons .btn {
+            position: relative;
+            z-index: 10;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        /* S'assurer que les boutons sont bien visibles et cliquables */
+        .action-buttons .btn i {
+            pointer-events: none; /* Permettre les clics à travers l'icône */
+        }
+        
+        /* Style pour les boutons dans les lignes de la table */
+        #usersTable tbody tr td:last-child {
+            position: relative;
+            z-index: 5;
+        }
+        
+        /* Désactiver les effets de survol qui pourraient interférer */
+        .table-hover > tbody > tr:hover > * {
+            --bs-table-accent-bg: transparent;
+        }
+        
+        /* Style pour les statuts */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            margin: 0 2px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-inactive {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .btn-edit {
+            color: #0d6efd;
+        }
+        
+        .btn-delete {
+            color: #dc3545;
+        }
+    </style>
+    </div>
+</div>
+</body>
+</html>
