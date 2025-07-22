@@ -200,30 +200,37 @@
                                     </td>
                                     <td class="text-end">
                                         <div class="action-buttons">
-                                            <a th:href="@{'/admin/users/edit/' + ${user.id}}" 
-                                               class="btn btn-sm btn-outline-primary"
+                                            <a th:href="@{/admin/users/edit/{id}(id=${user.id})}" 
+                                               class="btn btn-sm btn-outline-primary" 
                                                data-bs-toggle="tooltip" 
-                                               title="Modifier">
+                                               title="Modifier"
+                                               data-bs-placement="top">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             <button type="button" 
-                                                    class="btn btn-sm btn-outline-danger delete-user"
-                                                    th:data-id="${user.id}"
+                                                    class="btn btn-sm btn-outline-danger delete-user" 
+                                                    th:data-id="${user.id}" 
+                                                    th:data-username="${user.nom}" 
                                                     data-bs-toggle="tooltip" 
-                                                    title="Supprimer">
+                                                    title="Supprimer"
+                                                    data-bs-placement="top">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                             <button type="button" 
-                                                    class="btn btn-sm btn-outline-secondary toggle-active"
-                                                    th:data-id="${user.id}"
-                                                    th:data-active="${user.active}"
-                                                    data-bs-toggle="tooltip"
-                                                    th:title="${user.active} ? 'Désactiver' : 'Activer'">
+                                                    class="btn btn-sm toggle-active" 
+                                                    th:class="${user.active} ? 'btn-outline-success' : 'btn-outline-secondary'"
+                                                    th:data-id="${user.id}" 
+                                                    th:data-username="${user.nom}" 
+                                                    th:data-active="${user.active}" 
+                                                    data-bs-toggle="tooltip" 
+                                                    th:title="${user.active} ? 'Désactiver' : 'Activer'"
+                                                    data-bs-placement="top">
                                                 <i th:class="${user.active} ? 'fas fa-toggle-on' : 'fas fa-toggle-off'"></i>
                                             </button>
                                             <button type="button" 
-                                                    class="btn btn-sm btn-outline-warning reset-password"
-                                                    th:data-id="${user.id}"
+                                                    class="btn btn-sm btn-outline-info reset-password" 
+                                                    th:data-id="${user.id}" 
+                                                    th:data-username="${user.nom}" 
                                                     data-bs-toggle="tooltip" 
                                                     title="Réinitialiser le mot de passe">
                                                 <i class="fas fa-key"></i>
@@ -290,215 +297,251 @@
 
     <!-- Scripts spécifiques à la page -->
     <div th:fragment="scripts">
-    <!-- jQuery -->
-    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
-    
-    <!-- Bootstrap Bundle with Popper -->
-    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-    
-    <!-- DataTables -->
-    <script th:src="@{/js/jquery.dataTables.min.js}"></script>
-    <script th:src="@{/js/dataTables.bootstrap5.min.js}"></script>
-    
-    <!-- SweetAlert2 -->
-    <script th:src="@{/js/sweetalert2.all.min.js}"></script>
-    
-    <!-- Script personnalisé pour la gestion des utilisateurs -->
-    <script th:src="@{/js/admin-users.js}"></script>
-    
-    <script th:inline="javascript">
-    $(document).ready(function() {
-        // Récupération du token CSRF pour les requêtes AJAX
-        const csrfToken = $("meta[name='_csrf']").attr("content");
-        const csrfHeader = $("meta[name='_csrf_header']").attr("content");
+        <!-- jQuery -->
+        <script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+        <!-- DataTables -->
+        <script th:src="@{/webjars/datatables/1.10.24/js/jquery.dataTables.min.js}"></script>
+        <script th:src="@{/webjars/datatables/1.10.24/js/dataTables.bootstrap5.min.js}"></script>
+        <!-- SweetAlert2 -->
+        <script th:src="@{/js/sweetalert2.all.min.js}"></script>
         
-        // Configuration des requêtes AJAX pour inclure le token CSRF
-        $.ajaxSetup({
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader(csrfHeader, csrfToken);
+        <script>
+        // Récupérer le jeton CSRF
+        const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+        const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+        // Configuration globale pour les requêtes AJAX
+        document.addEventListener('DOMContentLoaded', function() {
+            const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
+            const csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+            
+            // Configuration AJAX globale pour inclure le token CSRF
+            if (window.jQuery) {
+                $.ajaxSetup({
+                    beforeSend: function(xhr) {
+                        if (csrfHeader && csrfToken) {
+                            xhr.setRequestHeader(csrfHeader, csrfToken);
+                        }
+                    }
+                });
             }
+            
+            // Fonction utilitaire pour afficher des alertes
+            window.showAlert = function(icon, title, text) {
+                return Swal.fire({
+                    icon: icon,
+                    title: title,
+                    text: text,
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            };
+            
+            // Fonction utilitaire pour copier du texte dans le presse-papier
+            window.copyToClipboard = function(text) {
+                return new Promise((resolve, reject) => {
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(text).then(() => {
+                            resolve();
+                        }).catch(err => {
+                            console.error('Erreur lors de la copie :', err);
+                            reject(err);
+                        });
+                    } else {
+                        // Fallback pour les navigateurs plus anciens
+                        const textarea = document.createElement('textarea');
+                        textarea.value = text;
+                        textarea.style.position = 'fixed';
+                        document.body.appendChild(textarea);
+                        textarea.select();
+                        
+                        try {
+                            document.execCommand('copy');
+                            resolve();
+                        } catch (err) {
+                            console.error('Erreur lors de la copie :', err);
+                            reject(err);
+                        } finally {
+                            document.body.removeChild(textarea);
+                        }
+                    }
+                });
+            };
+            
         });
         
-        console.log('Script de la page chargé');
-        
-        // Fonction utilitaire pour afficher une notification
+        // Fonction utilitaire pour afficher des alertes
         function showAlert(icon, title, text) {
-            return Swal.fire({
+            Swal.fire({
                 icon: icon,
                 title: title,
                 text: text,
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true
+                confirmButtonText: 'OK',
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: 'btn btn-primary'
+                }
             });
         }
-
-        // Gestion de la suppression d'un utilisateur
+        
+        // Fonction utilitaire pour copier du texte dans le presse-papier
+        function copyToClipboard(text) {
+            return new Promise((resolve, reject) => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                document.body.appendChild(textarea);
+                textarea.select();
+                
+                try {
+                    document.execCommand('copy');
+                    resolve();
+                } catch (err) {
+                    console.error('Erreur lors de la copie :', err);
+                    reject(err);
+                } finally {
+                    document.body.removeChild(textarea);
+                }
+            });
+        }
+        
+        // Fonction utilitaire pour gérer la copie du mot de passe
+        function setupPasswordCopy() {
+            const copyButton = document.querySelector('.copy-password');
+            if (!copyButton) return;
+            
+            const copyHandler = function() {
+                const passwordInput = document.getElementById('new-password');
+                if (!passwordInput) return;
+                
+                passwordInput.select();
+                document.execCommand('copy');
+                
+                // Afficher un message de confirmation
+                const tooltip = new bootstrap.Tooltip(copyButton, {
+                    title: 'Copié !',
+                    trigger: 'manual',
+                    placement: 'top'
+                });
+                
+                tooltip.show();
+                
+                // Masquer le tooltip après 2 secondes et le détruire
+                setTimeout(() => {
+                    tooltip.hide();
+                    // Détruire le tooltip après l'animation pour éviter les fuites de mémoire
+                    setTimeout(() => tooltip.dispose(), 150);
+                }, 2000);
+            };
+            
+            copyButton.addEventListener('click', copyHandler);
+            
+            // Retourner une fonction de nettoyage
+            return () => {
+                copyButton.removeEventListener('click', copyHandler);
+            };
+        }
+        
+        // Fonction pour gérer la suppression d'un utilisateur
         function handleDeleteUser(button) {
             const userId = $(button).data('id');
             const username = $(button).data('username');
             
             Swal.fire({
                 title: 'Confirmer la suppression',
-                html: `
-                    <div class="text-center">
-                        <i class="fas fa-exclamation-triangle text-warning fa-4x mb-3"></i>
-                        <h5>Êtes-vous sûr de vouloir supprimer l'utilisateur <strong>${username}</strong> ?</h5>
-                        <p class="text-muted">Cette action est irréversible.</p>
-                    </div>
-                `,
+                html: `Êtes-vous sûr de vouloir supprimer l'utilisateur <strong>${username}</strong> ?`,
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: '<i class="fas fa-trash me-1"></i> Oui, supprimer',
-                cancelButtonText: '<i class="fas fa-times me-1"></i> Annuler',
-                reverseButtons: true,
+                confirmButtonText: 'Oui, supprimer',
+                cancelButtonText: 'Annuler',
+                buttonsStyling: false,
                 customClass: {
                     confirmButton: 'btn btn-danger me-2',
-                    cancelButton: 'btn btn-secondary ms-2'
+                    cancelButton: 'btn btn-secondary'
                 },
-                buttonsStyling: false,
                 showLoaderOnConfirm: true,
                 preConfirm: async () => {
                     try {
                         const response = await fetch(`/admin/users/${userId}`, {
                             method: 'DELETE',
                             headers: {
-                                [csrfHeader]: csrfToken
+                                'X-CSRF-TOKEN': csrfToken
                             },
                             credentials: 'same-origin'
                         });
                         
                         if (!response.ok) {
-                            throw new Error('Erreur lors de la suppression');
+                            throw new Error('Erreur lors de la suppression de l\'utilisateur');
                         }
                         
                         return await response.json();
                     } catch (error) {
                         Swal.showValidationMessage(`Erreur: ${error.message}`);
-                        return false;
+                        return null;
                     }
                 },
                 allowOutsideClick: () => !Swal.isLoading()
             }).then((result) => {
-                if (result.isConfirmed && result.value) {
-                    // Supprimer la ligne du tableau
-                    const row = $(button).closest('tr');
-                    $('#usersTable').DataTable().row(row).remove().draw();
-                    
-                    showAlert('success', 'Succès', 'Utilisateur supprimé avec succès');
+                if (!result.isConfirmed) return;
+                
+                if (result.value && result.value.success) {
+                    // Recharger la page pour afficher les modifications
+                    window.location.reload();
                 }
             });
         }
         
-        // Gestion de l'activation/désactivation d'un utilisateur
+        // Fonction pour gérer l'activation/désactivation d'un utilisateur
         function handleToggleActive(button) {
             const userId = $(button).data('id');
-            const isActive = $(button).data('active') === true;
             const username = $(button).data('username');
+            const isActive = $(button).data('active') === true;
+            const action = isActive ? 'désactiver' : 'activer';
             
             Swal.fire({
-                title: isActive ? 'Désactiver l\'utilisateur' : 'Activer l\'utilisateur',
-                html: `
-                    <div class="text-center">
-                        <i class="fas ${isActive ? 'fa-user-slash text-warning' : 'fa-user-check text-success'} fa-4x mb-3"></i>
-                        <p>Êtes-vous sûr de vouloir ${isActive ? 'désactiver' : 'activer'} l'utilisateur <strong>${username}</strong> ?</p>
-                    </div>
-                `,
+                title: `Confirmer ${action}`,
+                html: `Êtes-vous sûr de vouloir ${action} l'utilisateur <strong>${username}</strong> ?`,
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonText: isActive ? '<i class="fas fa-user-slash me-1"></i> Désactiver' : '<i class="fas fa-user-check me-1"></i> Activer',
-                cancelButtonText: '<i class="fas fa-times me-1"></i> Annuler',
-                reverseButtons: true,
+                confirmButtonText: `Oui, ${action}`,
+                cancelButtonText: 'Annuler',
+                buttonsStyling: false,
                 customClass: {
                     confirmButton: `btn ${isActive ? 'btn-warning' : 'btn-success'} me-2`,
-                    cancelButton: 'btn btn-secondary ms-2'
+                    cancelButton: 'btn btn-secondary'
                 },
-                buttonsStyling: false,
                 showLoaderOnConfirm: true,
                 preConfirm: async () => {
                     try {
-                        const response = await fetch(`/admin/users/toggle-active/${userId}`, {
+                        const response = await fetch(`/admin/users/${userId}/toggle-active`, {
                             method: 'POST',
                             headers: {
-                                [csrfHeader]: csrfToken
+                                'X-CSRF-TOKEN': csrfToken
                             },
                             credentials: 'same-origin'
                         });
                         
                         if (!response.ok) {
-                            throw new Error('Erreur lors de la mise à jour du statut');
+                            throw new Error(`Erreur lors de l'${action} de l'utilisateur`);
                         }
                         
                         return await response.json();
                     } catch (error) {
                         Swal.showValidationMessage(`Erreur: ${error.message}`);
-                        return false;
+                        return null;
                     }
                 },
                 allowOutsideClick: () => !Swal.isLoading()
             }).then((result) => {
-                if (result.isConfirmed && result.value) {
-                    const newStatus = result.value.active;
-                    const row = $(button).closest('tr');
-                    
-                    // Mettre à jour l'interface utilisateur
-                    if (newStatus) {
-                        row.removeClass('table-danger').addClass('table-success');
-                        $(button).find('i').removeClass('fa-toggle-off').addClass('fa-toggle-on');
-                        $(button).attr('title', 'Désactiver').tooltip('dispose').tooltip();
-                        row.find('.status-badge')
-                            .removeClass('status-inactive')
-                            .addClass('status-active')
-                            .html('<i class="fas fa-check-circle me-1"></i>Actif');
-                    } else {
-                        row.removeClass('table-success').addClass('table-danger');
-                        $(button).find('i').removeClass('fa-toggle-on').addClass('fa-toggle-off');
-                        $(button).attr('title', 'Activer').tooltip('dispose').tooltip();
-                        row.find('.status-badge')
-                            .removeClass('status-active')
-                            .addClass('status-inactive')
-                            .html('<i class="fas fa-times-circle me-1"></i>Inactif');
-                    }
-                    
-                    // Mettre à jour l'attribut data-active
-                    $(button).data('active', newStatus);
-                    
-                    showAlert('success', 'Succès', `Utilisateur ${newStatus ? 'activé' : 'désactivé'} avec succès`);
+                if (!result.isConfirmed) return;
+                
+                if (result.value && result.value.success) {
+                    // Recharger la page pour afficher les modifications
+                    window.location.reload();
                 }
             });
-        
-
-        }
-        
-        // Fonction pour initialiser les gestionnaires d'événements
-        function initializeEventHandlers() {
-            console.log('Initialisation des gestionnaires d\'événements');
-            
-            // Gestion des boutons de suppression
-            $(document).off('click', '.delete-user').on('click', '.delete-user', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                handleDeleteUser(this);
-            });
-            
-            // Gestion des boutons d'activation/désactivation
-            $(document).off('click', '.toggle-active').on('click', '.toggle-active', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                handleToggleActive(this);
-            });
-            
-            // Gestion des boutons de réinitialisation de mot de passe
-            $(document).off('click', '.reset-password').on('click', '.reset-password', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                handleResetPassword(this);
-            });
-            
-            // Initialisation des tooltips
-            $('[data-bs-toggle="tooltip"]').tooltip('dispose').tooltip();
         }
         
         // Fonction pour gérer la réinitialisation du mot de passe
@@ -530,7 +573,7 @@
                         const response = await fetch(`/admin/users/reset-password/${userId}`, {
                             method: 'POST',
                             headers: {
-                                [csrfHeader]: csrfToken
+                                'X-CSRF-TOKEN': csrfToken
                             },
                             credentials: 'same-origin'
                         });
@@ -542,107 +585,446 @@
                         return await response.json();
                     } catch (error) {
                         Swal.showValidationMessage(`Erreur: ${error.message}`);
+                        return null;
+                    }
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (!result.isConfirmed || !result.value) return;
+                
+                const newPassword = result.value.newPassword;
+                
+                // Créer un élément temporaire pour le mot de passe
+                const tempPassword = document.createElement('div');
+                tempPassword.textContent = newPassword;
+                document.body.appendChild(tempPassword);
+                
+                // Afficher le mot de passe réinitialisé
+                Swal.fire({
+                    title: 'Mot de passe réinitialisé',
+                    html: `
+                        <div class="text-center">
+                            <i class="fas fa-check-circle text-success fa-4x mb-3"></i>
+                            <p>Le mot de passe a été réinitialisé avec succès pour <strong>${username}</strong>.</p>
+                            <div class="alert alert-info text-start">
+                                <p class="mb-1"><strong>Nouveau mot de passe :</strong></p>
+                                <div class="input-group">
+                                    <input type="text" id="new-password" class="form-control" value="${newPassword}" readonly>
+                                    <button class="btn btn-outline-secondary copy-password" type="button" data-bs-toggle="tooltip" title="Copier">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <p class="small text-muted mt-2 mb-0">Ce message ne s'affichera plus après fermeture.</p>
+                            </div>
+                        </div>
+                    `,
+                    confirmButtonText: 'Fermer',
+                    buttonsStyling: false,
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    willClose: () => {
+                        // Nettoyer les références
+                        if (tempPassword && tempPassword.parentNode) {
+                            tempPassword.textContent = '';
+                            document.body.removeChild(tempPassword);
+                        }
+                    }
+                });
+                
+                // Configurer le bouton de copie après l'affichage de l'alerte
+                setupPasswordCopy();
+            });
+        }
+        
+        // Fonction pour initialiser les gestionnaires d'événements
+        function initializeEventHandlers() {
+            console.log('Initialisation des gestionnaires d\'événements');
+            
+            // Gestion des boutons de suppression
+            $(document).off('click', '.delete-user').on('click', '.delete-user', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                handleDeleteUser(this);
+            });
+            
+            // Gestion des boutons d'activation/désactivation
+            $(document).off('click', '.toggle-active').on('click', '.toggle-active', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                handleToggleActive(this);
+            });
+            
+            // Gestion des boutons de réinitialisation de mot de passe
+            $(document).off('click', '.reset-password').on('click', '.reset-password', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                handleResetPassword(this);
+            });
+            
+            // Initialisation des tooltips
+            $('[data-bs-toggle="tooltip"]').tooltip('dispose').tooltip();
+        }
+        
+        // Initialisation au chargement du document
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialisation de DataTables
+            const table = $('#usersTable').DataTable({
+                order: [[0, 'desc']],
+                pageLength: 25,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/French.json'
+                },
+                responsive: true,
+                columnDefs: [
+                    { orderable: false, targets: -1 } // Désactiver le tri sur la colonne des actions
+                ],
+                drawCallback: function() {
+                    // Réinitialiser les tooltips après le redessin du tableau
+                    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                    tooltipTriggerList.forEach(tooltipTriggerEl => {
+                        new bootstrap.Tooltip(tooltipTriggerEl, {
+                            trigger: 'hover',
+                            boundary: 'window'
+                        });
+                    });
+                }
+            });
+            
+            // Initialisation des gestionnaires d'événements
+            initializeEventHandlers();
+            
+            // Désactiver le comportement de tri lors du clic sur les boutons d'action
+            $('#usersTable').on('click', '.action-buttons .btn, .btn-action', function(e) {
+                e.stopPropagation();
+            });
+        });
+        
+        // Fonction pour gérer la suppression d'un utilisateur
+        function handleDeleteUser(button) {
+            const userId = $(button).data('id');
+            const username = $(button).data('username');
+            
+            Swal.fire({
+                title: 'Supprimer l\'utilisateur',
+                html: `
+                    <div class="text-center">
+                        <i class="fas fa-trash-alt text-danger fa-4x mb-3"></i>
+                        <p>Supprimer l'utilisateur <strong>${username}</strong> ?</p>
+                        <p class="text-muted">Cette action est irréversible.</p>
+                    </div>
+                `,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Supprimer',
+                cancelButtonText: 'Annuler',
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: 'btn btn-danger me-2',
+                    cancelButton: 'btn btn-secondary'
+                },
+                showLoaderOnConfirm: true,
+                preConfirm: async () => {
+                    try {
+                        const response = await fetch(`/admin/users/delete/${userId}`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            credentials: 'same-origin'
+                        });
+                        
+                        if (!response.ok) {
+                            throw new Error('Erreur lors de la suppression de l\'utilisateur');
+                        }
+                        
+                        return await response.json();
+                    } catch (error) {
+                        Swal.showValidationMessage(`Erreur: ${error.message}`);
                     }
                 },
                 allowOutsideClick: () => !Swal.isLoading()
             }).then((result) => {
                 if (result.isConfirmed && result.value) {
-                    const newPassword = result.value.newPassword;
+                    const row = $(button).closest('tr');
+                    row.remove();
                     
-                    Swal.fire({
-                        title: 'Mot de passe réinitialisé',
-                        html: `
-                            <div class="text-center">
-                                <i class="fas fa-check-circle text-success fa-4x mb-3"></i>
-                                <p>Le mot de passe a été réinitialisé avec succès pour <strong>${username}</strong>.</p>
-                                <div class="alert alert-info text-start">
-                                    <p class="mb-1"><strong>Nouveau mot de passe :</strong></p>
-                                    <div class="input-group">
-                                        <input type="text" id="new-password" class="form-control" value="${newPassword}" readonly>
-                                        <button class="btn btn-outline-secondary copy-password" type="button" data-bs-toggle="tooltip" title="Copier">
-                                            <i class="fas fa-copy"></i>
-                                        </button>
-                                    </div>
-                                    <p class="small text-muted mt-2 mb-0">Ce message ne s'affichera plus après fermeture.</p>
-                                </div>
-                            </div>
-                        `,
-                        confirmButtonText: 'Fermer',
-                        buttonsStyling: false,
-                        customClass: {
-                            confirmButton: 'btn btn-primary'
-                        },
-                        willClose: () => {
-                            // Supprimer le mot de passe de la mémoire
-                            newPassword = null;
-                        }
-                    });
-                    
-                    // Initialiser le bouton de copie
-                    const copyButton = document.querySelector('.copy-password');
-                    if (copyButton) {
-                        copyButton.addEventListener('click', function() {
-                            const passwordInput = document.getElementById('new-password');
-                            passwordInput.select();
-                            document.execCommand('copy');
-                            
-                            // Afficher un message de confirmation
-                            const tooltip = new bootstrap.Tooltip(copyButton, {
-                                title: 'Copié !',
-                                trigger: 'manual'
-                            });
-                            
-                            tooltip.show();
-                            
-                            // Cacher le tooltip après 2 secondes
-                            setTimeout(() => {
-                                tooltip.hide();
-                            }, 2000);
-                        });
-                    }
+                    showAlert('success', 'Succès', `Utilisateur supprimé avec succès`);
                 }
             });
         }
         
-        // Initialisation de DataTables
-        const table = $('#usersTable').DataTable({
-                order: [[0, 'desc']],
-                pageLength: 25,
-                lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'Tous']],
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/fr-FR.json',
-                    search: '_INPUT_',
-                    searchPlaceholder: 'Rechercher...',
-                    lengthMenu: 'Afficher _MENU_ entrées',
-                    info: 'Affichage de _START_ à _END_ sur _TOTAL_ entrées',
-                    infoEmpty: 'Aucune entrée à afficher',
-                    infoFiltered: '(filtré à partir de _MAX_ entrées totales)',
-                    zeroRecords: 'Aucun enregistrement trouvé',
-                    paginate: {
-                        first: 'Premier',
-                        last: 'Dernier',
-                        next: 'Suivant',
-                        previous: 'Précédent'
+        // Fonction pour gérer l'activation/désactivation d'un utilisateur
+        function handleToggleActive(button) {
+            const userId = $(button).data('id');
+            const username = $(button).data('username');
+            const isActive = $(button).data('active');
+            
+            Swal.fire({
+                title: isActive ? 'Désactiver l\'utilisateur' : 'Activer l\'utilisateur',
+                html: `
+                    <div class="text-center">
+                        <i class="fas fa-toggle-${isActive ? 'on' : 'off'} text-${isActive ? 'success' : 'secondary'} fa-4x mb-3"></i>
+                        <p>${isActive ? 'Désactiver' : 'Activer'} l'utilisateur <strong>${username}</strong> ?</p>
+                        <p class="text-muted">Cette action modifiera le statut de l'utilisateur.</p>
+                    </div>
+                `,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: isActive ? 'Désactiver' : 'Activer',
+                cancelButtonText: 'Annuler',
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: isActive ? 'btn btn-warning me-2' : 'btn btn-success me-2',
+                    cancelButton: 'btn btn-secondary ms-2'
+                },
+                showLoaderOnConfirm: true,
+                preConfirm: async () => {
+                    try {
+                        const response = await fetch(`/admin/users/toggle-active/${userId}`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            credentials: 'same-origin'
+                        });
+                        
+                        if (!response.ok) {
+                            throw new Error('Erreur lors de la mise à jour du statut');
+                        }
+                        
+                        return await response.json();
+                    } catch (error) {
+                        Swal.showValidationMessage(`Erreur: ${error.message}`);
                     }
                 },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    const newStatus = result.value.active;
+                    const row = $(button).closest('tr');
+                    
+                    // Mettre à jour l'interface utilisateur
+                    if (newStatus) {
+                        row.removeClass('table-light').addClass('table-success');
+                        $(button).find('i').removeClass('fa-toggle-off').addClass('fa-toggle-on');
+                        $(button).attr('title', 'Désactiver');
+                        $(button).data('active', true);
+                        $(button).removeClass('btn-outline-secondary').addClass('btn-outline-success');
+                        
+                        const statusBadge = row.find('.status-badge');
+                        if (statusBadge.length) {
+                            statusBadge.removeClass('bg-secondary').addClass('bg-success')
+                                .html('<i class="fas fa-check-circle me-1"></i> Actif');
+                        }
+                    } else {
+                        row.removeClass('table-success').addClass('table-light');
+                        $(button).find('i').removeClass('fa-toggle-on').addClass('fa-toggle-off');
+                        $(button).attr('title', 'Activer');
+                        $(button).data('active', false);
+                        $(button).removeClass('btn-outline-success').addClass('btn-outline-secondary');
+                        
+                        const statusBadge = row.find('.status-badge');
+                        if (statusBadge.length) {
+                            statusBadge.removeClass('bg-success').addClass('bg-secondary')
+                                .html('<i class="fas fa-times-circle me-1"></i> Inactif');
+                        }
+                    }
+                    
+                    showAlert('success', 'Succès', `Utilisateur ${newStatus ? 'activé' : 'désactivé'} avec succès`);
+                }
+            });
+        }
+        
+        // Fonction utilitaire pour gérer la copie du mot de passe
+        function setupPasswordCopy() {
+            const copyButton = document.querySelector('.copy-password');
+            if (!copyButton) return;
+            
+            const copyHandler = function() {
+                const passwordInput = document.getElementById('new-password');
+                if (!passwordInput) return;
+                
+                passwordInput.select();
+                document.execCommand('copy');
+                
+                // Afficher un message de confirmation
+                const tooltip = new bootstrap.Tooltip(copyButton, {
+                    title: 'Copié !',
+                    trigger: 'manual',
+                    placement: 'top'
+                });
+                
+                tooltip.show();
+                
+                // Masquer le tooltip après 2 secondes et le détruire
+                setTimeout(() => {
+                    tooltip.hide();
+                    // Détruire le tooltip après l'animation pour éviter les fuites de mémoire
+                    setTimeout(() => tooltip.dispose(), 150);
+                }, 2000);
+            };
+            
+            copyButton.addEventListener('click', copyHandler);
+            
+            // Retourner une fonction de nettoyage
+            return () => {
+                copyButton.removeEventListener('click', copyHandler);
+            };
+        }
+        
+        // Fonction pour gérer la réinitialisation du mot de passe
+        function handleResetPassword(button) {
+            const userId = $(button).data('id');
+            const username = $(button).data('username');
+            
+            Swal.fire({
+                title: 'Réinitialiser le mot de passe',
+                html: `
+                    <div class="text-center">
+                        <i class="fas fa-key text-primary fa-4x mb-3"></i>
+                        <p>Réinitialiser le mot de passe pour <strong>${username}</strong> ?</p>
+                        <p class="text-muted">Un nouveau mot de passe sera généré et affiché.</p>
+                    </div>
+                `,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Réinitialiser',
+                cancelButtonText: 'Annuler',
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: 'btn btn-primary me-2',
+                    cancelButton: 'btn btn-secondary'
+                },
+                showLoaderOnConfirm: true,
+                preConfirm: async () => {
+                    try {
+                        const response = await fetch(`/admin/users/reset-password/${userId}`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken
+                            },
+                            credentials: 'same-origin'
+                        });
+                        
+                        if (!response.ok) {
+                            throw new Error('Erreur lors de la réinitialisation du mot de passe');
+                        }
+                        
+                        return await response.json();
+                    } catch (error) {
+                        Swal.showValidationMessage(`Erreur: ${error.message}`);
+                        return null;
+                    }
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (!result.isConfirmed || !result.value) return;
+                
+                const newPassword = result.value.newPassword;
+                
+                // Créer un élément temporaire pour le mot de passe
+                const tempPassword = document.createElement('div');
+                tempPassword.textContent = newPassword;
+                
+                // Afficher le mot de passe réinitialisé
+                Swal.fire({
+                    title: 'Mot de passe réinitialisé',
+                    html: `
+                        <div class="text-center">
+                            <i class="fas fa-check-circle text-success fa-4x mb-3"></i>
+                            <p>Le mot de passe a été réinitialisé avec succès pour <strong>${username}</strong>.</p>
+                            <div class="alert alert-info text-start">
+                                <p class="mb-1"><strong>Nouveau mot de passe :</strong></p>
+                                <div class="input-group">
+                                    <input type="text" id="new-password" class="form-control" value="${newPassword}" readonly>
+                                    <button class="btn btn-outline-secondary copy-password" type="button" data-bs-toggle="tooltip" title="Copier">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <p class="small text-muted mt-2 mb-0">Ce message ne s'affichera plus après fermeture.</p>
+                            </div>
+                        </div>
+                    `,
+                    confirmButtonText: 'Fermer',
+                    buttonsStyling: false,
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    willClose: () => {
+                        // Nettoyer les références
+                        tempPassword.textContent = '';
+                        document.body.removeChild(tempPassword);
+                    }
+                });
+                
+                // Configurer le bouton de copie après l'affichage de l'alerte
+                setupPasswordCopy();
+            });
+        }
+        
+        // Fonction pour initialiser les gestionnaires d'événements
+        function initializeEventHandlers() {
+            console.log('Initialisation des gestionnaires d\'événements');
+            
+            // Gestion des boutons de suppression
+            $(document).off('click', '.delete-user').on('click', '.delete-user', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                handleDeleteUser(this);
+            });
+            
+            // Gestion des boutons d'activation/désactivation
+            $(document).off('click', '.toggle-active').on('click', '.toggle-active', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                handleToggleActive(this);
+            });
+            
+            // Gestion des boutons de réinitialisation de mot de passe
+            $(document).off('click', '.reset-password').on('click', '.reset-password', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                handleResetPassword(this);
+            });
+            
+            // Initialisation des tooltips
+            $('[data-bs-toggle="tooltip"]').tooltip('dispose').tooltip();
+        }
+        
+        // Initialisation au chargement du document
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialisation de DataTables
+            const table = $('#usersTable').DataTable({
+                order: [[0, 'desc']],
+                pageLength: 25,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/French.json'
+                },
                 responsive: true,
-                stateSave: true,
-                dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-                     "<'row'<'col-sm-12'tr>>" +
-                     "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 columnDefs: [
-                    { orderable: false, targets: -1 }, // Désactiver le tri sur la colonne des actions
-                    { targets: 0, type: 'num' } // Spécifier que la première colonne est de type numérique
+                    { orderable: false, targets: -1 } // Désactiver le tri sur la colonne des actions
                 ],
                 drawCallback: function() {
-                    // Réinitialiser les gestionnaires d'événements et les tooltips après chaque redessinage
-                    initializeEventHandlers();
+                    // Réinitialiser les tooltips après le redessin du tableau
+                    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                    tooltipTriggerList.forEach(tooltipTriggerEl => {
+                        new bootstrap.Tooltip(tooltipTriggerEl, {
+                            trigger: 'hover',
+                            boundary: 'window'
+                        });
+                    });
                 }
             });
             
-        // Initialisation des gestionnaires d'événements
-        initializeEventHandlers();
-    });
+            // Initialisation des gestionnaires d'événements
+            initializeEventHandlers();
+            
+            // Désactiver le comportement de tri lors du clic sur les boutons d'action
+            $('#usersTable').on('click', '.action-buttons .btn, .btn-action', function(e) {
+                e.stopPropagation();
+            });
+        });
     </script>
     <!-- Style pour les boutons d'action -->
     <style>

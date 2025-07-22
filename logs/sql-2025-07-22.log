@@ -1,0 +1,1488 @@
+2025-07-22 09:26:58.172 [main] DEBUG o.h.e.j.e.i.JdbcEnvironmentInitiator - Database ->
+       name : PostgreSQL
+    version : 15.13
+      major : 15
+      minor : 13
+2025-07-22 09:26:58.173 [main] DEBUG o.h.e.j.e.i.JdbcEnvironmentInitiator - Driver ->
+       name : PostgreSQL JDBC Driver
+    version : 42.6.0
+      major : 42
+      minor : 6
+2025-07-22 09:26:58.173 [main] DEBUG o.h.e.j.e.i.JdbcEnvironmentInitiator - JDBC version : 4.2
+2025-07-22 09:26:58.212 [main] DEBUG o.h.e.j.e.s.IdentifierHelperBuilder - JDBC driver metadata reported database stores quoted identifiers in neither upper, lower nor mixed case
+2025-07-22 09:26:58.220 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_monetique]
+2025-07-22 09:26:58.221 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_monetique]
+2025-07-22 09:26:58.257 [main] DEBUG o.h.t.d.sql.spi.DdlTypeRegistry - addDescriptor(6, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@6dbb3d7d) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@7a3a49e5)
+2025-07-22 09:26:58.331 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [carte_bancaire]
+2025-07-22 09:26:58.331 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [carte_bancaire]
+2025-07-22 09:26:58.350 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [DTYPE]
+2025-07-22 09:26:58.373 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.373 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.407 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.407 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.407 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.414 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [date_creation]
+2025-07-22 09:26:58.417 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [date_creation]
+2025-07-22 09:26:58.418 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [date_creation]
+2025-07-22 09:26:58.421 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [date_exp]
+2025-07-22 09:26:58.422 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [date_exp]
+2025-07-22 09:26:58.423 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [date_exp]
+2025-07-22 09:26:58.423 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [numero_masked]
+2025-07-22 09:26:58.424 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [numero_masked]
+2025-07-22 09:26:58.424 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [numero_masked]
+2025-07-22 09:26:58.425 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [statut]
+2025-07-22 09:26:58.425 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [statut]
+2025-07-22 09:26:58.425 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [statut]
+2025-07-22 09:26:58.425 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [statut]
+2025-07-22 09:26:58.425 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [statut]
+2025-07-22 09:26:58.426 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [type]
+2025-07-22 09:26:58.426 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [type]
+2025-07-22 09:26:58.426 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [type]
+2025-07-22 09:26:58.426 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [type]
+2025-07-22 09:26:58.426 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [type]
+2025-07-22 09:26:58.429 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur_id]
+2025-07-22 09:26:58.430 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur]
+2025-07-22 09:26:58.431 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur]
+2025-07-22 09:26:58.448 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commercant]
+2025-07-22 09:26:58.448 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commercant]
+2025-07-22 09:26:58.449 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [DTYPE]
+2025-07-22 09:26:58.458 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.458 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.459 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.459 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.459 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.464 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [nom]
+2025-07-22 09:26:58.464 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [nom]
+2025-07-22 09:26:58.464 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [nom]
+2025-07-22 09:26:58.464 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [nom]
+2025-07-22 09:26:58.464 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [nom]
+2025-07-22 09:26:58.466 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [secteur]
+2025-07-22 09:26:58.466 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [secteur]
+2025-07-22 09:26:58.467 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [secteur]
+2025-07-22 09:26:58.467 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [secteur]
+2025-07-22 09:26:58.467 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [secteur]
+2025-07-22 09:26:58.468 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [terminaux]
+2025-07-22 09:26:58.468 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [terminaux]
+2025-07-22 09:26:58.490 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [terminaux_ORDER]
+2025-07-22 09:26:58.494 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [element]
+2025-07-22 09:26:58.494 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [element]
+2025-07-22 09:26:58.496 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [terminaux_KEY]
+2025-07-22 09:26:58.497 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [terminaux_KEY]
+2025-07-22 09:26:58.509 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [ville]
+2025-07-22 09:26:58.509 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [ville]
+2025-07-22 09:26:58.509 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [ville]
+2025-07-22 09:26:58.509 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [ville]
+2025-07-22 09:26:58.509 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [ville]
+2025-07-22 09:26:58.511 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [historique_statut_paiement]
+2025-07-22 09:26:58.511 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [historique_statut_paiement]
+2025-07-22 09:26:58.512 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [DTYPE]
+2025-07-22 09:26:58.516 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.516 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.516 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.516 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.516 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.517 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [ancienStatut]
+2025-07-22 09:26:58.517 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [ancienStatut]
+2025-07-22 09:26:58.517 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [ancienStatut]
+2025-07-22 09:26:58.517 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [ancienStatut]
+2025-07-22 09:26:58.517 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [ancienStatut]
+2025-07-22 09:26:58.518 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commentaire]
+2025-07-22 09:26:58.518 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commentaire]
+2025-07-22 09:26:58.518 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commentaire]
+2025-07-22 09:26:58.518 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commentaire]
+2025-07-22 09:26:58.518 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commentaire]
+2025-07-22 09:26:58.519 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [dateModification]
+2025-07-22 09:26:58.519 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [dateModification]
+2025-07-22 09:26:58.520 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [dateModification]
+2025-07-22 09:26:58.520 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [dateModification]
+2025-07-22 09:26:58.520 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [dateModification]
+2025-07-22 09:26:58.521 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [modifiePar]
+2025-07-22 09:26:58.521 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [modifiePar]
+2025-07-22 09:26:58.521 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [modifiePar]
+2025-07-22 09:26:58.521 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [modifiePar]
+2025-07-22 09:26:58.521 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [modifiePar]
+2025-07-22 09:26:58.522 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [nouveauStatut]
+2025-07-22 09:26:58.522 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [nouveauStatut]
+2025-07-22 09:26:58.522 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [nouveauStatut]
+2025-07-22 09:26:58.522 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [nouveauStatut]
+2025-07-22 09:26:58.522 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [nouveauStatut]
+2025-07-22 09:26:58.523 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_id]
+2025-07-22 09:26:58.524 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement]
+2025-07-22 09:26:58.524 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement]
+2025-07-22 09:26:58.526 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement]
+2025-07-22 09:26:58.526 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement]
+2025-07-22 09:26:58.527 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [DTYPE]
+2025-07-22 09:26:58.535 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.535 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.535 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.535 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.535 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.537 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [carte_bancaire_id]
+2025-07-22 09:26:58.538 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [carteBancaire]
+2025-07-22 09:26:58.538 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [carteBancaire]
+2025-07-22 09:26:58.539 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commentaire]
+2025-07-22 09:26:58.539 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commentaire]
+2025-07-22 09:26:58.540 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commentaire]
+2025-07-22 09:26:58.540 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commentaire]
+2025-07-22 09:26:58.540 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commentaire]
+2025-07-22 09:26:58.541 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commercant_id]
+2025-07-22 09:26:58.542 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commercant]
+2025-07-22 09:26:58.542 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commercant]
+2025-07-22 09:26:58.543 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [createdAt]
+2025-07-22 09:26:58.543 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [createdAt]
+2025-07-22 09:26:58.543 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [createdAt]
+2025-07-22 09:26:58.543 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [createdAt]
+2025-07-22 09:26:58.543 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [createdAt]
+2025-07-22 09:26:58.545 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [date]
+2025-07-22 09:26:58.545 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [date]
+2025-07-22 09:26:58.545 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [date]
+2025-07-22 09:26:58.545 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [date]
+2025-07-22 09:26:58.545 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [date]
+2025-07-22 09:26:58.546 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [historiqueStatuts]
+2025-07-22 09:26:58.546 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [historiqueStatuts]
+2025-07-22 09:26:58.547 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [historiqueStatuts_ORDER]
+2025-07-22 09:26:58.547 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [element]
+2025-07-22 09:26:58.547 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [element]
+2025-07-22 09:26:58.548 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [historiqueStatuts_KEY]
+2025-07-22 09:26:58.548 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [historiqueStatuts_KEY]
+2025-07-22 09:26:58.551 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [montant]
+2025-07-22 09:26:58.551 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [montant]
+2025-07-22 09:26:58.551 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [montant]
+2025-07-22 09:26:58.551 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [montant]
+2025-07-22 09:26:58.551 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [montant]
+2025-07-22 09:26:58.553 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [statut]
+2025-07-22 09:26:58.553 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [statut]
+2025-07-22 09:26:58.553 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [statut]
+2025-07-22 09:26:58.553 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [statut]
+2025-07-22 09:26:58.553 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [statut]
+2025-07-22 09:26:58.554 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [typeCarte]
+2025-07-22 09:26:58.554 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [typeCarte]
+2025-07-22 09:26:58.555 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [typeCarte]
+2025-07-22 09:26:58.555 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [typeCarte]
+2025-07-22 09:26:58.555 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [typeCarte]
+2025-07-22 09:26:58.556 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [updatedAt]
+2025-07-22 09:26:58.556 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [updatedAt]
+2025-07-22 09:26:58.556 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [updatedAt]
+2025-07-22 09:26:58.556 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [updatedAt]
+2025-07-22 09:26:58.556 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [updatedAt]
+2025-07-22 09:26:58.557 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur_id]
+2025-07-22 09:26:58.560 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur]
+2025-07-22 09:26:58.561 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur]
+2025-07-22 09:26:58.568 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [role]
+2025-07-22 09:26:58.568 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [role]
+2025-07-22 09:26:58.569 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [DTYPE]
+2025-07-22 09:26:58.572 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.572 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.572 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.572 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.572 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.574 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [name]
+2025-07-22 09:26:58.574 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [name]
+2025-07-22 09:26:58.574 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [name]
+2025-07-22 09:26:58.574 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [name]
+2025-07-22 09:26:58.574 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [name]
+2025-07-22 09:26:58.577 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [terminal]
+2025-07-22 09:26:58.577 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [terminal]
+2025-07-22 09:26:58.578 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [DTYPE]
+2025-07-22 09:26:58.581 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.581 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.581 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.581 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.581 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.582 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commercant_id]
+2025-07-22 09:26:58.586 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commercant]
+2025-07-22 09:26:58.586 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commercant]
+2025-07-22 09:26:58.589 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [modele]
+2025-07-22 09:26:58.589 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [modele]
+2025-07-22 09:26:58.590 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [modele]
+2025-07-22 09:26:58.590 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [modele]
+2025-07-22 09:26:58.590 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [modele]
+2025-07-22 09:26:58.593 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [statut]
+2025-07-22 09:26:58.593 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [statut]
+2025-07-22 09:26:58.594 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [statut]
+2025-07-22 09:26:58.594 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [statut]
+2025-07-22 09:26:58.594 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [statut]
+2025-07-22 09:26:58.597 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur]
+2025-07-22 09:26:58.597 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur]
+2025-07-22 09:26:58.599 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [DTYPE]
+2025-07-22 09:26:58.609 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.609 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.609 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.609 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.609 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [id]
+2025-07-22 09:26:58.611 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [active]
+2025-07-22 09:26:58.611 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [active]
+2025-07-22 09:26:58.611 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [active]
+2025-07-22 09:26:58.611 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [active]
+2025-07-22 09:26:58.611 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [active]
+2025-07-22 09:26:58.614 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [cartesBancaires]
+2025-07-22 09:26:58.614 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [cartesBancaires]
+2025-07-22 09:26:58.614 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [cartesBancaires_ORDER]
+2025-07-22 09:26:58.616 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [element]
+2025-07-22 09:26:58.616 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [element]
+2025-07-22 09:26:58.617 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [cartesBancaires_KEY]
+2025-07-22 09:26:58.618 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [cartesBancaires_KEY]
+2025-07-22 09:26:58.618 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [date_creation]
+2025-07-22 09:26:58.621 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [date_creation]
+2025-07-22 09:26:58.621 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [date_creation]
+2025-07-22 09:26:58.626 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [email]
+2025-07-22 09:26:58.627 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [email]
+2025-07-22 09:26:58.627 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [email]
+2025-07-22 09:26:58.627 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [email]
+2025-07-22 09:26:58.627 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [email]
+2025-07-22 09:26:58.627 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [last_login]
+2025-07-22 09:26:58.629 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [last_login]
+2025-07-22 09:26:58.630 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [last_login]
+2025-07-22 09:26:58.773 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [nom]
+2025-07-22 09:26:58.773 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [nom]
+2025-07-22 09:26:58.774 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [nom]
+2025-07-22 09:26:58.774 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [nom]
+2025-07-22 09:26:58.774 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [nom]
+2025-07-22 09:26:58.775 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiements]
+2025-07-22 09:26:58.775 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiements]
+2025-07-22 09:26:58.776 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiements_ORDER]
+2025-07-22 09:26:58.778 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [element]
+2025-07-22 09:26:58.778 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [element]
+2025-07-22 09:26:58.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiements_KEY]
+2025-07-22 09:26:58.781 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiements_KEY]
+2025-07-22 09:26:58.783 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [password]
+2025-07-22 09:26:58.783 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [password]
+2025-07-22 09:26:58.783 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [password]
+2025-07-22 09:26:58.783 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [password]
+2025-07-22 09:26:58.783 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [password]
+2025-07-22 09:26:58.784 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [roles_ORDER]
+2025-07-22 09:26:58.787 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [element]
+2025-07-22 09:26:58.788 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [element]
+2025-07-22 09:26:58.789 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [roles_KEY]
+2025-07-22 09:26:58.790 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [roles_KEY]
+2025-07-22 09:26:58.790 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [user_id]
+2025-07-22 09:26:58.790 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [role_id]
+2025-07-22 09:26:58.807 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur_id]
+2025-07-22 09:26:58.807 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur_id]
+2025-07-22 09:26:58.807 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur_id]
+2025-07-22 09:26:58.810 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_id]
+2025-07-22 09:26:58.811 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_id]
+2025-07-22 09:26:58.811 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_id]
+2025-07-22 09:26:58.811 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [carte_bancaire_id]
+2025-07-22 09:26:58.811 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [carte_bancaire_id]
+2025-07-22 09:26:58.811 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [carte_bancaire_id]
+2025-07-22 09:26:58.811 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commercant_id]
+2025-07-22 09:26:58.811 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commercant_id]
+2025-07-22 09:26:58.811 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commercant_id]
+2025-07-22 09:26:58.811 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur_id]
+2025-07-22 09:26:58.811 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur_id]
+2025-07-22 09:26:58.811 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur_id]
+2025-07-22 09:26:58.811 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commercant_id]
+2025-07-22 09:26:58.811 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commercant_id]
+2025-07-22 09:26:58.811 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commercant_id]
+2025-07-22 09:26:58.814 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [null]
+2025-07-22 09:26:58.816 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [user_role]
+2025-07-22 09:26:58.816 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [user_role]
+2025-07-22 09:26:58.818 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [user_id]
+2025-07-22 09:26:58.819 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [user_id]
+2025-07-22 09:26:58.819 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [user_id]
+2025-07-22 09:26:58.819 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [role_id]
+2025-07-22 09:26:58.819 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [role_id]
+2025-07-22 09:26:58.819 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [role_id]
+2025-07-22 09:26:58.833 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commercant_id]
+2025-07-22 09:26:58.835 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_id]
+2025-07-22 09:26:58.836 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur_id]
+2025-07-22 09:26:58.837 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur_id]
+2025-07-22 09:26:58.838 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur_id]
+2025-07-22 09:26:58.843 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [FKf0gwdpskcgcbnvacaljuqec97]
+2025-07-22 09:26:58.843 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_id]
+2025-07-22 09:26:58.844 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [FKp9wblfc3xwpc5svfty1r5jtnm]
+2025-07-22 09:26:58.844 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [carte_bancaire_id]
+2025-07-22 09:26:58.844 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [FKr07oteopnri4xkau698xhl49t]
+2025-07-22 09:26:58.844 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commercant_id]
+2025-07-22 09:26:58.844 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [FKaoycbgyt01ymm8sw3938n64vu]
+2025-07-22 09:26:58.844 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur_id]
+2025-07-22 09:26:58.844 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [FK33phkv6oefby5j5b1v2v5f4oo]
+2025-07-22 09:26:58.844 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commercant_id]
+2025-07-22 09:26:58.845 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [FKap4kco0rbp0fs7hpmdo0urrxy]
+2025-07-22 09:26:58.845 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [role_id]
+2025-07-22 09:26:58.845 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [FKa68196081fvovjhkek5m97n3y]
+2025-07-22 09:26:58.845 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [user_id]
+2025-07-22 09:26:58.845 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [FK1adslu3s4xgk5eemf54qxm908]
+2025-07-22 09:26:58.845 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [email]
+2025-07-22 09:26:58.846 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [email]
+2025-07-22 09:26:58.847 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [UKrma38wvnqfaf66vvmi57c71lo]
+2025-07-22 09:26:58.877 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur_id]
+2025-07-22 09:26:58.877 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_id]
+2025-07-22 09:26:58.877 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [carte_bancaire_id]
+2025-07-22 09:26:58.877 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commercant_id]
+2025-07-22 09:26:58.877 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur_id]
+2025-07-22 09:26:58.877 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commercant_id]
+2025-07-22 09:26:58.877 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [role_id]
+2025-07-22 09:26:58.877 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [user_id]
+2025-07-22 09:26:58.974 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_monetique]
+2025-07-22 09:26:59.708 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_monetique]
+2025-07-22 09:26:59.737 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_monetique]
+2025-07-22 09:26:59.737 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_monetique]
+2025-07-22 09:26:59.737 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [historique_statut_paiement_id_seq]
+2025-07-22 09:26:59.737 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_monetique]
+2025-07-22 09:26:59.737 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_monetique]
+2025-07-22 09:26:59.737 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [utilisateur_id_seq]
+2025-07-22 09:26:59.737 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_monetique]
+2025-07-22 09:26:59.737 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_monetique]
+2025-07-22 09:26:59.737 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [carte_bancaire_id_seq]
+2025-07-22 09:26:59.737 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_monetique]
+2025-07-22 09:26:59.737 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_monetique]
+2025-07-22 09:26:59.737 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [commercant_id_seq]
+2025-07-22 09:26:59.737 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_monetique]
+2025-07-22 09:26:59.737 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_monetique]
+2025-07-22 09:26:59.737 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_id_seq]
+2025-07-22 09:26:59.738 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_monetique]
+2025-07-22 09:26:59.738 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_monetique]
+2025-07-22 09:26:59.738 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [terminal_id_seq]
+2025-07-22 09:26:59.738 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_monetique]
+2025-07-22 09:26:59.738 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [paiement_monetique]
+2025-07-22 09:26:59.738 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting [role_id_seq]
+2025-07-22 09:26:59.742 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [paiement_monetique]
+2025-07-22 09:26:59.742 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [paiement_monetique] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.763 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [carte_bancaire]
+2025-07-22 09:26:59.764 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [carte_bancaire] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.764 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [id]
+2025-07-22 09:26:59.764 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [id] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.765 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [date_creation]
+2025-07-22 09:26:59.765 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [date_creation] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.765 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [date_exp]
+2025-07-22 09:26:59.766 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [date_exp] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.766 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [numero_masked]
+2025-07-22 09:26:59.766 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [numero_masked] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.766 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [statut]
+2025-07-22 09:26:59.766 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [statut] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.766 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [type]
+2025-07-22 09:26:59.766 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [type] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.766 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [utilisateur_id]
+2025-07-22 09:26:59.766 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [utilisateur_id] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.766 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists paiement_monetique.carte_bancaire 
+       alter column date_creation set data type timestamp(6)
+2025-07-22 09:26:59.770 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists paiement_monetique.carte_bancaire 
+       alter column statut set data type VARCHAR(20) DEFAULT 'ACTIVE'
+2025-07-22 09:26:59.779 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [commercant]
+2025-07-22 09:26:59.779 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [commercant] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.779 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [id]
+2025-07-22 09:26:59.779 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [id] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [nom]
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [nom] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [secteur]
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [secteur] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [ville]
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [ville] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [historique_statut_paiement]
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [historique_statut_paiement] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [id]
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [id] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [ancien_statut]
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [ancien_statut] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [commentaire]
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [commentaire] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [date_modification]
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [date_modification] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [modifie_par]
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [modifie_par] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [nouveau_statut]
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [nouveau_statut] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [paiement_id]
+2025-07-22 09:26:59.780 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [paiement_id] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.780 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists paiement_monetique.historique_statut_paiement 
+       alter column commentaire set data type TEXT
+2025-07-22 09:26:59.781 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists paiement_monetique.historique_statut_paiement 
+       alter column date_modification set data type timestamp(6)
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [paiement]
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [paiement] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [id]
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [id] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [commentaire]
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [commentaire] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [created_at]
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [created_at] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [date]
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [date] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [montant]
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [montant] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [statut]
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [statut] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [type_carte]
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [type_carte] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [updated_at]
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [updated_at] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [carte_bancaire_id]
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [carte_bancaire_id] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [commercant_id]
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [commercant_id] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [utilisateur_id]
+2025-07-22 09:26:59.782 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [utilisateur_id] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.782 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists paiement_monetique.paiement 
+       alter column created_at set data type timestamp(6)
+2025-07-22 09:26:59.783 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists paiement_monetique.paiement 
+       alter column date set data type timestamp(6)
+2025-07-22 09:26:59.784 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists paiement_monetique.paiement 
+       alter column updated_at set data type timestamp(6)
+2025-07-22 09:26:59.784 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [role]
+2025-07-22 09:26:59.784 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [role] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.784 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [id]
+2025-07-22 09:26:59.784 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [id] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [name]
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [name] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [terminal]
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [terminal] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [id]
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [id] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [modele]
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [modele] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [statut]
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [statut] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [commercant_id]
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [commercant_id] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [user_role]
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [user_role] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [user_id]
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [user_id] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [role_id]
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [role_id] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [utilisateur]
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [utilisateur] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [id]
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [id] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [active]
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [active] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [date_creation]
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [date_creation] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [email]
+2025-07-22 09:26:59.785 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [email] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.786 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [last_login]
+2025-07-22 09:26:59.786 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [last_login] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.786 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [nom]
+2025-07-22 09:26:59.786 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [nom] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.786 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [password]
+2025-07-22 09:26:59.786 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [password] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.786 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists paiement_monetique.utilisateur 
+       alter column date_creation set data type timestamp(6)
+2025-07-22 09:26:59.786 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists paiement_monetique.utilisateur 
+       alter column last_login set data type timestamp(6)
+2025-07-22 09:26:59.787 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [carte_bancaire]
+2025-07-22 09:26:59.787 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [carte_bancaire] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.788 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [commercant]
+2025-07-22 09:26:59.788 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [commercant] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.788 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [historique_statut_paiement]
+2025-07-22 09:26:59.788 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [historique_statut_paiement] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.788 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [paiement]
+2025-07-22 09:26:59.788 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [paiement] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.788 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [role]
+2025-07-22 09:26:59.788 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [role] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.788 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [terminal]
+2025-07-22 09:26:59.788 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [terminal] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.788 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [user_role]
+2025-07-22 09:26:59.788 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [user_role] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.788 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [utilisateur]
+2025-07-22 09:26:59.788 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [utilisateur] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.796 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [email]
+2025-07-22 09:26:59.796 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [email]
+2025-07-22 09:26:59.796 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [id]
+2025-07-22 09:26:59.796 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [UKrma38wvnqfaf66vvmi57c71lo]
+2025-07-22 09:26:59.796 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [UKrma38wvnqfaf66vvmi57c71lo] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.796 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [carte_bancaire]
+2025-07-22 09:26:59.796 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [carte_bancaire] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.811 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [paiement_monetique]
+2025-07-22 09:26:59.811 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [utilisateur]
+2025-07-22 09:26:59.821 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [utilisateur_id]
+2025-07-22 09:26:59.822 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [id]
+2025-07-22 09:26:59.823 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [commercant]
+2025-07-22 09:26:59.823 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [commercant] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.823 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [historique_statut_paiement]
+2025-07-22 09:26:59.823 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [historique_statut_paiement] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.830 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [FKp9wblfc3xwpc5svfty1r5jtnm]
+2025-07-22 09:26:59.830 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [FKp9wblfc3xwpc5svfty1r5jtnm] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.830 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists paiement_monetique.historique_statut_paiement 
+       add constraint FKp9wblfc3xwpc5svfty1r5jtnm 
+       foreign key (paiement_id) 
+       references paiement_monetique.paiement
+2025-07-22 09:26:59.833 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [paiement]
+2025-07-22 09:26:59.833 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [paiement] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.839 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [paiement_monetique]
+2025-07-22 09:26:59.839 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [commercant]
+2025-07-22 09:26:59.844 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [commercant_id]
+2025-07-22 09:26:59.844 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [id]
+2025-07-22 09:26:59.844 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [paiement_monetique]
+2025-07-22 09:26:59.844 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [utilisateur]
+2025-07-22 09:26:59.846 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [utilisateur_id]
+2025-07-22 09:26:59.846 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [id]
+2025-07-22 09:26:59.846 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [FKr07oteopnri4xkau698xhl49t]
+2025-07-22 09:26:59.846 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [FKr07oteopnri4xkau698xhl49t] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.846 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists paiement_monetique.paiement 
+       add constraint FKr07oteopnri4xkau698xhl49t 
+       foreign key (carte_bancaire_id) 
+       references paiement_monetique.carte_bancaire
+2025-07-22 09:26:59.847 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [role]
+2025-07-22 09:26:59.848 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [role] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.848 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [terminal]
+2025-07-22 09:26:59.848 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [terminal] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.856 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [paiement_monetique]
+2025-07-22 09:26:59.856 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [commercant]
+2025-07-22 09:26:59.858 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [commercant_id]
+2025-07-22 09:26:59.858 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [id]
+2025-07-22 09:26:59.858 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [user_role]
+2025-07-22 09:26:59.858 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [user_role] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.865 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [paiement_monetique]
+2025-07-22 09:26:59.865 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [role]
+2025-07-22 09:26:59.870 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [role_id]
+2025-07-22 09:26:59.871 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [id]
+2025-07-22 09:26:59.871 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [paiement_monetique]
+2025-07-22 09:26:59.871 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [utilisateur]
+2025-07-22 09:26:59.872 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [user_id]
+2025-07-22 09:26:59.872 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [id]
+2025-07-22 09:26:59.873 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Normalizing identifier quoting for object name [utilisateur]
+2025-07-22 09:26:59.873 [main] TRACE o.h.e.j.e.i.NormalizingIdentifierHelperImpl - Rendering unquoted identifier [utilisateur] in lower case for use in DatabaseMetaData
+2025-07-22 09:26:59.992 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@1299fed3]
+2025-07-22 09:26:59.993 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@4cb87009]
+2025-07-22 09:27:00.098 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@715523b8]
+2025-07-22 09:27:00.194 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@642b2176]
+2025-07-22 09:27:00.196 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@7ceb7a60]
+2025-07-22 09:27:00.398 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@72dc7f0a]
+2025-07-22 09:27:00.399 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@359f3401]
+2025-07-22 09:27:00.565 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@121fe002]
+2025-07-22 09:27:00.596 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@420d123d]
+2025-07-22 09:27:00.597 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@36d8ddc5]
+2025-07-22 09:27:00.650 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@7c6f91d2]
+2025-07-22 09:27:00.678 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@22edca96]
+2025-07-22 09:27:00.678 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@591bff1d]
+2025-07-22 09:27:00.738 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@188ccb6c]
+2025-07-22 09:27:00.745 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@33317d26]
+2025-07-22 09:27:00.750 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@3a69c81e]
+2025-07-22 09:27:00.751 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@357904d7]
+2025-07-22 09:27:00.775 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@4483e237]
+2025-07-22 09:27:00.776 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@6466e599]
+2025-07-22 09:27:00.825 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@7bfa2d74]
+2025-07-22 09:27:00.829 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@442612a6]
+2025-07-22 09:27:00.829 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@65314e4]
+2025-07-22 09:27:00.832 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@1e31e7e0]
+2025-07-22 09:27:00.836 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@4caeeab6]
+2025-07-22 09:27:00.837 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@22027e62]
+2025-07-22 09:27:00.839 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@46791608]
+2025-07-22 09:27:00.841 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@1c1b9de9]
+2025-07-22 09:27:00.849 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@4ff1e20b]
+2025-07-22 09:27:00.849 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@38c464df]
+2025-07-22 09:27:00.860 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@21eb33d4]
+2025-07-22 09:27:00.866 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@519f6adb]
+2025-07-22 09:27:00.871 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@62808e8d]
+2025-07-22 09:27:00.871 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@5c26ab0a]
+2025-07-22 09:27:00.873 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@6258ea84]
+2025-07-22 09:27:00.875 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@1a6864f0]
+2025-07-22 09:27:00.881 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@184b8899]
+2025-07-22 09:27:00.881 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@718aa49a]
+2025-07-22 09:27:00.884 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@513f8279]
+2025-07-22 09:27:00.888 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@2680474c]
+2025-07-22 09:27:01.149 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@476e4bb0]
+2025-07-22 09:27:01.152 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@20c9b155]
+2025-07-22 09:27:01.170 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@2e7227e6]
+2025-07-22 09:27:01.171 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@43dc6864]
+2025-07-22 09:27:01.178 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@3698f2ed]
+2025-07-22 09:27:01.178 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@9eaaecf]
+2025-07-22 09:27:01.183 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@165ec33]
+2025-07-22 09:27:01.188 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@8cc7489]
+2025-07-22 09:27:01.206 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@55abf66a]
+2025-07-22 09:27:01.207 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@3cc0efa2]
+2025-07-22 09:27:01.250 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@c93275f]
+2025-07-22 09:27:01.255 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@3a2e8c6a]
+2025-07-22 09:27:01.258 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@3d1637ff]
+2025-07-22 09:27:01.258 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@46ae5a4c]
+2025-07-22 09:27:01.261 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@281e2377]
+2025-07-22 09:27:01.261 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@4eccb9f0]
+2025-07-22 09:27:01.265 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@69ef3847]
+2025-07-22 09:27:01.265 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@3033bb96]
+2025-07-22 09:27:01.267 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@2c43da32]
+2025-07-22 09:27:01.270 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@2a3d9ed3]
+2025-07-22 09:27:01.272 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@75c858e6]
+2025-07-22 09:27:01.273 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@5084cf1c]
+2025-07-22 09:27:01.276 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@7ef60643]
+2025-07-22 09:27:01.279 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@3a237f14]
+2025-07-22 09:27:01.310 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@3bf6c2ae]
+2025-07-22 09:27:01.311 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@44c1ce5a]
+2025-07-22 09:27:01.428 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@7e915daa]
+2025-07-22 09:27:01.436 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@7d05e595]
+2025-07-22 09:27:01.463 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@689aab7b]
+2025-07-22 09:27:01.463 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@22be8211]
+2025-07-22 09:27:01.482 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@6dd65379]
+2025-07-22 09:27:01.483 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@3b2eead8]
+2025-07-22 09:27:01.485 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@11757914]
+2025-07-22 09:27:01.485 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@4e67bdd8]
+2025-07-22 09:27:01.487 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@a57734e]
+2025-07-22 09:27:01.487 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@30d016c9]
+2025-07-22 09:27:01.493 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@f829512]
+2025-07-22 09:27:01.493 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@1ce3ddfd]
+2025-07-22 09:27:01.495 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@66325a4d]
+2025-07-22 09:27:01.495 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@7d03699c]
+2025-07-22 09:27:01.498 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@77644bb]
+2025-07-22 09:27:01.498 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@73e2862a]
+2025-07-22 09:27:01.499 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@ac41f1]
+2025-07-22 09:27:01.500 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@35ca8ec3]
+2025-07-22 09:27:01.501 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@1d0868dc]
+2025-07-22 09:27:01.501 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@7fc91145]
+2025-07-22 09:27:01.504 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@51c4bfea]
+2025-07-22 09:27:01.504 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@6ec8fa57]
+2025-07-22 09:27:01.527 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@3ad7a94]
+2025-07-22 09:27:01.528 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@648374fa]
+2025-07-22 09:27:01.537 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@3829bb5]
+2025-07-22 09:27:01.538 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@7cd90b9b]
+2025-07-22 09:27:01.559 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@5bf394be]
+2025-07-22 09:27:01.559 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@78a4764f]
+2025-07-22 09:27:01.570 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@57e8714b]
+2025-07-22 09:27:01.572 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@4bb44322]
+2025-07-22 09:27:01.582 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@54dd2962]
+2025-07-22 09:27:01.582 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@181f61b4]
+2025-07-22 09:27:01.608 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@61a098fa]
+2025-07-22 09:27:01.613 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@6ad57ee3]
+2025-07-22 09:27:01.613 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@49702efb]
+2025-07-22 09:27:01.618 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@5cb3bd9b]
+2025-07-22 09:27:01.622 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@3aaa8361]
+2025-07-22 09:27:01.633 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@2c30848a]
+2025-07-22 09:27:01.634 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@2161cc6f]
+2025-07-22 09:27:01.660 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@2694b6f6]
+2025-07-22 09:27:01.662 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@3a575fff]
+2025-07-22 09:27:01.663 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@fb8da51]
+2025-07-22 09:27:01.665 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@d85a651]
+2025-07-22 09:27:01.669 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@5492b0d3]
+2025-07-22 09:27:01.671 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@770feaab]
+2025-07-22 09:27:01.671 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@2d3b708a]
+2025-07-22 09:27:01.673 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@140b395c]
+2025-07-22 09:27:01.675 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@7cfc6110]
+2025-07-22 09:27:01.675 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@2e619363]
+2025-07-22 09:27:01.681 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@147b7f3c]
+2025-07-22 09:27:01.681 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@b106842]
+2025-07-22 09:27:01.684 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@614c7175]
+2025-07-22 09:27:01.688 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@2f8afb66]
+2025-07-22 09:27:01.691 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@786f4b15]
+2025-07-22 09:27:01.692 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@2f397395]
+2025-07-22 09:27:01.694 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@33ded464]
+2025-07-22 09:27:01.696 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@78513ad9]
+2025-07-22 09:27:01.699 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@d12009f]
+2025-07-22 09:27:01.699 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@7d2ccbcd]
+2025-07-22 09:27:01.701 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@78373fdf]
+2025-07-22 09:27:01.704 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@3a571436]
+2025-07-22 09:27:01.704 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@398072c6]
+2025-07-22 09:27:01.707 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@6ffbae2e]
+2025-07-22 09:27:01.710 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@16510bb9]
+2025-07-22 09:27:01.721 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@2e2ff0c4]
+2025-07-22 09:27:01.723 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@7f256398]
+2025-07-22 09:27:01.737 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@154b3fba]
+2025-07-22 09:27:01.738 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@41a6a728]
+2025-07-22 09:27:01.748 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@6cd56b97]
+2025-07-22 09:27:01.749 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@287b3acd]
+2025-07-22 09:27:01.914 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@1d81263a]
+2025-07-22 09:27:01.915 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@2f944a3e]
+2025-07-22 09:27:01.927 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@1d2cb328]
+2025-07-22 09:27:01.927 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@10e4cf09]
+2025-07-22 09:27:01.931 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@3c6d6cb3]
+2025-07-22 09:27:01.931 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@44a03de5]
+2025-07-22 09:27:01.934 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@75bbaef2]
+2025-07-22 09:27:01.937 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@4b894754]
+2025-07-22 09:27:01.939 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@524af1ab]
+2025-07-22 09:27:01.940 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@2afac2f7]
+2025-07-22 09:27:01.942 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@75440613]
+2025-07-22 09:27:01.943 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@700666b9]
+2025-07-22 09:27:03.918 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@effd73]
+2025-07-22 09:27:03.919 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@321d3e08]
+2025-07-22 09:27:03.926 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@4ce8ca9f]
+2025-07-22 09:27:03.926 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@484bd339]
+2025-07-22 09:27:03.960 [main] DEBUG o.s.jdbc.datasource.DataSourceUtils - Fetching JDBC Connection from DataSource
+2025-07-22 09:27:03.962 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - Executing SQL script from class path resource [sql/schema.sql]
+2025-07-22 09:27:03.968 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - 0 returned as update count for SQL: CREATE TABLE IF NOT EXISTS paiement_monetique.role ( id BIGSERIAL PRIMARY KEY, name VARCHAR(20) )
+2025-07-22 09:27:03.972 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - SQLWarning ignored: SQL state '42P07', error code '0', message [la relation « role » existe déjà, poursuite du traitement]
+2025-07-22 09:27:03.974 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - 0 returned as update count for SQL: CREATE TABLE IF NOT EXISTS paiement_monetique.utilisateur ( id BIGSERIAL PRIMARY KEY, nom VARCHAR(100) NOT NULL, email VARCHAR(100) NOT NULL UNIQUE )
+2025-07-22 09:27:03.974 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - SQLWarning ignored: SQL state '42P07', error code '0', message [la relation « utilisateur » existe déjà, poursuite du traitement]
+2025-07-22 09:27:03.974 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - 0 returned as update count for SQL: CREATE TABLE IF NOT EXISTS paiement_monetique.user_role ( user_id BIGINT NOT NULL, role_id BIGINT NOT NULL, PRIMARY KEY (user_id, role_id), FOREIGN KEY (user_id) REFERENCES paiement_monetique.utilisateur (id) ON DELETE CASCADE, FOREIGN KEY (role_id) REFERENCES paiement_monetique.role (id) ON DELETE CASCADE )
+2025-07-22 09:27:03.975 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - SQLWarning ignored: SQL state '42P07', error code '0', message [la relation « user_role » existe déjà, poursuite du traitement]
+2025-07-22 09:27:03.975 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - 0 returned as update count for SQL: CREATE TABLE IF NOT EXISTS paiement_monetique.commercant ( id BIGSERIAL PRIMARY KEY, nom VARCHAR(100) NOT NULL, ville VARCHAR(100) NOT NULL, adresse TEXT, telephone VARCHAR(20) )
+2025-07-22 09:27:03.975 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - SQLWarning ignored: SQL state '42P07', error code '0', message [la relation « commercant » existe déjà, poursuite du traitement]
+2025-07-22 09:27:03.976 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - 0 returned as update count for SQL: CREATE TABLE IF NOT EXISTS paiement_monetique.terminal ( id BIGSERIAL PRIMARY KEY, numero_serie VARCHAR(50) NOT NULL UNIQUE, modele VARCHAR(100), date_installation DATE, statut VARCHAR(20) DEFAULT 'ACTIF' )
+2025-07-22 09:27:03.976 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - SQLWarning ignored: SQL state '42P07', error code '0', message [la relation « terminal » existe déjà, poursuite du traitement]
+2025-07-22 09:27:03.976 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - 0 returned as update count for SQL: CREATE TABLE IF NOT EXISTS paiement_monetique.carte_bancaire ( id BIGSERIAL PRIMARY KEY, numero_carte VARCHAR(16) NOT NULL, date_expiration DATE NOT NULL, code_securite VARCHAR(4) NOT NULL, titulaire VARCHAR(100) NOT NULL, type_carte VARCHAR(20) NOT NULL )
+2025-07-22 09:27:03.976 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - SQLWarning ignored: SQL state '42P07', error code '0', message [la relation « carte_bancaire » existe déjà, poursuite du traitement]
+2025-07-22 09:27:03.977 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - 0 returned as update count for SQL: CREATE TABLE IF NOT EXISTS paiement_monetique.paiement ( id BIGSERIAL PRIMARY KEY, montant DECIMAL(10, 2) NOT NULL, date TIMESTAMP NOT NULL, statut VARCHAR(20) NOT NULL, type_carte VARCHAR(20) NOT NULL, commentaire TEXT, commercant_id BIGINT NOT NULL, utilisateur_id BIGINT NOT NULL, carte_id BIGINT NOT NULL, FOREIGN KEY (commercant_id) REFERENCES paiement_monetique.commercant (id), FOREIGN KEY (utilisateur_id) REFERENCES paiement_monetique.utilisateur (id), FOREIGN KEY (carte_id) REFERENCES paiement_monetique.carte_bancaire (id) )
+2025-07-22 09:27:03.977 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - SQLWarning ignored: SQL state '42P07', error code '0', message [la relation « paiement » existe déjà, poursuite du traitement]
+2025-07-22 09:27:03.980 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - Executed SQL script from class path resource [sql/schema.sql] in 14 ms.
+2025-07-22 09:27:03.981 [main] DEBUG o.s.jdbc.datasource.DataSourceUtils - Fetching JDBC Connection from DataSource
+2025-07-22 09:27:03.982 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - Executing SQL script from class path resource [sql/data.sql]
+2025-07-22 09:27:03.985 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - 0 returned as update count for SQL: INSERT INTO paiement_monetique.role (name) VALUES ('ROLE_USER'), ('ROLE_MODERATOR'), ('ROLE_ADMIN') ON CONFLICT (name) DO NOTHING
+2025-07-22 09:27:03.986 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - 0 returned as update count for SQL: INSERT INTO paiement_monetique.utilisateur (nom, email) SELECT 'Administrateur', 'admin@example.com' WHERE NOT EXISTS (SELECT 1 FROM paiement_monetique.utilisateur WHERE email = 'admin@example.com')
+2025-07-22 09:27:03.986 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - 0 returned as update count for SQL: INSERT INTO paiement_monetique.user_role (user_id, role_id) SELECT u.id, r.id FROM paiement_monetique.utilisateur u, paiement_monetique.role r WHERE u.email = 'admin@example.com' AND r.name = 'ROLE_ADMIN' ON CONFLICT DO NOTHING
+2025-07-22 09:27:03.987 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - 0 returned as update count for SQL: INSERT INTO paiement_monetique.commercant (nom, ville, secteur) SELECT 'Boutique Test', 'Casablanca', 'Commerce Général' WHERE NOT EXISTS (SELECT 1 FROM paiement_monetique.commercant WHERE nom = 'Boutique Test')
+2025-07-22 09:27:03.990 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - 0 returned as update count for SQL: INSERT INTO paiement_monetique.terminal (commercant_id, modele, statut) SELECT c.id, 'Ingenico iCT250', 'ACTIF' FROM paiement_monetique.commercant c WHERE c.nom = 'Boutique Test' AND NOT EXISTS ( SELECT 1 FROM paiement_monetique.terminal t JOIN paiement_monetique.commercant c2 ON t.commercant_id = c2.id WHERE c2.nom = 'Boutique Test' )
+2025-07-22 09:27:03.990 [main] DEBUG o.s.jdbc.datasource.init.ScriptUtils - Executed SQL script from class path resource [sql/data.sql] in 8 ms.
+2025-07-22 09:27:04.357 [main] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        paiement_monetique.role r1_0 
+    where
+        r1_0.name=?
+2025-07-22 09:27:04.357 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1763493164 wrapping select r1_0.id,r1_0.name from paiement_monetique.role r1_0 where r1_0.name=?]
+2025-07-22 09:27:04.372 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@6c13260b]
+2025-07-22 09:27:04.376 [main] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        paiement_monetique.role r1_0 
+    where
+        r1_0.name=?
+2025-07-22 09:27:04.377 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@704958346 wrapping select r1_0.id,r1_0.name from paiement_monetique.role r1_0 where r1_0.name=?]
+2025-07-22 09:27:04.378 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@5e878fb1]
+2025-07-22 09:27:04.380 [main] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        paiement_monetique.role r1_0 
+    where
+        r1_0.name=?
+2025-07-22 09:27:04.380 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@770240989 wrapping select r1_0.id,r1_0.name from paiement_monetique.role r1_0 where r1_0.name=?]
+2025-07-22 09:27:04.381 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@7318d347]
+2025-07-22 09:27:04.389 [main] DEBUG o.s.jdbc.datasource.DataSourceUtils - Setting JDBC Connection [HikariProxyConnection@145285623 wrapping org.postgresql.jdbc.PgConnection@17053b5] read-only
+2025-07-22 09:27:04.403 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        paiement_monetique.utilisateur u1_0
+2025-07-22 09:27:04.403 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1345680738 wrapping select count(*) from paiement_monetique.utilisateur u1_0]
+2025-07-22 09:27:04.406 [main] DEBUG o.s.jdbc.datasource.DataSourceUtils - Resetting read-only flag of JDBC Connection [HikariProxyConnection@145285623 wrapping org.postgresql.jdbc.PgConnection@17053b5]
+2025-07-22 09:27:04.407 [main] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@28627a48]
+2025-07-22 09:27:07.341 [http-nio-8081-exec-2] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@5c46285c]
+2025-07-22 09:27:07.459 [http-nio-8081-exec-1] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@60a2c314]
+2025-07-22 09:27:07.619 [http-nio-8081-exec-1] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@1d2cbb8d]
+2025-07-22 09:27:09.090 [http-nio-8081-exec-4] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@36b2b34d]
+2025-07-22 09:27:12.281 [http-nio-8081-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.date_creation,
+        u1_0.email,
+        u1_0.last_login,
+        u1_0.nom,
+        u1_0.password 
+    from
+        paiement_monetique.utilisateur u1_0 
+    where
+        u1_0.email=?
+2025-07-22 09:27:12.281 [http-nio-8081-exec-5] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@2011682602 wrapping select u1_0.id,u1_0.active,u1_0.date_creation,u1_0.email,u1_0.last_login,u1_0.nom,u1_0.password from paiement_monetique.utilisateur u1_0 where u1_0.email=?]
+2025-07-22 09:27:12.295 [http-nio-8081-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.user_id,
+        r1_1.id,
+        r1_1.name 
+    from
+        paiement_monetique.user_role r1_0 
+    join
+        paiement_monetique.role r1_1 
+            on r1_1.id=r1_0.role_id 
+    where
+        r1_0.user_id=?
+2025-07-22 09:27:12.295 [http-nio-8081-exec-5] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1820976890 wrapping select r1_0.user_id,r1_1.id,r1_1.name from paiement_monetique.user_role r1_0 join paiement_monetique.role r1_1 on r1_1.id=r1_0.role_id where r1_0.user_id=?]
+2025-07-22 09:27:12.314 [http-nio-8081-exec-5] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Starting after statement execution processing [ON_CLOSE]
+2025-07-22 09:27:12.315 [http-nio-8081-exec-5] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@5e0fc38e]
+2025-07-22 09:27:12.361 [http-nio-8081-exec-6] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@7f04db42]
+2025-07-22 09:27:12.388 [http-nio-8081-exec-7] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@1a3371e2]
+2025-07-22 09:27:15.884 [http-nio-8081-exec-9] DEBUG o.s.jdbc.datasource.DataSourceUtils - Setting JDBC Connection [HikariProxyConnection@829707816 wrapping org.postgresql.jdbc.PgConnection@17053b5] read-only
+2025-07-22 09:27:15.890 [http-nio-8081-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.date_creation,
+        u1_0.email,
+        u1_0.last_login,
+        u1_0.nom,
+        u1_0.password 
+    from
+        paiement_monetique.utilisateur u1_0 
+    order by
+        u1_0.nom offset ? rows fetch first ? rows only
+2025-07-22 09:27:15.890 [http-nio-8081-exec-9] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1929069537 wrapping select u1_0.id,u1_0.active,u1_0.date_creation,u1_0.email,u1_0.last_login,u1_0.nom,u1_0.password from paiement_monetique.utilisateur u1_0 order by u1_0.nom offset ? rows fetch first ? rows only]
+2025-07-22 09:27:15.897 [http-nio-8081-exec-9] DEBUG o.s.jdbc.datasource.DataSourceUtils - Resetting read-only flag of JDBC Connection [HikariProxyConnection@829707816 wrapping org.postgresql.jdbc.PgConnection@17053b5]
+2025-07-22 09:27:15.898 [http-nio-8081-exec-9] DEBUG o.s.jdbc.datasource.DataSourceUtils - Setting JDBC Connection [HikariProxyConnection@829707816 wrapping org.postgresql.jdbc.PgConnection@17053b5] read-only
+2025-07-22 09:27:15.899 [http-nio-8081-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        paiement_monetique.role r1_0
+2025-07-22 09:27:15.899 [http-nio-8081-exec-9] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1976325136 wrapping select r1_0.id,r1_0.name from paiement_monetique.role r1_0]
+2025-07-22 09:27:15.900 [http-nio-8081-exec-9] DEBUG o.s.jdbc.datasource.DataSourceUtils - Resetting read-only flag of JDBC Connection [HikariProxyConnection@829707816 wrapping org.postgresql.jdbc.PgConnection@17053b5]
+2025-07-22 09:27:15.911 [http-nio-8081-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.user_id,
+        r1_1.id,
+        r1_1.name 
+    from
+        paiement_monetique.user_role r1_0 
+    join
+        paiement_monetique.role r1_1 
+            on r1_1.id=r1_0.role_id 
+    where
+        r1_0.user_id=?
+2025-07-22 09:27:15.911 [http-nio-8081-exec-9] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@2059660129 wrapping select r1_0.user_id,r1_1.id,r1_1.name from paiement_monetique.user_role r1_0 join paiement_monetique.role r1_1 on r1_1.id=r1_0.role_id where r1_0.user_id=?]
+2025-07-22 09:27:15.914 [http-nio-8081-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.user_id,
+        r1_1.id,
+        r1_1.name 
+    from
+        paiement_monetique.user_role r1_0 
+    join
+        paiement_monetique.role r1_1 
+            on r1_1.id=r1_0.role_id 
+    where
+        r1_0.user_id=?
+2025-07-22 09:27:15.914 [http-nio-8081-exec-9] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@515008279 wrapping select r1_0.user_id,r1_1.id,r1_1.name from paiement_monetique.user_role r1_0 join paiement_monetique.role r1_1 on r1_1.id=r1_0.role_id where r1_0.user_id=?]
+2025-07-22 09:27:15.917 [http-nio-8081-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.user_id,
+        r1_1.id,
+        r1_1.name 
+    from
+        paiement_monetique.user_role r1_0 
+    join
+        paiement_monetique.role r1_1 
+            on r1_1.id=r1_0.role_id 
+    where
+        r1_0.user_id=?
+2025-07-22 09:27:15.917 [http-nio-8081-exec-9] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@670986989 wrapping select r1_0.user_id,r1_1.id,r1_1.name from paiement_monetique.user_role r1_0 join paiement_monetique.role r1_1 on r1_1.id=r1_0.role_id where r1_0.user_id=?]
+2025-07-22 09:27:15.943 [http-nio-8081-exec-9] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@62231605]
+2025-07-22 09:27:15.956 [http-nio-8081-exec-9] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@79000a86]
+2025-07-22 09:27:18.009 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.nom,
+        c1_0.secteur,
+        c1_0.ville 
+    from
+        paiement_monetique.commercant c1_0 offset ? rows fetch first ? rows only
+2025-07-22 09:27:18.009 [http-nio-8081-exec-10] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1895638245 wrapping select c1_0.id,c1_0.nom,c1_0.secteur,c1_0.ville from paiement_monetique.commercant c1_0 offset ? rows fetch first ? rows only]
+2025-07-22 09:27:18.011 [http-nio-8081-exec-10] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Starting after statement execution processing [ON_CLOSE]
+2025-07-22 09:27:18.019 [http-nio-8081-exec-10] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@3b87d28b]
+2025-07-22 09:27:19.829 [http-nio-8081-exec-8] DEBUG o.s.jdbc.datasource.DataSourceUtils - Setting JDBC Connection [HikariProxyConnection@23963862 wrapping org.postgresql.jdbc.PgConnection@17053b5] read-only
+2025-07-22 09:27:19.877 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.date_creation,
+        c1_0.date_exp,
+        c1_0.numero_masked,
+        c1_0.statut,
+        c1_0.type,
+        c1_0.utilisateur_id 
+    from
+        paiement_monetique.carte_bancaire c1_0 
+    where
+        (
+            ? is null 
+            or ?='' 
+            or lower(c1_0.numero_masked) like lower(('%'||?||'%')) escape ''
+        ) 
+        and (
+            ? is null 
+            or ?='' 
+            or lower(c1_0.type) like lower(('%'||?||'%')) escape ''
+        ) 
+        and (
+            ? is null 
+            or ?='' 
+            or lower(c1_0.statut)=lower(?)
+        ) 
+    order by
+        case 
+            when ? is null 
+            or ?='' then c1_0.date_creation 
+        end desc,
+        case 
+            when ?='numeroMasked' 
+            and ?='asc' then c1_0.numero_masked 
+        end,
+        case 
+            when ?='numeroMasked' 
+            and ?='desc' then c1_0.numero_masked 
+        end desc,
+        case 
+            when ?='type' 
+            and ?='asc' then c1_0.type 
+        end,
+        case 
+            when ?='type' 
+            and ?='desc' then c1_0.type 
+        end desc,
+        case 
+            when ?='dateExp' 
+            and ?='asc' then c1_0.date_exp 
+        end,
+        case 
+            when ?='dateExp' 
+            and ?='desc' then c1_0.date_exp 
+        end desc,
+        case 
+            when ?='dateCreation' 
+            and ?='asc' then c1_0.date_creation 
+        end,
+        case 
+            when ?='dateCreation' 
+            and ?='desc' then c1_0.date_creation 
+        end desc,
+        case 
+            when ?='statut' 
+            and ?='asc' then c1_0.statut 
+        end,
+        case 
+            when ?='statut' 
+            and ?='desc' then c1_0.statut 
+        end desc,
+        c1_0.date_creation desc offset ? rows fetch first ? rows only
+2025-07-22 09:27:19.878 [http-nio-8081-exec-8] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@980447965 wrapping select c1_0.id,c1_0.date_creation,c1_0.date_exp,c1_0.numero_masked,c1_0.statut,c1_0.type,c1_0.utilisateur_id from paiement_monetique.carte_bancaire c1_0 where (? is null or ?='' or lower(c1_0.numero_masked) like lower(('%'||?||'%')) escape '') and (? is null or ?='' or lower(c1_0.type) like lower(('%'||?||'%')) escape '') and (? is null or ?='' or lower(c1_0.statut)=lower(?)) order by case when ? is null or ?='' then c1_0.date_creation end desc,case when ?='numeroMasked' and ?='asc' then c1_0.numero_masked end,case when ?='numeroMasked' and ?='desc' then c1_0.numero_masked end desc,case when ?='type' and ?='asc' then c1_0.type end,case when ?='type' and ?='desc' then c1_0.type end desc,case when ?='dateExp' and ?='asc' then c1_0.date_exp end,case when ?='dateExp' and ?='desc' then c1_0.date_exp end desc,case when ?='dateCreation' and ?='asc' then c1_0.date_creation end,case when ?='dateCreation' and ?='desc' then c1_0.date_creation end desc,case when ?='statut' and ?='asc' then c1_0.statut end,case when ?='statut' and ?='desc' then c1_0.statut end desc,c1_0.date_creation desc offset ? rows fetch first ? rows only]
+2025-07-22 09:27:19.885 [http-nio-8081-exec-8] DEBUG o.s.jdbc.datasource.DataSourceUtils - Resetting read-only flag of JDBC Connection [HikariProxyConnection@23963862 wrapping org.postgresql.jdbc.PgConnection@17053b5]
+2025-07-22 09:27:19.922 [http-nio-8081-exec-8] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@66eda68]
+2025-07-22 09:27:22.051 [http-nio-8081-exec-2] DEBUG o.s.jdbc.datasource.DataSourceUtils - Setting JDBC Connection [HikariProxyConnection@55998136 wrapping org.postgresql.jdbc.PgConnection@17053b5] read-only
+2025-07-22 09:27:22.054 [http-nio-8081-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        count(p1_0.id) 
+    from
+        paiement_monetique.paiement p1_0
+2025-07-22 09:27:22.054 [http-nio-8081-exec-2] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1249082269 wrapping select count(p1_0.id) from paiement_monetique.paiement p1_0]
+2025-07-22 09:27:22.058 [http-nio-8081-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.carte_bancaire_id,
+        p1_0.commentaire,
+        p1_0.commercant_id,
+        p1_0.created_at,
+        p1_0.date,
+        p1_0.montant,
+        p1_0.statut,
+        p1_0.type_carte,
+        p1_0.updated_at,
+        p1_0.utilisateur_id 
+    from
+        paiement_monetique.paiement p1_0 
+    order by
+        p1_0.date desc offset ? rows fetch first ? rows only
+2025-07-22 09:27:22.058 [http-nio-8081-exec-2] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1476697708 wrapping select p1_0.id,p1_0.carte_bancaire_id,p1_0.commentaire,p1_0.commercant_id,p1_0.created_at,p1_0.date,p1_0.montant,p1_0.statut,p1_0.type_carte,p1_0.updated_at,p1_0.utilisateur_id from paiement_monetique.paiement p1_0 order by p1_0.date desc offset ? rows fetch first ? rows only]
+2025-07-22 09:27:22.059 [http-nio-8081-exec-2] DEBUG o.s.jdbc.datasource.DataSourceUtils - Resetting read-only flag of JDBC Connection [HikariProxyConnection@55998136 wrapping org.postgresql.jdbc.PgConnection@17053b5]
+2025-07-22 09:27:22.059 [http-nio-8081-exec-2] DEBUG o.s.jdbc.datasource.DataSourceUtils - Setting JDBC Connection [HikariProxyConnection@55998136 wrapping org.postgresql.jdbc.PgConnection@17053b5] read-only
+2025-07-22 09:27:22.062 [http-nio-8081-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.date_creation,
+        c1_0.date_exp,
+        c1_0.numero_masked,
+        c1_0.statut,
+        c1_0.type,
+        c1_0.utilisateur_id 
+    from
+        paiement_monetique.carte_bancaire c1_0
+2025-07-22 09:27:22.062 [http-nio-8081-exec-2] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1525676509 wrapping select c1_0.id,c1_0.date_creation,c1_0.date_exp,c1_0.numero_masked,c1_0.statut,c1_0.type,c1_0.utilisateur_id from paiement_monetique.carte_bancaire c1_0]
+2025-07-22 09:27:22.064 [http-nio-8081-exec-2] DEBUG o.s.jdbc.datasource.DataSourceUtils - Resetting read-only flag of JDBC Connection [HikariProxyConnection@55998136 wrapping org.postgresql.jdbc.PgConnection@17053b5]
+2025-07-22 09:27:22.083 [http-nio-8081-exec-2] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@60a64c0]
+2025-07-22 09:27:22.091 [http-nio-8081-exec-2] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@310e5893]
+2025-07-22 09:30:09.525 [http-nio-8081-exec-1] DEBUG o.s.jdbc.datasource.DataSourceUtils - Setting JDBC Connection [HikariProxyConnection@2116314190 wrapping org.postgresql.jdbc.PgConnection@17053b5] read-only
+2025-07-22 09:30:09.526 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.date_creation,
+        u1_0.email,
+        u1_0.last_login,
+        u1_0.nom,
+        u1_0.password 
+    from
+        paiement_monetique.utilisateur u1_0 
+    order by
+        u1_0.nom offset ? rows fetch first ? rows only
+2025-07-22 09:30:09.527 [http-nio-8081-exec-1] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@2028706315 wrapping select u1_0.id,u1_0.active,u1_0.date_creation,u1_0.email,u1_0.last_login,u1_0.nom,u1_0.password from paiement_monetique.utilisateur u1_0 order by u1_0.nom offset ? rows fetch first ? rows only]
+2025-07-22 09:30:09.529 [http-nio-8081-exec-1] DEBUG o.s.jdbc.datasource.DataSourceUtils - Resetting read-only flag of JDBC Connection [HikariProxyConnection@2116314190 wrapping org.postgresql.jdbc.PgConnection@17053b5]
+2025-07-22 09:30:09.529 [http-nio-8081-exec-1] DEBUG o.s.jdbc.datasource.DataSourceUtils - Setting JDBC Connection [HikariProxyConnection@2116314190 wrapping org.postgresql.jdbc.PgConnection@17053b5] read-only
+2025-07-22 09:30:09.531 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        paiement_monetique.role r1_0
+2025-07-22 09:30:09.531 [http-nio-8081-exec-1] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@2007475404 wrapping select r1_0.id,r1_0.name from paiement_monetique.role r1_0]
+2025-07-22 09:30:09.532 [http-nio-8081-exec-1] DEBUG o.s.jdbc.datasource.DataSourceUtils - Resetting read-only flag of JDBC Connection [HikariProxyConnection@2116314190 wrapping org.postgresql.jdbc.PgConnection@17053b5]
+2025-07-22 09:30:09.535 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.user_id,
+        r1_1.id,
+        r1_1.name 
+    from
+        paiement_monetique.user_role r1_0 
+    join
+        paiement_monetique.role r1_1 
+            on r1_1.id=r1_0.role_id 
+    where
+        r1_0.user_id=?
+2025-07-22 09:30:09.536 [http-nio-8081-exec-1] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@231295413 wrapping select r1_0.user_id,r1_1.id,r1_1.name from paiement_monetique.user_role r1_0 join paiement_monetique.role r1_1 on r1_1.id=r1_0.role_id where r1_0.user_id=?]
+2025-07-22 09:30:09.538 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.user_id,
+        r1_1.id,
+        r1_1.name 
+    from
+        paiement_monetique.user_role r1_0 
+    join
+        paiement_monetique.role r1_1 
+            on r1_1.id=r1_0.role_id 
+    where
+        r1_0.user_id=?
+2025-07-22 09:30:09.538 [http-nio-8081-exec-1] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1839506547 wrapping select r1_0.user_id,r1_1.id,r1_1.name from paiement_monetique.user_role r1_0 join paiement_monetique.role r1_1 on r1_1.id=r1_0.role_id where r1_0.user_id=?]
+2025-07-22 09:30:09.539 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.user_id,
+        r1_1.id,
+        r1_1.name 
+    from
+        paiement_monetique.user_role r1_0 
+    join
+        paiement_monetique.role r1_1 
+            on r1_1.id=r1_0.role_id 
+    where
+        r1_0.user_id=?
+2025-07-22 09:30:09.540 [http-nio-8081-exec-1] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@282393175 wrapping select r1_0.user_id,r1_1.id,r1_1.name from paiement_monetique.user_role r1_0 join paiement_monetique.role r1_1 on r1_1.id=r1_0.role_id where r1_0.user_id=?]
+2025-07-22 09:30:09.546 [http-nio-8081-exec-1] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@30764a34]
+2025-07-22 09:30:09.551 [http-nio-8081-exec-1] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@550e9916]
+2025-07-22 09:30:21.049 [http-nio-8081-exec-3] DEBUG o.s.jdbc.datasource.DataSourceUtils - Setting JDBC Connection [HikariProxyConnection@734921307 wrapping org.postgresql.jdbc.PgConnection@17053b5] read-only
+2025-07-22 09:30:21.051 [http-nio-8081-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.date_creation,
+        u1_0.email,
+        u1_0.last_login,
+        u1_0.nom,
+        u1_0.password 
+    from
+        paiement_monetique.utilisateur u1_0 
+    order by
+        u1_0.nom offset ? rows fetch first ? rows only
+2025-07-22 09:30:21.051 [http-nio-8081-exec-3] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@196020468 wrapping select u1_0.id,u1_0.active,u1_0.date_creation,u1_0.email,u1_0.last_login,u1_0.nom,u1_0.password from paiement_monetique.utilisateur u1_0 order by u1_0.nom offset ? rows fetch first ? rows only]
+2025-07-22 09:30:21.054 [http-nio-8081-exec-3] DEBUG o.s.jdbc.datasource.DataSourceUtils - Resetting read-only flag of JDBC Connection [HikariProxyConnection@734921307 wrapping org.postgresql.jdbc.PgConnection@17053b5]
+2025-07-22 09:30:21.054 [http-nio-8081-exec-3] DEBUG o.s.jdbc.datasource.DataSourceUtils - Setting JDBC Connection [HikariProxyConnection@734921307 wrapping org.postgresql.jdbc.PgConnection@17053b5] read-only
+2025-07-22 09:30:21.055 [http-nio-8081-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        paiement_monetique.role r1_0
+2025-07-22 09:30:21.055 [http-nio-8081-exec-3] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1361940101 wrapping select r1_0.id,r1_0.name from paiement_monetique.role r1_0]
+2025-07-22 09:30:21.057 [http-nio-8081-exec-3] DEBUG o.s.jdbc.datasource.DataSourceUtils - Resetting read-only flag of JDBC Connection [HikariProxyConnection@734921307 wrapping org.postgresql.jdbc.PgConnection@17053b5]
+2025-07-22 09:30:21.060 [http-nio-8081-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.user_id,
+        r1_1.id,
+        r1_1.name 
+    from
+        paiement_monetique.user_role r1_0 
+    join
+        paiement_monetique.role r1_1 
+            on r1_1.id=r1_0.role_id 
+    where
+        r1_0.user_id=?
+2025-07-22 09:30:21.060 [http-nio-8081-exec-3] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1857538432 wrapping select r1_0.user_id,r1_1.id,r1_1.name from paiement_monetique.user_role r1_0 join paiement_monetique.role r1_1 on r1_1.id=r1_0.role_id where r1_0.user_id=?]
+2025-07-22 09:30:21.061 [http-nio-8081-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.user_id,
+        r1_1.id,
+        r1_1.name 
+    from
+        paiement_monetique.user_role r1_0 
+    join
+        paiement_monetique.role r1_1 
+            on r1_1.id=r1_0.role_id 
+    where
+        r1_0.user_id=?
+2025-07-22 09:30:21.062 [http-nio-8081-exec-3] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1580733610 wrapping select r1_0.user_id,r1_1.id,r1_1.name from paiement_monetique.user_role r1_0 join paiement_monetique.role r1_1 on r1_1.id=r1_0.role_id where r1_0.user_id=?]
+2025-07-22 09:30:21.063 [http-nio-8081-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.user_id,
+        r1_1.id,
+        r1_1.name 
+    from
+        paiement_monetique.user_role r1_0 
+    join
+        paiement_monetique.role r1_1 
+            on r1_1.id=r1_0.role_id 
+    where
+        r1_0.user_id=?
+2025-07-22 09:30:21.063 [http-nio-8081-exec-3] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@488830996 wrapping select r1_0.user_id,r1_1.id,r1_1.name from paiement_monetique.user_role r1_0 join paiement_monetique.role r1_1 on r1_1.id=r1_0.role_id where r1_0.user_id=?]
+2025-07-22 09:30:21.068 [http-nio-8081-exec-3] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@1f95752]
+2025-07-22 09:30:21.074 [http-nio-8081-exec-3] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@d6f686e]
+2025-07-22 09:30:31.084 [http-nio-8081-exec-4] DEBUG o.s.jdbc.datasource.DataSourceUtils - Setting JDBC Connection [HikariProxyConnection@1632786477 wrapping org.postgresql.jdbc.PgConnection@17053b5] read-only
+2025-07-22 09:30:31.086 [http-nio-8081-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.date_creation,
+        u1_0.email,
+        u1_0.last_login,
+        u1_0.nom,
+        u1_0.password 
+    from
+        paiement_monetique.utilisateur u1_0 
+    order by
+        u1_0.nom offset ? rows fetch first ? rows only
+2025-07-22 09:30:31.086 [http-nio-8081-exec-4] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1724050878 wrapping select u1_0.id,u1_0.active,u1_0.date_creation,u1_0.email,u1_0.last_login,u1_0.nom,u1_0.password from paiement_monetique.utilisateur u1_0 order by u1_0.nom offset ? rows fetch first ? rows only]
+2025-07-22 09:30:31.089 [http-nio-8081-exec-4] DEBUG o.s.jdbc.datasource.DataSourceUtils - Resetting read-only flag of JDBC Connection [HikariProxyConnection@1632786477 wrapping org.postgresql.jdbc.PgConnection@17053b5]
+2025-07-22 09:30:31.089 [http-nio-8081-exec-4] DEBUG o.s.jdbc.datasource.DataSourceUtils - Setting JDBC Connection [HikariProxyConnection@1632786477 wrapping org.postgresql.jdbc.PgConnection@17053b5] read-only
+2025-07-22 09:30:31.090 [http-nio-8081-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        paiement_monetique.role r1_0
+2025-07-22 09:30:31.090 [http-nio-8081-exec-4] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1295208598 wrapping select r1_0.id,r1_0.name from paiement_monetique.role r1_0]
+2025-07-22 09:30:31.092 [http-nio-8081-exec-4] DEBUG o.s.jdbc.datasource.DataSourceUtils - Resetting read-only flag of JDBC Connection [HikariProxyConnection@1632786477 wrapping org.postgresql.jdbc.PgConnection@17053b5]
+2025-07-22 09:30:31.095 [http-nio-8081-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.user_id,
+        r1_1.id,
+        r1_1.name 
+    from
+        paiement_monetique.user_role r1_0 
+    join
+        paiement_monetique.role r1_1 
+            on r1_1.id=r1_0.role_id 
+    where
+        r1_0.user_id=?
+2025-07-22 09:30:31.096 [http-nio-8081-exec-4] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1009119405 wrapping select r1_0.user_id,r1_1.id,r1_1.name from paiement_monetique.user_role r1_0 join paiement_monetique.role r1_1 on r1_1.id=r1_0.role_id where r1_0.user_id=?]
+2025-07-22 09:30:31.097 [http-nio-8081-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.user_id,
+        r1_1.id,
+        r1_1.name 
+    from
+        paiement_monetique.user_role r1_0 
+    join
+        paiement_monetique.role r1_1 
+            on r1_1.id=r1_0.role_id 
+    where
+        r1_0.user_id=?
+2025-07-22 09:30:31.097 [http-nio-8081-exec-4] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1780305204 wrapping select r1_0.user_id,r1_1.id,r1_1.name from paiement_monetique.user_role r1_0 join paiement_monetique.role r1_1 on r1_1.id=r1_0.role_id where r1_0.user_id=?]
+2025-07-22 09:30:31.098 [http-nio-8081-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        r1_0.user_id,
+        r1_1.id,
+        r1_1.name 
+    from
+        paiement_monetique.user_role r1_0 
+    join
+        paiement_monetique.role r1_1 
+            on r1_1.id=r1_0.role_id 
+    where
+        r1_0.user_id=?
+2025-07-22 09:30:31.098 [http-nio-8081-exec-4] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@68370727 wrapping select r1_0.user_id,r1_1.id,r1_1.name from paiement_monetique.user_role r1_0 join paiement_monetique.role r1_1 on r1_1.id=r1_0.role_id where r1_0.user_id=?]
+2025-07-22 09:30:31.103 [http-nio-8081-exec-4] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@53f5ce21]
+2025-07-22 09:30:31.110 [http-nio-8081-exec-4] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@283c01f]
+2025-07-22 09:30:37.945 [http-nio-8081-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.nom,
+        c1_0.secteur,
+        c1_0.ville 
+    from
+        paiement_monetique.commercant c1_0 offset ? rows fetch first ? rows only
+2025-07-22 09:30:37.945 [http-nio-8081-exec-5] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@727445431 wrapping select c1_0.id,c1_0.nom,c1_0.secteur,c1_0.ville from paiement_monetique.commercant c1_0 offset ? rows fetch first ? rows only]
+2025-07-22 09:30:37.947 [http-nio-8081-exec-5] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Starting after statement execution processing [ON_CLOSE]
+2025-07-22 09:30:37.953 [http-nio-8081-exec-5] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@5cf4ecd4]
+2025-07-22 09:30:39.906 [http-nio-8081-exec-6] DEBUG o.s.jdbc.datasource.DataSourceUtils - Setting JDBC Connection [HikariProxyConnection@1252967025 wrapping org.postgresql.jdbc.PgConnection@17053b5] read-only
+2025-07-22 09:30:39.913 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.date_creation,
+        c1_0.date_exp,
+        c1_0.numero_masked,
+        c1_0.statut,
+        c1_0.type,
+        c1_0.utilisateur_id 
+    from
+        paiement_monetique.carte_bancaire c1_0 
+    where
+        (
+            ? is null 
+            or ?='' 
+            or lower(c1_0.numero_masked) like lower(('%'||?||'%')) escape ''
+        ) 
+        and (
+            ? is null 
+            or ?='' 
+            or lower(c1_0.type) like lower(('%'||?||'%')) escape ''
+        ) 
+        and (
+            ? is null 
+            or ?='' 
+            or lower(c1_0.statut)=lower(?)
+        ) 
+    order by
+        case 
+            when ? is null 
+            or ?='' then c1_0.date_creation 
+        end desc,
+        case 
+            when ?='numeroMasked' 
+            and ?='asc' then c1_0.numero_masked 
+        end,
+        case 
+            when ?='numeroMasked' 
+            and ?='desc' then c1_0.numero_masked 
+        end desc,
+        case 
+            when ?='type' 
+            and ?='asc' then c1_0.type 
+        end,
+        case 
+            when ?='type' 
+            and ?='desc' then c1_0.type 
+        end desc,
+        case 
+            when ?='dateExp' 
+            and ?='asc' then c1_0.date_exp 
+        end,
+        case 
+            when ?='dateExp' 
+            and ?='desc' then c1_0.date_exp 
+        end desc,
+        case 
+            when ?='dateCreation' 
+            and ?='asc' then c1_0.date_creation 
+        end,
+        case 
+            when ?='dateCreation' 
+            and ?='desc' then c1_0.date_creation 
+        end desc,
+        case 
+            when ?='statut' 
+            and ?='asc' then c1_0.statut 
+        end,
+        case 
+            when ?='statut' 
+            and ?='desc' then c1_0.statut 
+        end desc,
+        c1_0.date_creation desc offset ? rows fetch first ? rows only
+2025-07-22 09:30:39.913 [http-nio-8081-exec-6] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1233395373 wrapping select c1_0.id,c1_0.date_creation,c1_0.date_exp,c1_0.numero_masked,c1_0.statut,c1_0.type,c1_0.utilisateur_id from paiement_monetique.carte_bancaire c1_0 where (? is null or ?='' or lower(c1_0.numero_masked) like lower(('%'||?||'%')) escape '') and (? is null or ?='' or lower(c1_0.type) like lower(('%'||?||'%')) escape '') and (? is null or ?='' or lower(c1_0.statut)=lower(?)) order by case when ? is null or ?='' then c1_0.date_creation end desc,case when ?='numeroMasked' and ?='asc' then c1_0.numero_masked end,case when ?='numeroMasked' and ?='desc' then c1_0.numero_masked end desc,case when ?='type' and ?='asc' then c1_0.type end,case when ?='type' and ?='desc' then c1_0.type end desc,case when ?='dateExp' and ?='asc' then c1_0.date_exp end,case when ?='dateExp' and ?='desc' then c1_0.date_exp end desc,case when ?='dateCreation' and ?='asc' then c1_0.date_creation end,case when ?='dateCreation' and ?='desc' then c1_0.date_creation end desc,case when ?='statut' and ?='asc' then c1_0.statut end,case when ?='statut' and ?='desc' then c1_0.statut end desc,c1_0.date_creation desc offset ? rows fetch first ? rows only]
+2025-07-22 09:30:39.914 [http-nio-8081-exec-6] DEBUG o.s.jdbc.datasource.DataSourceUtils - Resetting read-only flag of JDBC Connection [HikariProxyConnection@1252967025 wrapping org.postgresql.jdbc.PgConnection@17053b5]
+2025-07-22 09:30:39.921 [http-nio-8081-exec-6] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@40c12b1e]
+2025-07-22 09:30:42.499 [http-nio-8081-exec-7] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@741daf57]
+2025-07-22 09:30:42.505 [http-nio-8081-exec-7] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@3b504830]
+2025-07-22 09:30:45.656 [http-nio-8081-exec-9] DEBUG o.s.jdbc.datasource.DataSourceUtils - Setting JDBC Connection [HikariProxyConnection@842030208 wrapping org.postgresql.jdbc.PgConnection@17053b5] read-only
+2025-07-22 09:30:45.657 [http-nio-8081-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        count(p1_0.id) 
+    from
+        paiement_monetique.paiement p1_0
+2025-07-22 09:30:45.657 [http-nio-8081-exec-9] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@696254223 wrapping select count(p1_0.id) from paiement_monetique.paiement p1_0]
+2025-07-22 09:30:45.658 [http-nio-8081-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        p1_0.id,
+        p1_0.carte_bancaire_id,
+        p1_0.commentaire,
+        p1_0.commercant_id,
+        p1_0.created_at,
+        p1_0.date,
+        p1_0.montant,
+        p1_0.statut,
+        p1_0.type_carte,
+        p1_0.updated_at,
+        p1_0.utilisateur_id 
+    from
+        paiement_monetique.paiement p1_0 
+    order by
+        p1_0.date desc offset ? rows fetch first ? rows only
+2025-07-22 09:30:45.658 [http-nio-8081-exec-9] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1354041259 wrapping select p1_0.id,p1_0.carte_bancaire_id,p1_0.commentaire,p1_0.commercant_id,p1_0.created_at,p1_0.date,p1_0.montant,p1_0.statut,p1_0.type_carte,p1_0.updated_at,p1_0.utilisateur_id from paiement_monetique.paiement p1_0 order by p1_0.date desc offset ? rows fetch first ? rows only]
+2025-07-22 09:30:45.659 [http-nio-8081-exec-9] DEBUG o.s.jdbc.datasource.DataSourceUtils - Resetting read-only flag of JDBC Connection [HikariProxyConnection@842030208 wrapping org.postgresql.jdbc.PgConnection@17053b5]
+2025-07-22 09:30:45.659 [http-nio-8081-exec-9] DEBUG o.s.jdbc.datasource.DataSourceUtils - Setting JDBC Connection [HikariProxyConnection@842030208 wrapping org.postgresql.jdbc.PgConnection@17053b5] read-only
+2025-07-22 09:30:45.660 [http-nio-8081-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.date_creation,
+        c1_0.date_exp,
+        c1_0.numero_masked,
+        c1_0.statut,
+        c1_0.type,
+        c1_0.utilisateur_id 
+    from
+        paiement_monetique.carte_bancaire c1_0
+2025-07-22 09:30:45.660 [http-nio-8081-exec-9] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1797696350 wrapping select c1_0.id,c1_0.date_creation,c1_0.date_exp,c1_0.numero_masked,c1_0.statut,c1_0.type,c1_0.utilisateur_id from paiement_monetique.carte_bancaire c1_0]
+2025-07-22 09:30:45.661 [http-nio-8081-exec-9] DEBUG o.s.jdbc.datasource.DataSourceUtils - Resetting read-only flag of JDBC Connection [HikariProxyConnection@842030208 wrapping org.postgresql.jdbc.PgConnection@17053b5]
+2025-07-22 09:30:45.668 [http-nio-8081-exec-9] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@2410d98a]
+2025-07-22 09:30:45.674 [http-nio-8081-exec-9] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@5ed3b0de]
+2025-07-22 09:30:48.115 [http-nio-8081-exec-10] DEBUG o.s.jdbc.datasource.DataSourceUtils - Setting JDBC Connection [HikariProxyConnection@1052461315 wrapping org.postgresql.jdbc.PgConnection@17053b5] read-only
+2025-07-22 09:30:48.116 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        paiement_monetique.utilisateur u1_0
+2025-07-22 09:30:48.116 [http-nio-8081-exec-10] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@1250276657 wrapping select count(*) from paiement_monetique.utilisateur u1_0]
+2025-07-22 09:30:48.118 [http-nio-8081-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        paiement_monetique.paiement p1_0
+2025-07-22 09:30:48.118 [http-nio-8081-exec-10] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@724154250 wrapping select count(*) from paiement_monetique.paiement p1_0]
+2025-07-22 09:30:48.123 [http-nio-8081-exec-10] DEBUG o.s.jdbc.datasource.DataSourceUtils - Resetting read-only flag of JDBC Connection [HikariProxyConnection@1052461315 wrapping org.postgresql.jdbc.PgConnection@17053b5]
+2025-07-22 09:30:48.173 [http-nio-8081-exec-10] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@5e0fa747]
+2025-07-22 09:30:55.980 [http-nio-8081-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.nom,
+        c1_0.secteur,
+        c1_0.ville 
+    from
+        paiement_monetique.commercant c1_0 offset ? rows fetch first ? rows only
+2025-07-22 09:30:55.981 [http-nio-8081-exec-8] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@383068260 wrapping select c1_0.id,c1_0.nom,c1_0.secteur,c1_0.ville from paiement_monetique.commercant c1_0 offset ? rows fetch first ? rows only]
+2025-07-22 09:30:55.983 [http-nio-8081-exec-8] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Starting after statement execution processing [ON_CLOSE]
+2025-07-22 09:30:55.989 [http-nio-8081-exec-8] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@16e165e7]
+2025-07-22 09:30:57.677 [http-nio-8081-exec-2] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@5a5dde3]
+2025-07-22 09:31:06.755 [http-nio-8081-exec-1] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        paiement_monetique.commercant
+        (nom,secteur,ville) 
+    values
+        (?,?,?)
+2025-07-22 09:31:06.763 [http-nio-8081-exec-1] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Starting after statement execution processing [ON_CLOSE]
+2025-07-22 09:31:06.767 [http-nio-8081-exec-1] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@1a414ba6]
+2025-07-22 09:31:06.774 [http-nio-8081-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.nom,
+        c1_0.secteur,
+        c1_0.ville 
+    from
+        paiement_monetique.commercant c1_0 offset ? rows fetch first ? rows only
+2025-07-22 09:31:06.774 [http-nio-8081-exec-3] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@470259320 wrapping select c1_0.id,c1_0.nom,c1_0.secteur,c1_0.ville from paiement_monetique.commercant c1_0 offset ? rows fetch first ? rows only]
+2025-07-22 09:31:06.776 [http-nio-8081-exec-3] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Starting after statement execution processing [ON_CLOSE]
+2025-07-22 09:31:06.784 [http-nio-8081-exec-3] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@4ea938bd]
+2025-07-22 09:31:11.346 [http-nio-8081-exec-4] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@7ae1f444]
+2025-07-22 09:31:11.350 [http-nio-8081-exec-4] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@5176e6e9]
+2025-07-22 09:31:12.471 [http-nio-8081-exec-5] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@4e95a392]
+2025-07-22 09:31:12.477 [http-nio-8081-exec-6] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@4a653f03]
+2025-07-22 09:31:12.494 [http-nio-8081-exec-7] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@78c748cf]
+2025-07-22 09:31:14.497 [http-nio-8081-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.nom,
+        c1_0.secteur,
+        c1_0.ville 
+    from
+        paiement_monetique.commercant c1_0 offset ? rows fetch first ? rows only
+2025-07-22 09:31:14.497 [http-nio-8081-exec-9] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@273843515 wrapping select c1_0.id,c1_0.nom,c1_0.secteur,c1_0.ville from paiement_monetique.commercant c1_0 offset ? rows fetch first ? rows only]
+2025-07-22 09:31:14.499 [http-nio-8081-exec-9] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Starting after statement execution processing [ON_CLOSE]
+2025-07-22 09:31:14.504 [http-nio-8081-exec-9] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@c8dd804]
+2025-07-22 09:31:49.313 [http-nio-8081-exec-1] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@52675f78]
+2025-07-22 09:31:49.318 [http-nio-8081-exec-1] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@1c8b60c2]
+2025-07-22 09:31:51.420 [http-nio-8081-exec-3] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@293f76b5]
+2025-07-22 09:31:51.427 [http-nio-8081-exec-4] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@1032b66b]
+2025-07-22 09:31:51.443 [http-nio-8081-exec-5] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@3a8ecd47]
+2025-07-22 09:31:52.769 [http-nio-8081-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.nom,
+        c1_0.secteur,
+        c1_0.ville 
+    from
+        paiement_monetique.commercant c1_0 offset ? rows fetch first ? rows only
+2025-07-22 09:31:52.769 [http-nio-8081-exec-6] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@2079383963 wrapping select c1_0.id,c1_0.nom,c1_0.secteur,c1_0.ville from paiement_monetique.commercant c1_0 offset ? rows fetch first ? rows only]
+2025-07-22 09:31:52.771 [http-nio-8081-exec-6] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Starting after statement execution processing [ON_CLOSE]
+2025-07-22 09:31:52.777 [http-nio-8081-exec-6] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@287fb0cc]
+2025-07-22 09:31:55.399 [http-nio-8081-exec-7] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@5811f248]
+2025-07-22 09:31:55.403 [http-nio-8081-exec-7] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@28edc094]
+2025-07-22 09:31:58.134 [http-nio-8081-exec-9] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@15474640]
+2025-07-22 09:31:58.141 [http-nio-8081-exec-10] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@761a0358]
+2025-07-22 09:31:58.160 [http-nio-8081-exec-8] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@203388d4]
+2025-07-22 09:32:10.570 [http-nio-8081-exec-2] DEBUG o.s.jdbc.datasource.DataSourceUtils - Setting JDBC Connection [HikariProxyConnection@1956381712 wrapping org.postgresql.jdbc.PgConnection@17053b5] read-only
+2025-07-22 09:32:10.573 [http-nio-8081-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.date_creation,
+        c1_0.date_exp,
+        c1_0.numero_masked,
+        c1_0.statut,
+        c1_0.type,
+        c1_0.utilisateur_id 
+    from
+        paiement_monetique.carte_bancaire c1_0 
+    where
+        (
+            ? is null 
+            or ?='' 
+            or lower(c1_0.numero_masked) like lower(('%'||?||'%')) escape ''
+        ) 
+        and (
+            ? is null 
+            or ?='' 
+            or lower(c1_0.type) like lower(('%'||?||'%')) escape ''
+        ) 
+        and (
+            ? is null 
+            or ?='' 
+            or lower(c1_0.statut)=lower(?)
+        ) 
+    order by
+        case 
+            when ? is null 
+            or ?='' then c1_0.date_creation 
+        end desc,
+        case 
+            when ?='numeroMasked' 
+            and ?='asc' then c1_0.numero_masked 
+        end,
+        case 
+            when ?='numeroMasked' 
+            and ?='desc' then c1_0.numero_masked 
+        end desc,
+        case 
+            when ?='type' 
+            and ?='asc' then c1_0.type 
+        end,
+        case 
+            when ?='type' 
+            and ?='desc' then c1_0.type 
+        end desc,
+        case 
+            when ?='dateExp' 
+            and ?='asc' then c1_0.date_exp 
+        end,
+        case 
+            when ?='dateExp' 
+            and ?='desc' then c1_0.date_exp 
+        end desc,
+        case 
+            when ?='dateCreation' 
+            and ?='asc' then c1_0.date_creation 
+        end,
+        case 
+            when ?='dateCreation' 
+            and ?='desc' then c1_0.date_creation 
+        end desc,
+        case 
+            when ?='statut' 
+            and ?='asc' then c1_0.statut 
+        end,
+        case 
+            when ?='statut' 
+            and ?='desc' then c1_0.statut 
+        end desc,
+        c1_0.date_creation desc offset ? rows fetch first ? rows only
+2025-07-22 09:32:10.573 [http-nio-8081-exec-2] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Registering last query statement [HikariProxyPreparedStatement@6835683 wrapping select c1_0.id,c1_0.date_creation,c1_0.date_exp,c1_0.numero_masked,c1_0.statut,c1_0.type,c1_0.utilisateur_id from paiement_monetique.carte_bancaire c1_0 where (? is null or ?='' or lower(c1_0.numero_masked) like lower(('%'||?||'%')) escape '') and (? is null or ?='' or lower(c1_0.type) like lower(('%'||?||'%')) escape '') and (? is null or ?='' or lower(c1_0.statut)=lower(?)) order by case when ? is null or ?='' then c1_0.date_creation end desc,case when ?='numeroMasked' and ?='asc' then c1_0.numero_masked end,case when ?='numeroMasked' and ?='desc' then c1_0.numero_masked end desc,case when ?='type' and ?='asc' then c1_0.type end,case when ?='type' and ?='desc' then c1_0.type end desc,case when ?='dateExp' and ?='asc' then c1_0.date_exp end,case when ?='dateExp' and ?='desc' then c1_0.date_exp end desc,case when ?='dateCreation' and ?='asc' then c1_0.date_creation end,case when ?='dateCreation' and ?='desc' then c1_0.date_creation end desc,case when ?='statut' and ?='asc' then c1_0.statut end,case when ?='statut' and ?='desc' then c1_0.statut end desc,c1_0.date_creation desc offset ? rows fetch first ? rows only]
+2025-07-22 09:32:10.575 [http-nio-8081-exec-2] DEBUG o.s.jdbc.datasource.DataSourceUtils - Resetting read-only flag of JDBC Connection [HikariProxyConnection@1956381712 wrapping org.postgresql.jdbc.PgConnection@17053b5]
+2025-07-22 09:32:10.581 [http-nio-8081-exec-2] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@56ed6c97]
+2025-07-22 09:32:18.843 [http-nio-8081-exec-1] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@4076fc00]
+2025-07-22 09:32:36.225 [http-nio-8081-exec-3] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@77ba0503]
+2025-07-22 09:56:28.398 [http-nio-8081-exec-7] TRACE o.h.e.j.internal.JdbcCoordinatorImpl - Closing JDBC container [org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl@2de4a19f]

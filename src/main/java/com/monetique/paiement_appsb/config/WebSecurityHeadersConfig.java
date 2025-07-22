@@ -20,14 +20,16 @@ public class WebSecurityHeadersConfig implements WebMvcConfigurer {
                 .xssProtection(xss -> xss
                     .headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK)
                 )
-                .contentSecurityPolicy(csp -> csp
-                    .policyDirectives(
+                // Désactivation de CSP pour le développement
+                .contentSecurityPolicy(csp -> {}
+                    // Pour la production, il faudrait réactiver avec une politique appropriée
+                    /*.policyDirectives(
                         "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https:; " +
-                        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; " +
-                        "style-src 'self' 'unsafe-inline' https:; " +
-                        "img-src 'self' data: https:; " +
-                        "font-src 'self' data: https:;"
-                    )
+                        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http:; " +
+                        "style-src 'self' 'unsafe-inline' https: http:; " +
+                        "img-src 'self' data: https: http:; " +
+                        "font-src 'self' data: https: http:;"
+                    )*/
                 )
                 .frameOptions(frame -> frame
                     .deny()

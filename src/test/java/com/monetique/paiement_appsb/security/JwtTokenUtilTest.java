@@ -2,27 +2,28 @@ package com.monetique.paiement_appsb.security;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.test.context.TestPropertySource;
 
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-@SpringBootTest
-@TestPropertySource(locations = "classpath:application-test.properties")
 public class JwtTokenUtilTest {
 
-    @Autowired
     private JwtTokenUtil jwtTokenUtil;
-
     private UserDetails userDetails;
+    
+    // Clé secrète de test (au moins 64 caractères pour HS512)
+    private static final String TEST_SECRET = "my-super-secure-secret-key-of-64-chars-or-more-1234567890abcdefghijklmnopqrstuvwxyz";
+    
+    // Durée d'expiration de 24h en millisecondes
+    private static final long EXPIRATION = 24 * 60 * 60 * 1000;
 
     @BeforeEach
     public void setup() {
+        // Utiliser le constructeur qui prend la clé et l'expiration en paramètres
+        jwtTokenUtil = new JwtTokenUtil(TEST_SECRET, EXPIRATION);
+        
         userDetails = new User(
             "testuser",
             "password",
@@ -48,29 +49,37 @@ public class JwtTokenUtilTest {
 
     @Test
     public void testTokenExpiration() {
-        // Création d'un token avec une expiration très courte (1ms)
-        JwtTokenUtil utilWithShortExpiration = new JwtTokenUtil();
-        utilWithShortExpiration.setSecret("testSecret");
-        utilWithShortExpiration.setExpiration(1); // 1ms d'expiration
-
-        String token = utilWithShortExpiration.generateToken(userDetails);
+        // Créer un token avec une date d'expiration passée
+        long expiredExpiration = -1000; // Expiration dans le passé
+        JwtTokenUtil expiredTokenUtil = new JwtTokenUtil(TEST_SECRET, expiredExpiration);
         
-        // Attendre que le token expire
-        try {
-            Thread.sleep(10);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-
-        // Le token devrait être expiré
-        assertFalse(utilWithShortExpiration.validateToken(token, userDetails));
+        // Générer le token (sera déjà expiré)
+        String token = expiredTokenUtil.generateToken(userDetails);
+        
+        // Vérifier que le token est considéré comme expiré
+        assertFalse(expiredTokenUtil.validateToken(token, userDetails), 
+            "Le token devrait être considéré comme expiré");
     }
 
     @Test
     public void testInvalidToken() {
+        // Test avec un token mal formé
         String invalidToken = "invalid.token.here";
-        assertThrows(Exception.class, () -> {
-            jwtTokenUtil.validateToken(invalidToken, userDetails);
-        });
+        assertThrows(Exception.class, 
+            () -> jwtTokenUtil.validateToken(invalidToken, userDetails),
+            "Un token invalide devrait lever une exception"
+        );
+        
+        // Test avec un token signé avec une autre clé
+        JwtTokenUtil otherKeyTokenUtil = new JwtTokenUtil(
+            "a-different-secret-key-1234567890-abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ", 
+            86400000
+        );
+        String tokenWithOtherKey = otherKeyTokenUtil.generateToken(userDetails);
+        
+        assertThrows(Exception.class, 
+            () -> jwtTokenUtil.validateToken(tokenWithOtherKey, userDetails),
+            "Un token signé avec une clé différente devrait être rejeté"
+        );
     }
 }

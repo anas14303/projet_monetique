@@ -1,61 +1,56 @@
 package com.monetique.paiement_appsb.service;
 
-import com.monetique.paiement_appsb.model.CarteBancaire;
-import com.monetique.paiement_appsb.repository.CarteBancaireRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.monetique.paiement_appsb.dto.CarteBancaireDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
-@Service
-@Transactional
-public class CarteBancaireService {
-
-    @Autowired
-    private CarteBancaireRepository carteBancaireRepository;
-
-    // CRUD operations
-    public CarteBancaire create(CarteBancaire carteBancaire) {
-        return carteBancaireRepository.save(carteBancaire);
-    }
-
-    public Optional<CarteBancaire> read(Long id) {
-        return carteBancaireRepository.findById(id);
-    }
-
-    public CarteBancaire update(CarteBancaire carteBancaire) {
-        return carteBancaireRepository.save(carteBancaire);
-    }
-
-    public void delete(Long id) {
-        carteBancaireRepository.deleteById(id);
-    }
-
-    // Filtering methods
-    public Page<CarteBancaire> findByType(String type, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("dateExp").descending());
-        return carteBancaireRepository.findByType(type, pageable);
-    }
-
-    public Page<CarteBancaire> findByDateRange(Date startDate, Date endDate, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("dateExp").descending());
-        return carteBancaireRepository.findByDateRange(startDate, endDate, pageable);
-    }
-
-    public Page<CarteBancaire> filterCartesBancaires(
+public interface CarteBancaireService {
+    List<CarteBancaireDTO> findAll();
+    
+    Page<CarteBancaireDTO> findAll(Pageable pageable);
+    
+    Optional<CarteBancaireDTO> findById(Long id);
+    
+    CarteBancaireDTO save(CarteBancaireDTO carteBancaireDTO);
+    
+    CarteBancaireDTO update(Long id, CarteBancaireDTO carteBancaireDTO);
+    
+    void delete(Long id);
+    
+    /**
+     * Recherche des cartes bancaires avec filtres
+     * @param numeroMasked Numéro masqué de la carte (peut être null)
+     * @param type Type de la carte (peut être null)
+     * @param statut Statut de la carte (peut être null)
+     * @param pageable Informations de pagination et tri
+     * @return Page de CarteBancaireDTO correspondant aux critères
+     */
+    Page<CarteBancaireDTO> search(String numeroMasked, String type, String statut, Pageable pageable);
+    
+    Page<CarteBancaireDTO> findByUtilisateurId(Long utilisateurId, Pageable pageable);
+    
+    boolean existsByNumeroMasked(String numeroMasked);
+    
+    boolean existsByNumeroMaskedAndIdNot(String numeroMasked, Long id);
+    
+    Optional<CarteBancaireDTO> findByNumeroMasked(String numeroMasked);
+    
+    /**
+     * Filtre avancé des cartes bancaires
+     * @param startDate Date de début (peut être null)
+     * @param endDate Date de fin (peut être null)
+     * @param type Type de la carte (peut être null)
+     * @param pageable Informations de pagination et tri
+     * @return Page de CarteBancaireDTO correspondant aux critères
+     */
+    Page<CarteBancaireDTO> filterCartesBancaires(
             Date startDate,
             Date endDate,
             String type,
-            int page,
-            int size
-    ) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("dateExp").descending());
-        return carteBancaireRepository.filterCartesBancaires(startDate, endDate, type, pageable);
-    }
+            Pageable pageable
+    );
 }

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>Détails de la transaction</title>
+    <th:block layout:fragment="styles">
+        <style>
+            .transaction-details {
+                background-color: #fff;
+                border-radius: 8px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+                padding: 30px;
+                margin-bottom: 30px;
+            }
+            .detail-row {
+                display: flex;
+                margin-bottom: 15px;
+                padding-bottom: 15px;
+                border-bottom: 1px solid #eee;
+            }
+            .detail-label {
+                font-weight: 600;
+                color: #6c757d;
+                width: 200px;
+                flex-shrink: 0;
+            }
+            .detail-value {
+                flex-grow: 1;
+            }
+            .status-badge {
+                padding: 5px 10px;
+                border-radius: 15px;
+                font-size: 0.8rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                display: inline-block;
+            }
+            .status-PENDING {
+                background-color: #f6c23e;
+                color: #000;
+            }
+            .status-COMPLETED {
+                background-color: #1cc88a;
+                color: #fff;
+            }
+            .status-FAILED {
+                background-color: #e74a3b;
+                color: #fff;
+            }
+            .status-REFUNDED {
+                background-color: #36b9cc;
+                color: #fff;
+            }
+            .timeline {
+                position: relative;
+                padding-left: 30px;
+                margin-top: 20px;
+            }
+            .timeline:before {
+                content: '';
+                position: absolute;
+                left: 10px;
+                top: 0;
+                bottom: 0;
+                width: 2px;
+                background: #e9ecef;
+            }
+            .timeline-item {
+                position: relative;
+                margin-bottom: 20px;
+                padding-left: 20px;
+            }
+            .timeline-item:before {
+                content: '';
+                position: absolute;
+                left: -10px;
+                top: 5px;
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background: #4e73df;
+                border: 2px solid #fff;
+                box-shadow: 0 0 0 2px #4e73df;
+            }
+            .timeline-item .time {
+                font-size: 0.8rem;
+                color: #6c757d;
+            }
+            .timeline-item .content {
+                margin-top: 5px;
+            }
+        </style>
+    </th:block>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="container-fluid">
+            <!-- En-tête avec bouton de retour -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">Détails de la transaction</h1>
+                <a th:href="@{/admin/transactions}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> Retour à la liste
+                </a>
+            </div>
+
+            <!-- Carte de la transaction -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Transaction #<span th:text="${transaction.id}"></span>
+                    </h6>
+                    <span class="status-badge" 
+                          th:classappend="'status-' + ${transaction.statut}"
+                          th:text="${transaction.statut}">
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="transaction-details">
+                        <div class="detail-row">
+                            <div class="detail-label">Date</div>
+                            <div class="detail-value" th:text="${#temporals.format(transaction.date, 'dd/MM/yyyy HH:mm')}"></div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-label">Montant</div>
+                            <div class="detail-value" th:text="${#numbers.formatDecimal(transaction.montant, 1, 2, 'POINT') + ' €'}"></div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-label">Commerçant</div>
+                            <div class="detail-value" th:text="${transaction.commercant.nom}"></div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-label">Type de carte</div>
+                            <div class="detail-value" th:text="${transaction.typeCarte}"></div>
+                        </div>
+                        
+                        <div class="detail-row" th:if="${transaction.utilisateur != null}">
+                            <div class="detail-label">Client</div>
+                            <div class="detail-value" th:text="${transaction.utilisateur.nom + ' ' + transaction.utilisateur.prenom}"></div>
+                        </div>
+                        
+                        <div class="detail-row" th:if="${transaction.commentaire != null && !transaction.commentaire.isEmpty()}">
+                            <div class="detail-label">Commentaires</div>
+                            <div class="detail-value" style="white-space: pre-line;" th:text="${transaction.commentaire}"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Historique des statuts -->
+                    <div class="mt-5">
+                        <h5 class="mb-4">Historique des statuts</h5>
+                        <div class="timeline">
+                            <!-- Exemple d'historique - À remplacer par des données réelles -->
+                            <div class="timeline-item">
+                                <div class="time">14/07/2023 15:30</div>
+                                <div class="content">
+                                    <strong>Statut modifié:</strong> <span class="badge bg-success">COMPLETED</span>
+                                    <div class="text-muted mt-1">Paiement approuvé avec succès</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="time">14/07/2023 15:28</div>
+                                <div class="content">
+                                    <strong>Statut modifié:</strong> <span class="badge bg-warning text-dark">PENDING</span>
+                                    <div class="text-muted mt-1">En attente de traitement</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="time">14/07/2023 15:25</div>
+                                <div class="content">
+                                    <strong>Transaction créée</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Actions -->
+                    <div class="mt-5 pt-4 border-top">
+                        <h5 class="mb-4">Actions</h5>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-success" 
+                                    th:if="${transaction.statut.name() == 'PENDING'}"
+                                    onclick="updateStatus('COMPLETED')">
+                                <i class="fas fa-check me-1"></i> Marquer comme complété
+                            </button>
+                            
+                            <button type="button" class="btn btn-warning"
+                                    th:if="${transaction.statut.name() != 'REFUNDED'}"
+                                    onclick="updateStatus('REFUNDED')">
+                                <i class="fas fa-undo me-1"></i> Rembourser
+                            </button>
+                            
+                            <a th:href="#" class="btn btn-info">
+                                <i class="fas fa-print me-1"></i> Imprimer
+                            </a>
+                            
+                            <a th:href="#" class="btn btn-secondary">
+                                <i class="fas fa-envelope me-1"></i> Envoyer par email
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal de confirmation -->
+        <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="statusModalLabel">Confirmer la modification</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="comment" class="col-form-label">Commentaire (optionnel):</label>
+                            <textarea class="form-control" id="comment"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="button" class="btn btn-primary" id="confirmStatusChange">Confirmer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <th:block layout:fragment="scripts">
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                // Fonction pour charger les détails de la transaction
+                function loadTransactionDetails() {
+                    const transactionId = /*[[${transactionId}]]*/ 0;
+                    
+                    // Afficher un indicateur de chargement
+                    $('.transaction-details').html(`
+                        <div class="text-center my-5">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Chargement...</span>
+                            </div>
+                            <p class="mt-2">Chargement des détails de la transaction...</p>
+                        </div>
+                    `);
+                    
+                    // Charger les détails de la transaction via l'API
+                    $.ajax({
+                        url: `/api/transactions/${transactionId}`,
+                        type: 'GET',
+                        success: function(transaction) {
+                            // Formater la date
+                            const date = new Date(transaction.date);
+                            const formattedDate = date.toLocaleDateString('fr-FR', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            });
+                            
+                            // Formater le montant
+                            const formattedAmount = new Intl.NumberFormat('fr-FR', { 
+                                style: 'currency', 
+                                currency: 'EUR' 
+                            }).format(transaction.montant);
+                            
+                            // Mettre à jour l'interface utilisateur
+                            $('.transaction-details').html(`
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                        <h6 class="m-0 font-weight-bold text-primary">
+                                            Transaction #${transaction.id}
+                                        </h6>
+                                        <span class="status-badge status-${transaction.statut}">
+                                            ${transaction.statut}
+                                        </span>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row mb-4">
+                                            <div class="col-md-6">
+                                                <h5 class="mb-3">Informations de la transaction</h5>
+                                                <table class="table table-bordered">
+                                                    <tr>
+                                                        <th style="width: 40%">Date</th>
+                                                        <td>${formattedDate}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Montant</th>
+                                                        <td>${formattedAmount}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Commerçant</th>
+                                                        <td>${transaction.commercant.nom}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Type de carte</th>
+                                                        <td>${transaction.typeCarte || 'Non spécifié'}</td>
+                                                    </tr>
+                                                    ${transaction.utilisateur ? `
+                                                    <tr>
+                                                        <th>Client</th>
+                                                        <td>${transaction.utilisateur.nom} ${transaction.utilisateur.prenom}</td>
+                                                    </tr>
+                                                    ` : ''}
+                                                </table>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5 class="mb-3">Actions</h5>
+                                                <div class="d-flex flex-column">
+                                                    ${transaction.statut === 'PENDING' ? `
+                                                    <button class="btn btn-success mb-2" 
+                                                            onclick="updateStatus('COMPLETED')">
+                                                        <i class="fas fa-check me-2"></i> Marquer comme complété
+                                                    </button>
+                                                    ` : ''}
+                                                    ${transaction.statut !== 'REFUNDED' ? `
+                                                    <button class="btn btn-warning mb-2" 
+                                                            onclick="updateStatus('REFUNDED')">
+                                                        <i class="fas fa-undo me-2"></i> Rembourser
+                                                    </button>
+                                                    ` : ''}
+                                                    <button class="btn btn-info mb-2" onclick="window.print()">
+                                                        <i class="fas fa-print me-2"></i> Imprimer
+                                                    </button>
+                                                </div>
+                                                
+                                                ${transaction.commentaire ? `
+                                                <div class="mt-4">
+                                                    <h6>Commentaires</h6>
+                                                    <div class="p-3 bg-light rounded">
+                                                        ${transaction.commentaire.replace(/\n/g, '<br>')}
+                                                    </div>
+                                                </div>
+                                                ` : ''}
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mt-4">
+                                            <h5 class="mb-3">Historique des statuts</h5>
+                                            <div class="timeline">
+                                                ${generateStatusHistory(transaction.historiqueStatuts || [])}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `);
+                        },
+                        error: function(xhr) {
+                            $('.transaction-details').html(`
+                                <div class="alert alert-danger">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    Une erreur est survenue lors du chargement des détails de la transaction.
+                                </div>
+                            `);
+                        }
+                    });
+                }
+                
+                // Fonction pour générer l'historique des statuts
+                function generateStatusHistory(history) {
+                    if (history.length === 0) {
+                        return `
+                            <div class="timeline-item">
+                                <div class="time">Aucun historique disponible</div>
+                                <div class="content">
+                                    Aucun changement de statut enregistré pour le moment.
+                                </div>
+                            </div>
+                        `;
+                    }
+                    
+                    return history.map(item => {
+                        const date = new Date(item.date);
+                        const formattedDate = date.toLocaleString('fr-FR', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        });
+                        
+                        return `
+                            <div class="timeline-item">
+                                <div class="time">${formattedDate}</div>
+                                <div class="content">
+                                    <strong>Statut modifié:</strong> 
+                                    <span class="badge bg-${getStatusBadgeClass(item.nouveauStatut)}">
+                                        ${item.nouveauStatut}
+                                    </span>
+                                    ${item.commentaire ? `
+                                    <div class="text-muted mt-1">${item.commentaire}</div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+                
+                // Fonction utilitaire pour obtenir la classe CSS du badge de statut
+                function getStatusBadgeClass(status) {
+                    switch (status) {
+                        case 'PENDING': return 'warning text-dark';
+                        case 'COMPLETED': return 'success';
+                        case 'FAILED': return 'danger';
+                        case 'REFUNDED': return 'info';
+                        default: return 'secondary';
+                    }
+                }
+                
+                // Fonction pour afficher la boîte de dialogue de confirmation
+                function updateStatus(status) {
+                    $('#newStatus').val(status);
+                    $('#statusModal').modal('show');
+                }
+                
+                // Gestion de la confirmation du changement de statut
+                $('#confirmStatusChange').on('click', function() {
+                    const comment = $('#comment').val();
+                    const transactionId = /*[[${transactionId}]]*/ 0;
+                    const newStatus = $('#newStatus').val();
+                    
+                    // Désactiver le bouton pendant la requête
+                    const $btn = $(this);
+                    $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Traitement...');
+                    
+                    // Envoyer la requête AJAX
+                    $.ajax({
+                        url: '/api/transactions/' + transactionId + '/update-status',
+                        type: 'POST',
+                        data: {
+                            newStatus: newStatus,
+                            comment: comment
+                        },
+                        success: function(response) {
+                            // Fermer la modale
+                            $('#statusModal').modal('hide');
+                            
+                            // Réinitialiser le formulaire
+                            $('#comment').val('');
+                            
+                            // Recharger les détails de la transaction
+                            loadTransactionDetails();
+                            
+                            // Afficher un message de succès
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Succès',
+                                text: 'Le statut de la transaction a été mis à jour avec succès.',
+                                confirmButtonText: 'OK'
+                            });
+                        },
+                        error: function(xhr) {
+                            // Réactiver le bouton
+                            $btn.prop('disabled', false).html('Confirmer');
+                            
+                            // Afficher un message d'erreur
+                            let errorMessage = 'Une erreur est survenue lors de la mise à jour du statut.';
+                            if (xhr.responseJSON && xhr.responseJSON.message) {
+                                errorMessage = xhr.responseJSON.message;
+                            }
+                            
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Erreur',
+                                text: errorMessage,
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    });
+                });
+                
+                // Charger les détails de la transaction au chargement de la page
+                $(document).ready(function() {
+                    loadTransactionDetails();
+                });
+            </script>
+        </th:block>
+    </div>
+</body>

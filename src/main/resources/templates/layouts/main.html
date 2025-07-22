@@ -392,14 +392,14 @@
             }
         </script>
         
-        <!-- Additional scripts from child templates -->
-        <th:block layout:fragment="additional-scripts"></th:block>
-        
-        <!-- jQuery -->
+        <!-- jQuery (chargé en premier) -->
         <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
         
         <!-- Bootstrap Bundle with Popper -->
         <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+        
+        <!-- Additional scripts from child templates -->
+        <th:block layout:fragment="additional-scripts"></th:block>
         
         <!-- AOS JS -->
         <script th:src="@{/js/aos.js}"></script>

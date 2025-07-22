@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.cors.CorsConfiguration;
@@ -143,32 +142,30 @@ public class JwtSecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
                     "/",
-                    "/auth/**",
+                    "/index.html",
                     "/css/**",
                     "/js/**",
-                    "/img/**",
+                    "/images/**",
+                    "/vendor/**",
                     "/webfonts/**",
                     "/i18n/**",
                     "/favicon.ico",
                     "/error",
-                    "/api/auth/**"
+                    "/api/auth/**",
+                    "/static/**",
+                    "/webjars/**"
                 ).permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().authenticated()
             )
             .headers(headers -> headers
-                .contentSecurityPolicy(csp -> csp.policyDirectives(
-                    "default-src 'self'; " +
-                    "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
-                    "style-src 'self' 'unsafe-inline' https:; " +
-                    "img-src 'self' data: blob:; " +
-                    "font-src 'self' data: blob:; " +
-                    "connect-src 'self'"
-                ))
-                .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)
+                .contentSecurityPolicy(csp -> {})
+                .frameOptions(frame -> frame.disable())
                 .httpStrictTransportSecurity(hsts -> hsts.disable())
-                .contentTypeOptions(HeadersConfigurer.ContentTypeOptionsConfig::disable)
+                .contentTypeOptions(contentType -> contentType.disable())
+                .xssProtection(xss -> xss.disable())
+                .cacheControl(cache -> cache.disable())
             )
             .formLogin(form -> form
                 .loginPage("/auth/login")

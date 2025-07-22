@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Cartes Bancaires - Administration</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <div class="row">
+            <main class="col-md-12 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Cartes Bancaires</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <a href="/admin/cartes/create" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Nouvelle carte
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Messages flash -->
+                <div th:if="${errorMessage != null}" class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span th:text="${errorMessage}">Erreur</span>
+                </div>
+                <div th:if="${successMessage != null}" class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    <span th:text="${successMessage}">Succès</span>
+                </div>
+
+                <!-- Formulaire de recherche -->
+                <form th:action="@{/admin/cartes}" method="get" class="mb-4">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="numeroMasked" class="form-label">Numéro masqué</label>
+                                <input type="text" class="form-control" id="numeroMasked" name="numeroMasked" 
+                                       th:value="${numeroMasked}"
+                                       placeholder="Ex: **** **** **** 1234">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="type" class="form-label">Type de carte</label>
+                                <select class="form-select" id="type" name="type">
+                                    <option value="">Tous les types</option>
+                                    <option th:each="typeItem : ${T(com.monetique.paiement_appsb.model.TypeCarte).values()}"
+                                            th:value="${typeItem}"
+                                            th:text="${typeItem.libelle}"
+                                            th:selected="${typeItem == type}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="statut" class="form-label">Statut</label>
+                                <select class="form-select" id="statut" name="statut">
+                                    <option value="">Tous les statuts</option>
+                                    <option th:each="s : ${statuts}"
+                                            th:value="${s}"
+                                            th:text="${#strings.capitalize(#strings.toLowerCase(s))}"
+                                            th:selected="${s == statut}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <div class="form-group w-100">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-search"></i> Rechercher
+                                </button>
+                                <a th:href="@{/admin/cartes}" class="btn btn-outline-secondary w-100 mt-2">
+                                    <i class="fas fa-undo"></i> Réinitialiser
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Table des cartes bancaires -->
+                <!-- Informations sur les résultats -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="text-muted">
+                        <span th:if="${totalItems > 0}">
+                            Affichage de <span th:text="${currentPage * 10 + 1}">1</span> à 
+                            <span th:text="${(currentPage + 1) * 10 > totalItems ? totalItems : (currentPage + 1) * 10}">10</span> sur 
+                            <span th:text="${totalItems}">0</span> résultats
+                        </span>
+                        <span th:if="${totalItems == 0}">Aucun résultat trouvé</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="me-2">Trier par :</span>
+                        <div class="btn-group" role="group">
+                            <a th:classappend="${sortBy == 'numeroMasked' ? 'active' : ''}" 
+                               th:href="${'/admin/cartes?size=' + size + '&page=0&sortBy=numeroMasked&sortDir=' + (sortBy == 'numeroMasked' ? (sortDir == 'asc' ? 'desc' : 'asc') : 'asc') + 
+                               (numeroMasked != null && numeroMasked != '' ? '&numeroMasked=' + #uris.escapeQueryParam(numeroMasked) : '') + 
+                               (type != null && type != '' ? '&type=' + #uris.escapeQueryParam(type) : '') + 
+                               (statut != null && statut != '' ? '&statut=' + #uris.escapeQueryParam(statut) : '')}"
+                               class="btn btn-outline-secondary">
+                                Numéro <i th:class="${sortBy == 'numeroMasked' && sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></i>
+                            </a>
+                            <a th:classappend="${sortBy == 'type' ? 'active' : ''}" 
+                               th:href="${'/admin/cartes?size=' + size + '&page=0&sortBy=type&sortDir=' + (sortBy == 'type' ? (sortDir == 'asc' ? 'desc' : 'asc') : 'asc') + 
+                               (numeroMasked != null && numeroMasked != '' ? '&numeroMasked=' + #uris.escapeQueryParam(numeroMasked) : '') + 
+                               (type != null && type != '' ? '&type=' + #uris.escapeQueryParam(type) : '') + 
+                               (statut != null && statut != '' ? '&statut=' + #uris.escapeQueryParam(statut) : '')}"
+                               class="btn btn-outline-secondary">
+                                Type <i th:class="${sortBy == 'type' && sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></i>
+                            </a>
+                            <a th:classappend="${sortBy == 'dateCreation' ? 'active' : ''}" 
+                               th:href="${'/admin/cartes?size=' + size + '&page=0&sortBy=dateCreation&sortDir=' + (sortBy == 'dateCreation' ? (sortDir == 'asc' ? 'desc' : 'asc') : 'asc') + 
+                               (numeroMasked != null && numeroMasked != '' ? '&numeroMasked=' + #uris.escapeQueryParam(numeroMasked) : '') + 
+                               (type != null && type != '' ? '&type=' + #uris.escapeQueryParam(type) : '') + 
+                               (statut != null && statut != '' ? '&statut=' + #uris.escapeQueryParam(statut) : '')}"
+                               class="btn btn-outline-secondary">
+                                Date <i th:class="${sortBy == 'dateCreation' && sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></i>
+                            </a>
+                            <a th:classappend="${sortBy == 'statut' ? 'active' : ''}" 
+                               th:href="${'/admin/cartes?size=' + size + '&page=0&sortBy=statut&sortDir=' + (sortBy == 'statut' ? (sortDir == 'asc' ? 'desc' : 'asc') : 'asc') + 
+                               (numeroMasked != null && numeroMasked != '' ? '&numeroMasked=' + #uris.escapeQueryParam(numeroMasked) : '') + 
+                               (type != null && type != '' ? '&type=' + #uris.escapeQueryParam(type) : '') + 
+                               (statut != null && statut != '' ? '&statut=' + #uris.escapeQueryParam(statut) : '')}"
+                               class="btn btn-outline-secondary">
+                                Statut <i th:class="${sortBy == 'statut' && sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tableau des résultats -->
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Numéro</th>
+                                <th>Type</th>
+                                <th>Date d'expiration</th>
+                                <th>Date de création</th>
+                                <th>Statut</th>
+                                <th class="text-end">Actions</th>
+                                <th>Numéro masqué</th>
+                                <th>Type</th>
+                                <th>Date d'expiration</th>
+                                <th>Utilisateur</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="carte : ${cartesBancaires}">
+                                <td>
+                                    <span class="badge bg-secondary">
+                                        <i class="fas fa-credit-card me-1"></i>
+                                        <span th:text="${carte.numeroMasked}">**** **** **** 1234</span>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span th:class="${'badge ' + 
+                                        (carte.type == 'VISA' ? 'bg-primary' : 
+                                         carte.type == 'MASTERCARD' ? 'bg-info text-dark' : 'bg-secondary')}">
+                                        <i th:class="${carte.type == 'VISA' ? 'fab fa-cc-visa' : 
+                                                       carte.type == 'MASTERCARD' ? 'fab fa-cc-mastercard' : 'fas fa-credit-card'}"></i>
+                                        <span th:text="${carte.type}">VISA</span>
+                                    </span>
+                                </td>
+                                <td th:text="${#temporals.format(carte.dateExpiration, 'MM/yy')}">12/25</td>
+                                <td th:text="${#temporals.format(carte.dateCreation, 'dd/MM/yyyy HH:mm')}">01/01/2023 10:30</td>
+                                <td>
+                                    <span th:class="${'badge ' + 
+                                        (carte.statut == 'ACTIVE' ? 'bg-success' : 
+                                         carte.statut == 'BLOQUEE' ? 'bg-danger' : 
+                                         carte.statut == 'EXPIREE' ? 'bg-warning text-dark' : 'bg-secondary')}">
+                                        <i th:class="${carte.statut == 'ACTIVE' ? 'fas fa-check-circle' : 
+                                                       carte.statut == 'BLOQUEE' ? 'fas fa-ban' : 
+                                                       carte.statut == 'EXPIREE' ? 'fas fa-exclamation-triangle' : 'fas fa-info-circle'}"></i>
+                                        <span th:text="${#strings.capitalize(#strings.toLowerCase(carte.statut))}">Active</span>
+                                    </span>
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group" role="group">
+                                        <a th:href="@{/admin/cartes/{id}(id=${carte.id})}" 
+                                           class="btn btn-sm btn-outline-primary"
+                                           title="Voir les détails">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a th:href="@{/admin/cartes/{id}/edit(id=${carte.id})}" 
+                                           class="btn btn-sm btn-outline-secondary"
+                                           title="Modifier">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button type="button" 
+                                                class="btn btn-sm btn-outline-danger"
+                                                th:if="${carte.statut != 'BLOQUEE'}"
+                                                th:onclick="'confirmBlock(\'Voulez-vous vraiment bloquer cette carte ?\', \'/admin/cartes/' + ${carte.id} + '/block\')'"
+                                                title="Bloquer la carte">
+                                            <i class="fas fa-ban"></i>
+                                        </button>
+                                        <button type="button" 
+                                                class="btn btn-sm btn-outline-success"
+                                                th:if="${carte.statut == 'BLOQUEE'}"
+                                                th:onclick="'confirmUnblock(\'Voulez-vous vraiment débloquer cette carte ?\', \'/admin/cartes/' + ${carte.id} + '/unblock\')'"
+                                                title="Débloquer la carte">
+                                            <i class="fas fa-lock-open"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="/admin/cartes-bancaires/${carte.id}" 
+                                       th:text="${carte.numeroMasked}">
+                                        **** **** **** 1234
+                                    </a>
+                                </td>
+                                <td th:text="${carte.type}">VISA</td>
+                                <td th:text="${#temporals.format(carte.dateExp, 'dd/MM/yyyy')}">31/12/2025</td>
+                                <td>
+                                    <a href="/admin/users/${carte.utilisateur.id}" 
+                                       th:text="${carte.utilisateur.nom + ' ' + carte.utilisateur.prenom}">
+                                        John Doe
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="/admin/transactions?carteBancaire=${carte.id}" class="btn btn-sm btn-info">
+                                        <i class="fas fa-search"></i> Voir paiements
+                                    </a>
+                                    <a href="/admin/cartes-bancaires/${carte.id}/edit" class="btn btn-sm btn-warning">
+                                        <i class="fas fa-edit"></i> Modifier
+                                    </a>
+                                    <a href="/admin/cartes-bancaires/${carte.id}/delete" 
+                                       class="btn btn-sm btn-danger" 
+                                       onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette carte ?')">
+                                        <i class="fas fa-trash"></i> Supprimer
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts pour la confirmation des actions -->
+<script th:inline="javascript">
+        /*<![CDATA[*/
+        function confirmBlock(message, url) {
+            if (confirm(message)) {
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content'),
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).then(function(response) {
+                    if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        alert('Une erreur est survenue lors du blocage de la carte');
+                    }
+                }).catch(function(error) {
+                    console.error('Error:', error);
+                    alert('Une erreur est survenue lors du blocage de la carte');
+                });
+            }
+        }
+        
+        function confirmUnblock(message, url) {
+            if (confirm(message)) {
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]').getAttribute('content'),
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).then(function(response) {
+                    if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        alert('Une erreur est survenue lors du déblocage de la carte');
+                    }
+                }).catch(function(error) {
+                    console.error('Error:', error);
+                    alert('Une erreur est survenue lors du déblocage de la carte');
+                });
+            }
+        }
+        /*]]>*/
+    </script>
+</body>
+</html>

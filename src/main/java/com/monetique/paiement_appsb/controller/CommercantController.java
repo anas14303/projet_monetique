@@ -1,12 +1,15 @@
 package com.monetique.paiement_appsb.controller;
 
 import com.monetique.paiement_appsb.model.Commercant;
+import com.monetique.paiement_appsb.model.Paiement;
 import com.monetique.paiement_appsb.service.CommercantService;
+import com.monetique.paiement_appsb.service.PaiementService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Optional;
 
 @RestController
@@ -16,26 +19,66 @@ public class CommercantController {
     @Autowired
     private CommercantService commercantService;
 
+    @Autowired
+    private PaiementService paiementService;
+
     // CRUD operations - Only admins and commercants can manage commercants
     @PostMapping
     public ResponseEntity<Commercant> create(@RequestBody Commercant commercant) {
-        return ResponseEntity.ok(commercantService.create(commercant));
+        Commercant newCommercant = commercantService.save(commercant);
+        return ResponseEntity.ok(newCommercant);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Commercant>> read(@PathVariable Long id) {
-        return ResponseEntity.ok(commercantService.read(id));
+    public ResponseEntity<Commercant> findById(@PathVariable Long id) {
+        Optional<Commercant> commercant = commercantService.findById(id);
+        if (!commercant.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(commercant.get());
+    }
+
+    @GetMapping("/commercants/{id}")
+    public String listPaiementsByCommercant(@PathVariable Long id, Model model, 
+                                           @RequestParam(defaultValue = "0") int page,
+                                           @RequestParam(defaultValue = "10") int size) {
+        Optional<Commercant> commercant = commercantService.findById(id);
+        if (!commercant.isPresent()) {
+            return "redirect:/commercants";
+        }
+        model.addAttribute("commercant", commercant.get());
+        model.addAttribute("paiements", paiementService.findByCommercant(commercant.get(), page, size));
+        return "commercant-paiements";
+    }
+
+    @GetMapping("/commercants/{id}/paiements/new")
+    public String showNewPaiementForm(@PathVariable Long id, Model model) {
+        Optional<Commercant> commercant = commercantService.findById(id);
+        if (!commercant.isPresent()) {
+            return "redirect:/commercants";
+        }
+        model.addAttribute("commercant", commercant.get());
+        model.addAttribute("paiement", new Paiement());
+        return "paiement-form";
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Commercant> update(@PathVariable Long id, @RequestBody Commercant commercant) {
+    public ResponseEntity<Commercant> update(@PathVariable Long id, @RequestBody @Valid Commercant commercant) {
+        Optional<Commercant> existingCommercant = commercantService.findById(id);
+        if (!existingCommercant.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
         commercant.setId(id);
-        return ResponseEntity.ok(commercantService.update(commercant));
+        return ResponseEntity.ok(commercantService.save(commercant));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        commercantService.delete(id);
+        Optional<Commercant> commercant = commercantService.findById(id);
+        if (!commercant.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        commercantService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 

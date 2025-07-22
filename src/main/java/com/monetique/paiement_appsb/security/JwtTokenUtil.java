@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,24 +17,43 @@ import java.util.function.Function;
 @Component
 public class JwtTokenUtil {
 
-    @Value("${jwt.secret}")
     private String secret;
-
-    @Value("${jwt.expiration:86400000}") // 24h par défaut
     private long expiration;
     
-    // Méthodes setter pour les tests
-    public void setSecret(String secret) {
-        this.secret = secret;
+    // Constructeur par défaut pour la compatibilité avec Spring
+    public JwtTokenUtil() {
+        // Les valeurs par défaut seront remplacées par @Value si le bean est géré par Spring
+        this.secret = "default-super-secure-secret-key-of-64-chars-or-more-1234567890abcdefghijklmnopqrstuvwxyz";
+        this.expiration = 86400000; // 24h par défaut
     }
     
+    // Constructeur pour les tests
+    public JwtTokenUtil(String secret, long expiration) {
+        this.secret = secret;
+        this.expiration = expiration;
+    }
+    
+    // Méthodes setter pour la configuration Spring et les tests
+    @Value("${jwt.secret:}")
+    public void setSecret(String secret) {
+        if (secret != null && !secret.isEmpty()) {
+            this.secret = secret;
+        }
+    }
+    
+    @Value("${jwt.expiration:86400000}")
     public void setExpiration(long expiration) {
         this.expiration = expiration;
     }
 
-    private SecretKey getSigningKey() {
-        byte[] keyBytes = secret.getBytes();
-        return Keys.hmacShaKeyFor(keyBytes);
+    // Méthode rendue public pour les tests
+    public SecretKey getSigningKey() {
+        // Vérifier si la clé est assez longue (au moins 64 caractères pour HS512)
+        if (secret.getBytes(StandardCharsets.UTF_8).length < 64) {
+            // Si la clé est trop courte, on en génère une nouvelle de manière sécurisée
+            return Jwts.SIG.HS512.key().build();
+        }
+        return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
     public String generateToken(UserDetails userDetails) {
@@ -69,9 +89,11 @@ public class JwtTokenUtil {
         return claimsResolver.apply(claims);
     }
 
-    private Claims getAllClaimsFromToken(String token) {
+    // Méthode rendue public pour les tests
+    public Claims getAllClaimsFromToken(String token) {
         return Jwts.parser()
                 .verifyWith(getSigningKey())
+                .clockSkewSeconds(2) // Ajout d'une tolérance de 2 secondes
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();

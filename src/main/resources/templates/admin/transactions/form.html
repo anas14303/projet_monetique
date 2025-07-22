@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${action} == 'create' ? 'Nouveau paiement' : 'Modifier paiement'"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 th:text="${action} == 'create' ? 'Nouveau paiement' : 'Modifier paiement'"></h2>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <form th:action="@{/admin/transactions}" th:object="${paiementDTO}" method="post" class="needs-validation" novalidate>
+                    <!-- Si c'est une modification, inclure l'ID -->
+                    <input type="hidden" th:if="${action} == 'edit'" th:field="*{id}" />
+                    
+                    <div class="mb-3">
+                        <label for="montant" class="form-label">Montant</label>
+                        <input type="number" class="form-control" id="montant" th:field="*{montant}"
+                               required min="0" step="0.01" />
+                        <div class="invalid-feedback">Le montant est requis</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Date</label>
+                        <input type="datetime-local" class="form-control" id="date" th:field="*{date}"
+                               required />
+                        <div class="invalid-feedback">La date est requise</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="statut" class="form-label">Statut</label>
+                        <select class="form-select" id="statut" th:field="*{statut}"
+                                required>
+                            <option th:each="statut : ${T(com.monetique.paiement_appsb.model.StatutPaiement).values()}"
+                                    th:value="${statut}"
+                                    th:text="${statut}"></option>
+                        </select>
+                        <div class="invalid-feedback">Le statut est requis</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="commercant" class="form-label">Commerçant</label>
+                        <select class="form-select" id="commercant" th:field="*{commercantId}"
+                                required>
+                            <option value="" disabled selected>Choisir un commerçant</option>
+                            <option th:each="commercant : ${commercants}"
+                                    th:value="${commercant.id}"
+                                    th:text="${commercant.nom}"></option>
+                        </select>
+                        <div class="invalid-feedback">Le commerçant est requis</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="utilisateur" class="form-label">Utilisateur</label>
+                        <select class="form-select" id="utilisateur" th:field="*{utilisateurId}"
+                                required>
+                            <option value="" disabled selected>Choisir un utilisateur</option>
+                            <option th:each="utilisateur : ${utilisateurs}"
+                                    th:value="${utilisateur.id}"
+                                    th:text="${utilisateur.nom} ${utilisateur.prenom}"></option>
+                        </select>
+                        <div class="invalid-feedback">L'utilisateur est requis</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="carteBancaire" class="form-label">Carte bancaire</label>
+                        <select class="form-select" id="carteBancaire" th:field="*{carteBancaireId}"
+                                required>
+                            <option value="" disabled selected>Choisir une carte bancaire</option>
+                            <option th:each="carte : ${cartes}"
+                                    th:value="${carte.id}"
+                                    th:text="${carte.numero} (${carte.typeCarte})"></option>
+                        </select>
+                        <div class="invalid-feedback">La carte bancaire est requise</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="commentaire" class="form-label">Commentaire</label>
+                        <textarea class="form-control" id="commentaire" th:field="*{commentaire}"
+                                  rows="3"></textarea>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        <a href="/admin/transactions" class="btn btn-secondary">Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Validation du formulaire
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+</body>
+</html>

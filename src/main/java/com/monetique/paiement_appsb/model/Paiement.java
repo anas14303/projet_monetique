@@ -1,72 +1,107 @@
 package com.monetique.paiement_appsb.model;
 
 import jakarta.persistence.*;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "paiement")
+@Data
+@NoArgsConstructor
 public class Paiement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal montant;
-
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
-
-    @Column(nullable = false)
-    private String statut; // Ex: "EN_ATTENTE", "ACCEPTE", "REFUSE"
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "commercant_id", nullable = false)
-    private Commercant commercant;
-    
+    @NotNull(message = "L'utilisateur est obligatoire")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "utilisateur_id", nullable = false)
     private Utilisateur utilisateur;
 
+    @NotNull(message = "Le commerçant est obligatoire")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "carte_id", nullable = false)
+    @JoinColumn(name = "commercant_id", nullable = false)
+    private Commercant commercant;
+
+    @NotNull(message = "La carte bancaire est obligatoire")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "carte_bancaire_id", nullable = false)
     private CarteBancaire carteBancaire;
-    
-    @Column(name = "type_carte", nullable = false)
+
+    @NotNull(message = "Le montant est obligatoire")
+    @DecimalMin(value = "0.01", message = "Le montant doit être supérieur à 0")
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal montant;
+
+    @NotNull(message = "La date est obligatoire")
+    @Column(nullable = false)
+    private Date date;
+
+    @NotNull(message = "Le type de carte est obligatoire")
+    @Column(nullable = false)
     private String typeCarte;
-    
+
+    @NotNull(message = "Le statut est obligatoire")
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StatutPaiement statut;
+
+    @Column(length = 500)
     private String commentaire;
 
-    public Paiement() {
-        // constructeur par défaut
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "paiement", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HistoriqueStatutPaiement> historiqueStatuts;
+
+    public Paiement(Utilisateur utilisateur, Commercant commercant, CarteBancaire carteBancaire, BigDecimal montant, String typeCarte, StatutPaiement statut) {
+        this.utilisateur = utilisateur;
+        this.commercant = commercant;
+        this.carteBancaire = carteBancaire;
+        this.montant = montant;
+        this.date = new Date();
+        this.typeCarte = typeCarte;
+        this.statut = statut;
     }
 
-    // Getters et setters
-
-    public Long getId() {
-        return id;
+    @PrePersist
+    protected void onCreate() {
+        date = new Date();
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @PreUpdate
+    protected void onUpdate() {
+        date = new Date();
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getStatut() {
+    public StatutPaiement getStatut() {
         return statut;
     }
 
-    public void setStatut(String statut) {
+    public void setStatut(StatutPaiement statut) {
         this.statut = statut;
+    }
+    
+    public void setStatut(String statut) {
+        if (statut != null) {
+            this.statut = StatutPaiement.valueOf(statut.toUpperCase());
+        }
     }
 
     public Commercant getCommercant() {
@@ -115,5 +150,13 @@ public class Paiement {
 
     public void setCommentaire(String commentaire) {
         this.commentaire = commentaire;
+    }
+
+    public List<HistoriqueStatutPaiement> getHistoriqueStatuts() {
+        return historiqueStatuts;
+    }
+
+    public void setHistoriqueStatuts(List<HistoriqueStatutPaiement> historiqueStatuts) {
+        this.historiqueStatuts = historiqueStatuts;
     }
 }

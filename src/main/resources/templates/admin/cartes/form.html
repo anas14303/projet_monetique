@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout}">
+<head>
+    <title>Carte Bancaire - Administration</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Nouvelle carte bancaire</h1>
+        </div>
+
+                <!-- Messages flash -->
+                <div th:if="${errorMessage != null}" class="alert alert-danger">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span th:text="${errorMessage}">Erreur</span>
+                </div>
+                <div th:if="${successMessage != null}" class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    <span th:text="${successMessage}">Succès</span>
+                </div>
+
+                <!-- Formulaire -->
+                <form th:action="@{/admin/cartes}" th:object="${carteDTO}" th:method="${action == 'edit' ? 'put' : 'post'}" class="needs-validation" novalidate>
+                    <input type="hidden" name="_method" th:if="${action == 'edit'}" value="put" />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="numeroMasked" class="form-label">Numéro masqué</label>
+                                <input type="text" class="form-control" id="numeroMasked" 
+                                       th:field="*{numeroMasked}"
+                                       required
+                                       pattern="^\*{4} \*{4} \*{4} [0-9]{4}$"
+                                       title="Format : **** **** **** 1234">
+                                <div class="invalid-feedback">
+                                    Le numéro masqué doit être au format **** **** **** 1234
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="type" class="form-label">Type de carte</label>
+                                <select class="form-control" id="type" th:field="*{type}" required>
+                                    <option value="">Sélectionnez un type</option>
+                                    <option value="VISA">VISA</option>
+                                    <option value="MASTERCARD">MASTERCARD</option>
+                                    <option value="AMEX">AMEX</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Veuillez sélectionner un type de carte
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="dateExp" class="form-label">Date d'expiration</label>
+                                <input type="month" class="form-control" id="dateExp" 
+                                       th:field="*{dateExp}"
+                                       required
+                                       min="${#dates.format(#dates.createNow(), 'yyyy-MM')}">
+                                <div class="invalid-feedback">
+                                    La date d'expiration est requise et doit être future
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="utilisateurId" class="form-label">Utilisateur</label>
+                                <select class="form-control" id="utilisateurId" th:field="*{utilisateurId}" required>
+                                    <option value="">Sélectionnez un utilisateur</option>
+                                    <option th:each="user : ${utilisateurs}"
+                                            th:value="${user.id}"
+                                            th:text="${user.nom + ' ' + user.prenom}">
+                                    </option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Veuillez sélectionner un utilisateur
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a th:href="@{/admin/cartes}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-1"></i> Retour
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i> Enregistrer
+                        </button>
+                    </div>
+                </form>
+    </div>
+</body>
+</html>

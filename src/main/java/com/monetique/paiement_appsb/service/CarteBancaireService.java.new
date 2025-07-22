@@ -1,0 +1,20 @@
+package com.monetique.paiement_appsb.service;
+
+import com.monetique.paiement_appsb.dto.CarteBancaireDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+
+public interface CarteBancaireService {
+    List<CarteBancaireDTO> findAll();
+    Page<CarteBancaireDTO> findAll(Pageable pageable);
+    CarteBancaireDTO findById(Long id);
+    CarteBancaireDTO save(CarteBancaireDTO carteBancaireDTO);
+    CarteBancaireDTO update(Long id, CarteBancaireDTO carteBancaireDTO);
+    void delete(Long id);
+    Page<CarteBancaireDTO> search(String numeroMasked, String type, Pageable pageable);
+    Page<CarteBancaireDTO> findByUtilisateurId(Long utilisateurId, Pageable pageable);
+    boolean existsByNumeroMasked(String numeroMasked);
+    boolean existsByNumeroMaskedAndIdNot(String numeroMasked, Long id);
+}

@@ -156,7 +156,7 @@ public class UserManagementController {
             logger.warn("Tentative de suppression non autorisée: {}", e.getMessage());
             response.put("success", false);
             response.put("message", e.getMessage());
-            return ResponseEntity.badRequest().body(response);
+            return ResponseEntity.status(403).body(response);
         } catch (Exception e) {
             logger.error("Erreur lors de la suppression de l'utilisateur", e);
             response.put("success", false);

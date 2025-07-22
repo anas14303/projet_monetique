@@ -140,8 +140,7 @@
                     flex-wrap: wrap;
                     justify-content: space-around;
                 }
-                .main-content {
-                    margin-left: 0;
+                .sidebar {
                     padding: 20px;
                     width: 100%;
                 }
@@ -174,48 +173,239 @@
             <!-- Sidebar -->
             <div class="sidebar">
                 <h3><i class="fas fa-tachometer-alt me-2"></i> Admin Panel</h3>
-                <a class="nav-link" th:href="@{/admin/statistics}"><i class="fas fa-chart-bar"></i> Statistiques</a>
-                <a class="nav-link" th:href="@{/admin/transactions}"><i class="fas fa-exchange-alt"></i> Transactions</a>
-                <a class="nav-link" th:href="@{/admin/users}"><i class="fas fa-users"></i> Utilisateurs</a>
-                <a class="nav-link" th:href="@{/admin/reports}"><i class="fas fa-table"></i> Rapports</a>
+                <a class="nav-link active" th:href="@{/admin/dashboard}"><i class="fas fa-home"></i> Tableau de bord</a>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">Gestion des Paiements</div>
+                    <a class="nav-link" th:href="@{/admin/transactions}"><i class="fas fa-exchange-alt"></i> Transactions</a>
+                    <a class="nav-link" th:href="@{/admin/paiements}"><i class="fas fa-credit-card"></i> Paiements</a>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">Gestion des Comptes</div>
+                    <a class="nav-link" th:href="@{/admin/utilisateurs}"><i class="fas fa-users"></i> Utilisateurs</a>
+                    <a class="nav-link" th:href="@{/admin/commercants}"><i class="fas fa-store"></i> Commerçants</a>
+                    <a class="nav-link" th:href="@{/admin/cartes}"><i class="fas fa-credit-card"></i> Cartes Bancaires</a>
+                    <a class="nav-link" th:href="@{/admin/terminaux}"><i class="fas fa-terminal"></i> Terminaux</a>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">Rapports & Analyses</div>
+                    <a class="nav-link" th:href="@{/admin/statistics}"><i class="fas fa-chart-bar"></i> Statistiques</a>
+                    <a class="nav-link" th:href="@{/admin/rapports}"><i class="fas fa-file-alt"></i> Rapports</a>
+                    <a class="nav-link" th:href="@{/admin/audit}"><i class="fas fa-clipboard-check"></i> Audit</a>
+                </div>
+                
+                <div class="sidebar-section mt-auto">
+                    <div class="sidebar-section-title">Paramètres</div>
+                    <a class="nav-link" th:href="@{/admin/parametres}"><i class="fas fa-cog"></i> Paramètres</a>
+                    <a class="nav-link" th:href="@{/logout}" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+                </div>
             </div>
 
             <!-- Main Content -->
             <div class="main-content">
-                <div class="row">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Tableau de bord</h1>
+                    <div class="text-end">
+                        <div id="current-time" class="h4 mb-0 font-weight-bold text-primary"></div>
+                        <div id="current-date" class="text-muted small"></div>
+                    </div>
+                </div>
+                <!-- Quick Stats Row -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h2 class="h4 mb-3">Aperçu Rapide</h2>
+                    </div>
+                    
+                    <!-- Carte Statistique Transactions -->
+                    <div class="col-xl-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                        <div class="stat-card stat-primary h-100">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <div class="text-uppercase small mb-1">Transactions du jour</div>
+                                        <div class="h2 font-weight-bold mb-2" th:text="${stats.dailyTransactions} + ' '">0</div>
+                                        <div class="d-flex align-items-center">
+                                            <span class="badge bg-white-20 me-2">+12%</span>
+                                            <span class="small">vs hier</span>
+                                        </div>
+                                    </div>
+                                    <div class="stat-icon">
+                                        <i class="fas fa-exchange-alt"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Carte Statistique Revenus -->
+                    <div class="col-xl-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                        <div class="stat-card stat-success h-100">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <div class="text-uppercase small mb-1">Revenu du mois</div>
+                                        <div class="h2 font-weight-bold mb-2" th:text="'$' + ${#numbers.formatDecimal(stats.monthlyRevenue, 1, 2, 'POINT')}">$0.00</div>
+                                        <div class="d-flex align-items-center">
+                                            <span class="badge bg-white-20 me-2">+5.3%</span>
+                                            <span class="small">vs mois dernier</span>
+                                        </div>
+                                    </div>
+                                    <div class="stat-icon">
+                                        <i class="fas fa-dollar-sign"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Carte Comptes Utilisateurs -->
                     <div class="col-xl-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
                         <div class="stat-card stat-info h-100">
                             <div class="card-body p-4">
-                                <i class="fas fa-dollar-sign stat-icon"></i>
-                                <div class="text-uppercase small mb-1">Revenu Total</div>
-                                <div class="h2 font-weight-bold mb-2" th:text="'$' + ${#numbers.formatDecimal(stats.totalRevenue, 1, 2, 'POINT')}">$0.00</div>
-                                <div class="d-flex align-items-center">
-                                    <span class="badge bg-white-20 me-2">+5.3%</span>
-                                    <span class="small">vs mois dernier</span>
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <div class="text-uppercase small mb-1">Utilisateurs Actifs</div>
+                                        <div class="h2 font-weight-bold mb-2" th:text="${stats.activeUsers}">0</div>
+                                        <div class="d-flex align-items-center">
+                                            <span class="badge bg-white-20 me-2">+8.2%</span>
+                                            <span class="small">ce mois-ci</span>
+                                        </div>
+                                    </div>
+                                    <div class="stat-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    
+                    <!-- Carte Alertes -->
                     <div class="col-xl-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
                         <div class="stat-card stat-warning h-100">
                             <div class="card-body p-4">
-                                <i class="fas fa-tasks stat-icon"></i>
-                                <div class="text-uppercase small mb-1">Tâches en attente</div>
-                                <div class="h2 font-weight-bold mb-2" th:text="${stats.pendingAlerts}">0</div>
-                                <div class="mt-3">
-                                    <div class="progress">
-                                        <div class="progress-bar bg-white" role="progressbar" 
-                                             th:style="'width:' + ${stats.tasksProgress} + '%'" 
-                                             th:attr="aria-valuenow=${stats.tasksProgress}" 
-                                             aria-valuemin="0" 
-                                             aria-valuemax="100"></div>
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <div class="text-uppercase small mb-1">Alertes</div>
+                                        <div class="h2 font-weight-bold mb-2" th:class="${stats.pendingAlerts > 0} ? 'text-danger' : ''" th:text="${stats.pendingAlerts}">0</div>
+                                        <div class="small">Actions requises</div>
                                     </div>
-                                    <div class="small mt-1" th:text="${stats.tasksProgress} + '% complété'"></div>
+                                    <div class="stat-icon">
+                                        <i class="fas fa-bell"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="section-card">
+                            <h2 class="h4 mb-4">Actions Rapides</h2>
+                            <div class="row">
+                                <div class="col-md-3 col-6 mb-3">
+                                    <a th:href="@{/admin/transactions/nouvelle}" class="btn btn-primary w-100 py-3">
+                                        <i class="fas fa-plus-circle me-2"></i>Nouvelle Transaction
+                                    </a>
+                                </div>
+                                <div class="col-md-3 col-6 mb-3">
+                                    <a th:href="@{/admin/utilisateurs/nouveau}" class="btn btn-success w-100 py-3">
+                                        <i class="fas fa-user-plus me-2"></i>Nouvel Utilisateur
+                                    </a>
+                                </div>
+                                <div class="col-md-3 col-6 mb-3">
+                                    <a th:href="@{/admin/commercants/nouveau}" class="btn btn-info text-white w-100 py-3">
+                                        <i class="fas fa-store me-2"></i>Nouveau Commerçant
+                                    </a>
+                                </div>
+                                <div class="col-md-3 col-6 mb-3">
+                                    <a th:href="@{/admin/cartes/nouvelle}" class="btn btn-warning w-100 py-3">
+                                        <i class="fas fa-credit-card me-2"></i>Nouvelle Carte
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dernières Activités -->
+                <div class="row">
+                    <div class="col-md-8 mb-4">
+                        <div class="section-card h-100">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h2 class="h4 mb-0">Activités Récentes</h2>
+                                <a th:href="@{/admin/activites}" class="btn btn-sm btn-outline-primary">Voir tout</a>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Utilisateur</th>
+                                            <th>Action</th>
+                                            <th>Date</th>
+                                            <th>Statut</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="activity : ${recentActivities}">
+                                            <td th:text="${activity.id}">#123</td>
+                                            <td th:text="${activity.user}">Admin</td>
+                                            <td th:text="${activity.action}">Connexion</td>
+                                            <td th:text="${#temporals.format(activity.timestamp, 'dd/MM/yyyy HH:mm')}">16/07/2023 14:30</td>
+                                            <td><span class="badge bg-success">Réussi</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Statistiques Rapides -->
+                    <div class="col-md-4 mb-4">
+                        <div class="section-card h-100">
+                            <h2 class="h4 mb-4">Statistiques</h2>
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Transactions ce mois</span>
+                                    <strong th:text="${stats.monthlyTransactions}">0</strong>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Nouveaux utilisateurs</span>
+                                    <strong th:text="${stats.newUsersThisMonth} + ' ce mois'">0 ce mois</strong>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Terminaux actifs</span>
+                                    <strong th:text="${stats.activeTerminals} + '/' + ${stats.totalTerminals}">0/0</strong>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-info" role="progressbar" th:style="'width: ' + ${stats.terminalUsage} + '%'" th:attr="aria-valuenow=${stats.terminalUsage}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center mt-4">
+                                <a th:href="@{/admin/statistics}" class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-chart-line me-1"></i> Voir les statistiques détaillées
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 </div>
             </div>
         </div>

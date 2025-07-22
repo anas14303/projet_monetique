@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>Gestion des transactions</title>
+    <th:block layout:fragment="styles">
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        
+        <!-- DataTables CSS -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+        
+        <!-- Flatpickr CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+        
+        <!-- DataTables JS -->
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+        <style>
+            .transaction-card {
+                transition: all 0.3s ease;
+                border-left: 4px solid #4e73df;
+            }
+            .transaction-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            }
+            .status-badge {
+                padding: 5px 10px;
+                border-radius: 15px;
+                font-size: 0.8rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            .status-PENDING {
+                background-color: #f6c23e;
+                color: #000;
+            }
+            .status-COMPLETED {
+                background-color: #1cc88a;
+                color: #fff;
+            }
+            .status-FAILED {
+                background-color: #e74a3b;
+                color: #fff;
+            }
+            .status-REFUNDED {
+                background-color: #36b9cc;
+                color: #fff;
+            }
+            .filter-section {
+                background-color: #f8f9fc;
+                border-radius: 8px;
+                padding: 20px;
+                margin-bottom: 30px;
+            }
+        </style>
+    </th:block>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="container-fluid">
+            <!-- Page Heading -->
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0 text-gray-800">Gestion des transactions</h1>
+                <div class="d-flex gap-2">
+                    <a th:href="@{/admin/transactions/new}" class="btn btn-primary">
+                        <i class="fas fa-plus me-1"></i> Nouveau paiement
+                    </a>
+                    <a th:href="@{#}" class="btn btn-sm btn-primary shadow-sm">
+                        <i class="fas fa-download fa-sm text-white-50"></i> Exporter en Excel
+                    </a>
+                </div>
+            </div>
+
+            <!-- Filtres de recherche -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-filter me-1"></i>
+                    Filtres de recherche
+                </div>
+                <div class="card-body">
+                    <form id="filterForm" class="row g-3">
+                        <div class="col-md-4">
+                            <label for="search" class="form-label">Recherche</label>
+                            <input type="text" class="form-control" id="search" name="search" 
+                                   th:value="${search}" placeholder="ID, référence...">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="statut" class="form-label">Statut</label>
+                            <select class="form-select" id="statut" name="statut">
+                                <option value="">Tous les statuts</option>
+                                <option th:each="s : ${statuts}" 
+                                        th:value="${s}" 
+                                        th:text="${s}"
+                                        th:selected="${s == statut}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="commercantId" class="form-label">Commerçant</label>
+                            <select class="form-select" id="commercantId" name="commercantId" 
+                                    th:classappend="${!#lists.isEmpty(commercants)} ? '' : 'is-invalid'">
+                                <option value="">Tous les commerçants</option>
+                                <option th:each="c : ${commercants}" 
+                                        th:value="${c.id}" 
+                                        th:text="${c.nom}"
+                                        th:selected="${c.id == commercantId}">
+                                </option>
+                            </select>
+                            <div class="invalid-feedback" th:if="${!#lists.isEmpty(commercants) == false}">
+                                Aucun commerçant disponible
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="startDate" class="form-label">Date de début</label>
+                            <input type="date" class="form-control" id="startDate" name="startDate"
+                                   th:value="${startDate}">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="endDate" class="form-label">Date de fin</label>
+                            <input type="date" class="form-control" id="endDate" name="endDate"
+                                   th:value="${endDate}">
+                        </div>
+                        <div class="col-12 mt-3">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-filter me-1"></i> Filtrer
+                            </button>
+                            <a th:href="@{/admin/transactions}" class="btn btn-secondary">
+                                <i class="fas fa-sync-alt me-1"></i> Réinitialiser
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tableau des transactions -->
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="fas fa-table me-1"></i>
+                        Liste des transactions
+                    </div>
+                    <a th:href="@{/admin/transactions/export}" class="btn btn-sm btn-success"
+                       th:classappend="${!#lists.isEmpty(commercants)} ? '' : 'disabled'"
+                       th:attr="disabled=${!#lists.isEmpty(commercants)} ? '' : 'disabled'">
+                        <i class="fas fa-file-export me-1"></i> Exporter
+                    </a>
+                </div>
+                <div class="card-body">
+                    <!-- Message d'avertissement si pas de commerçants -->
+                    <div class="alert alert-warning" th:if="${commercants == null || commercants.empty}" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Aucun commerçant n'est disponible. Veuillez d'abord créer un commerçant.
+                    </div>
+                    
+                    <!-- Table des transactions (masquée si pas de commerçants) -->
+                    <div th:classappend="${commercants != null && !commercants.empty} ? '' : 'd-none'">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Date</th>
+                                        <th>Commerçant</th>
+                                        <th>Montant</th>
+                                        <th>Statut</th>
+                                        <th>Type de carte</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="transaction : ${transactions}" class="transaction-card">
+                                        <td th:text="${'#' + transaction.id}"></td>
+                                        <td th:text="${#temporals.format(transaction.date, 'dd/MM/yyyy HH:mm')}"></td>
+                                        <td>
+                                            <a th:href="@{/admin/commercants/{id}(id=${transaction.commercant.id})}" 
+                                               th:text="${transaction.commercant.nom}">
+                                                Boulangerie du coin
+                                            </a>
+                                        </td>
+                                        <td class="text-end" 
+                                            th:text="${#numbers.formatDecimal(transaction.montant, 1, 2, 'POINT') + ' €'}"></td>
+                                        <td>
+                                            <span th:class="'status-badge status-' + ${transaction.statut}" 
+                                                  th:text="${transaction.statut}">
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a th:href="@{/admin/cartes-bancaires/{id}(id=${transaction.cartebancaire.id})}" 
+                                               th:text="${transaction.cartebancaire.numeroMasked}">
+                                                **** **** **** 1234
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a th:href="@{/admin/transactions/{id}(id=${transaction.id})}" 
+                                                   class="btn btn-sm btn-info" 
+                                                   title="Voir les détails">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a th:href="@{/admin/transactions/{id}/edit(id=${transaction.id})}" 
+                                                   class="btn btn-sm btn-warning" 
+                                                   title="Modifier">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <button class="btn btn-sm btn-danger" 
+                                                        th:data-id="${transaction.id}"
+                                                        onclick="deleteTransaction(this)"
+                                                        title="Supprimer">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-success" 
+                                                        th:if="${transaction.statut.name() == 'PENDING'}"
+                                                        th:data-id="${transaction.id}"
+                                                        onclick="updateStatus(this, 'COMPLETED')"
+                                                        title="Marquer comme complété">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-warning" 
+                                                        th:if="${transaction.statut.name() != 'REFUNDED'}"
+                                                        th:data-id="${transaction.id}"
+                                                        onclick="updateStatus(this, 'REFUNDED')"
+                                                    title="Rembourser">
+                                                <i class="fas fa-undo"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot th:if="${transactions == null || transactions.empty}">
+                                    <tr>
+                                        <td colspan="7" class="text-center">Aucune transaction trouvée</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="row mt-4" th:if="${commercants != null && !commercants.empty && totalPages > 1}">
+                        <div class="col-12">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                                        <a class="page-link" href="#" th:attr="data-page=${currentPage - 1}" 
+                                           aria-label="Précédent">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    
+                                    <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}" 
+                                        class="page-item" 
+                                        th:classappend="${i == currentPage} ? 'active'">
+                                        <a class="page-link" href="#" th:attr="data-page=${i}" 
+                                           th:text="${i + 1}">1</a>
+                                    </li>
+                                    
+                                    <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                                        <a class="page-link" href="#" th:attr="data-page=${currentPage + 1}" 
+                                           aria-label="Suivant">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal de confirmation -->
+        <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="statusModalLabel">Confirmation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Êtes-vous sûr de vouloir modifier le statut de cette transaction ?</p>
+                        <div class="form-group">
+                            <label for="comment">Commentaire (optionnel)</label>
+                            <textarea class="form-control" id="comment" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="button" class="btn btn-primary" id="confirmStatusChange">Confirmer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de suppression -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Confirmation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Êtes-vous sûr de vouloir supprimer cette transaction ? Cette action est irréversible.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="button" class="btn btn-danger" id="confirmDelete">Supprimer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <th:block layout:fragment="scripts">
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            // Variables globales
+            let dataTable;
+            
+            // Initialisation de DataTables avec AJAX
+            $(document).ready(function() {
+                // Initialisation de DataTables
+                dataTable = $('#dataTable').DataTable({
+                    "processing": true,
+                    "serverSide": true,
+                    "ajax": {
+                        "url": "/api/transactions",
+                        "type": "GET",
+                        "data": function(d) {
+                            // Ajouter les paramètres de filtre
+                            d.search = $('#search').val();
+                            d.statut = $('#statut').val();
+                            d.commercantId = $('#commercantId').val();
+                            d.startDate = $('#startDate').val();
+                            d.endDate = $('#endDate').val();
+                        }
+                    },
+                    "columns": [
+                        { "data": "id" },
+                        { 
+                            "data": "date",
+                            "render": function(data) {
+                                return new Date(data).toLocaleString('fr-FR');
+                            }
+                        },
+                        { "data": "commercant.nom" },
+                        { 
+                            "data": "montant",
+                            "render": function(data) {
+                                return new Intl.NumberFormat('fr-FR', { 
+                                    style: 'currency', 
+                                    currency: 'EUR' 
+                                }).format(data);
+                            }
+                        },
+                        { 
+                            "data": "statut",
+                            "render": function(data) {
+                                return `<span class="status-badge status-${data}">${data}</span>`;
+                            }
+                        },
+                        { "data": "typeCarte" },
+                        {
+                            "data": null,
+                            "orderable": false,
+                            "render": function(data, type, row) {
+                                let buttons = `
+                                    <a href="/admin/transactions/${row.id}" 
+                                       class="btn btn-sm btn-info" 
+                                       title="Voir les détails">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                `;
+                                
+                                if (row.statut === 'PENDING') {
+                                    buttons += `
+                                        <button class="btn btn-sm btn-success ms-1" 
+                                                data-id="${row.id}"
+                                                onclick="updateStatus(this, 'COMPLETED')"
+                                                title="Marquer comme complété">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    `;
+                                }
+                                
+                                if (row.statut !== 'REFUNDED') {
+                                    buttons += `
+                                        <button class="btn btn-sm btn-warning ms-1" 
+                                                data-id="${row.id}"
+                                                onclick="updateStatus(this, 'REFUNDED')"
+                                                title="Rembourser">
+                                            <i class="fas fa-undo"></i>
+                                        </button>
+                                    `;
+                                }
+                                
+                                buttons += `
+                                    <button class="btn btn-sm btn-danger ms-1" 
+                                            data-id="${row.id}"
+                                            onclick="deleteTransaction(this)"
+                                            title="Supprimer">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                `;
+                                
+                                return `<div class="btn-group">${buttons}</div>`;
+                            }
+                        }
+                    ],
+                    "order": [[1, 'desc']], // Tri par date par défaut
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.11.5/i18n/fr-FR.json"
+                    },
+                    "drawCallback": function(settings) {
+                        // Mettre à jour les informations de pagination
+                        const api = this.api();
+                        const pageInfo = api.page.info();
+                        
+                        $('.dataTables_info').html(
+                            `Affichage de ${pageInfo.recordsDisplay} entrées`
+                        );
+                    }
+                });
+                
+                // Initialisation des datepickers
+                flatpickr("input[type=date]", {
+                    dateFormat: "Y-m-d",
+                    allowInput: true
+                });
+                
+                // Gestion de la soumission du formulaire de filtre
+                $('#filterForm').on('submit', function(e) {
+                    e.preventDefault();
+                    dataTable.ajax.reload();
+                });
+                
+                // Réinitialiser les filtres
+                $('.btn-reset').on('click', function() {
+                    $('#filterForm')[0].reset();
+                    dataTable.ajax.reload();
+                });
+            });
+            
+            // Gestion des actions CRUD
+            const actions = {
+                updateStatus: function(button, newStatus) {
+                    const transactionId = $(button).data('id');
+                    $('#transactionId').val(transactionId);
+                    $('#newStatus').val(newStatus);
+                    $('#statusModal').modal('show');
+                },
+
+                deleteTransaction: function(button) {
+                    const transactionId = $(button).data('id');
+                    $('#confirmDelete').data('id', transactionId);
+                    $('#deleteModal').modal('show');
+                },
+
+                confirmDelete: function() {
+                    const transactionId = $('#confirmDelete').data('id');
+                    
+                    $.ajax({
+                        url: `/admin/transactions/${transactionId}/delete`,
+                        method: 'POST',
+                        success: function(response) {
+                            $('#deleteModal').modal('hide');
+                            // Mettre à jour le tableau
+                            dataTable.ajax.reload();
+                            toastr.success('Transaction supprimée avec succès');
+                        },
+                        error: function(xhr) {
+                            $('#deleteModal').modal('hide');
+                            toastr.error(xhr.responseJSON?.message || 'Erreur lors de la suppression de la transaction');
+                        }
+                    });
+                },
+
+                confirmStatusChange: function() {
+                    const comment = $('#comment').val();
+                    const transactionId = $('#transactionId').val();
+                    const newStatus = $('#newStatus').val();
+                    
+                    $.ajax({
+                        url: `/admin/transactions/${transactionId}/status`,
+                        method: 'POST',
+                        data: {
+                            newStatus: newStatus,
+                            comment: comment
+                        },
+                        success: function(response) {
+                            $('#statusModal').modal('hide');
+                            $('#comment').val('');
+                            // Mettre à jour la ligne du tableau
+                            const row = $(`tr[data-id="${transactionId}"]`);
+                            row.find('.status-badge').removeClass().addClass(`status-badge status-${newStatus}`);
+                            row.find('.status-badge').text(newStatus);
+                            
+                            // Afficher un message de succès
+                            toastr.success('Statut mis à jour avec succès');
+                        },
+                        error: function(xhr) {
+                            $('#statusModal').modal('hide');
+                            toastr.error(xhr.responseJSON?.message || 'Erreur lors de la mise à jour du statut');
+                        }
+                    });
+                }
+            };
+
+            // Initialisation des événements
+            $(document).ready(function() {
+                // Initialisation de DataTables
+                const dataTable = $('#transactionsTable').DataTable({
+                    language: {
+                        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/fr-FR.json'
+                    },
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: '/admin/transactions/list',
+                        type: 'POST',
+                        data: function(d) {
+                            return {
+                                ...d,
+                                dateDebut: $('#dateDebut').val(),
+                                dateFin: $('#dateFin').val(),
+                                montantMin: $('#montantMin').val(),
+                                montantMax: $('#montantMax').val(),
+                                statut: $('#statut').val(),
+                                commercantId: $('#commercantId').val()
+                            };
+                        }
+                    },
+                    columns: [
+                        { data: 'id' },
+                        { data: 'datePaiement' },
+                        { data: 'montant' },
+                        { data: 'statut' },
+                        { data: 'commercant.nom' },
+                        { data: 'utilisateur.email' },
+                        { data: 'carteBancaire.numero' },
+                        { data: 'actions' }
+                    ],
+                    order: [[1, 'desc']],
+                    pageLength: 10
+                });
+
+                // Gestion des boutons de confirmation
+                $('#confirmDelete').on('click', actions.confirmDelete);
+                $('#confirmStatusChange').on('click', actions.confirmStatusChange);
+
+                // Gestion des filtres
+                $('#dateDebut, #dateFin, #montantMin, #montantMax, #statut, #commercantId').on('change', function() {
+                    dataTable.draw();
+                });
+
+                // Gestion du bouton d'export Excel
+                $('#exportExcel').on('click', function() {
+                    window.location.href = '/admin/transactions/export?dateDebut=' + $('#dateDebut').val() +
+                        '&dateFin=' + $('#dateFin').val() +
+                        '&montantMin=' + $('#montantMin').val() +
+                        '&montantMax=' + $('#montantMax').val() +
+                        '&statut=' + $('#statut').val() +
+                        '&commercantId=' + $('#commercantId').val();
+                });
+            });
+        </script>
+    </th:block>
+    </div>
+</body>
+</html>
