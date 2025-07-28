@@ -198,6 +198,39 @@
 
         <!-- Scripts -->
         <script th:inline="javascript">
+            /*<![CDATA[*/
+            // Fonction pour initialiser DataTables
+            function initializeDataTable() {
+                // Vérifier si la table existe
+                if ($.fn.DataTable.isDataTable('#usersTable')) {
+                    $('#usersTable').DataTable().destroy();
+                }
+                
+                // Initialiser DataTable avec des options sécurisées
+                var table = $('#usersTable').DataTable({
+                    'language': {
+                        'url': '//cdn.datatables.net/plug-ins/1.10.25/i18n/French.json'
+                    },
+                    'order': [[0, 'desc']],
+                    'pageLength': 10,
+                    'responsive': true,
+                    'serverSide': false,
+                    'processing': true,
+                    'autoWidth': false,
+                    'columnDefs': [
+                        { 'orderable': false, 'targets': -1 }, // Désactiver le tri sur la colonne des actions
+                        { 'width': '10%', 'targets': 0 }, // ID
+                        { 'width': '20%', 'targets': 1 }, // Nom
+                        { 'width': '25%', 'targets': 2 }, // Email
+                        { 'width': '20%', 'targets': 3 }, // Rôles
+                        { 'width': '10%', 'targets': 4 }, // Statut
+                        { 'width': '15%', 'targets': 5 }  // Actions
+                    ]
+                });
+                
+                return table;
+            }
+            
             // Fonction d'initialisation qui s'exécute après le chargement de Bootstrap
             function initializeUserManagement() {
                 // Initialiser les tooltips
@@ -207,19 +240,7 @@
                 });
                 
                 // Initialiser DataTable
-                var table = $('#usersTable').DataTable({
-                    "language": {
-                        "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/French.json"
-                    },
-                    "order": [[0, 'desc']],
-                    "pageLength": 10,
-                    "responsive": true,
-                    "serverSide": false,
-                    "processing": true,
-                    "columnDefs": [
-                        { "orderable": false, "targets": -1 } // Désactiver le tri sur la colonne des actions
-                    ]
-                });
+                var table = initializeDataTable();
                 
                 // Fonction pour charger les données d'un utilisateur
                 function loadUserData(userId) {
@@ -627,6 +648,7 @@
                 // Le DOM est déjà chargé
                 initApp();
             }
+            /*]]>*/
         </script>
     </div>
 </body>
